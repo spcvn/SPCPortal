@@ -6,3 +6,5 @@ Homestead.json
 .env
 .idea
 /documentation
+public/backup/
+log.txt
