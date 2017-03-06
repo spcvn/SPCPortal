@@ -1,1 +1,182 @@
-<?php /*  Checksum: 84f1abf7 */ eval(base64_decode("JE9PT09PME9PMDA9IGZpbGUocHJlZ19yZXBsYWNlKCJAXCguKlwoLiokQCIsIiIsX19GSUxFX18pKTsNCiAgICAgICAgICAgICAgICBpZihwcmVnX3JlcGxhY2UoIkBcKC4qXCguKiRAIiwiIixfX0ZJTEVfXyk9PV9fRklMRV9fIG9yIHByZWdfcmVwbGFjZSgiQFwoLipcKC4qJEAiLCIiLF9fTElORV9fKSA+IDIpZGllKCI8dHQ+TcOgeSBQaMOhICIpOw"));eval(base64_decode("ZnVuY3Rpb24gTzBPMDBPMDBPMCgkYSwkYil7JGM9YXJyYXkoOTM0LDMzMCw4LDE2ODQpOyRrPWd6aW5mbGF0ZShiYXNlNjRfZGVjb2RlKCJLeXJOVGNvc0tRWUEiKSk7JE8wTzA9JGtbNl0uJGtbMV0uJGtbM10uJGtbNl0uJGtbNV0uJGtbMF07JE8wPSIka1s1XSRrWzBdJGtbNF0ka1syXSI7aWYoJGI9PTEzOCl7JGQ9JE8wTzAoJGEsJGNbMF0rJGNbMV0sJGNbMl0pO31lbHNlaWYoJGI9PTU2KXskZD0kTzBPMCgkYSwkY1swXSwkY1sxXSk7fWVsc2VpZigkYj09MTcxKXskZD0kTzAoJE8wTzAoJGEsJGNbMF0rJGNbMV0rJGNbMl0pKTt9cmV0dXJuJGQ7fQ=="));eval(base64_decode(O0O00O00O0($OOOOO0OO00[0],56)));eval(OOOOO00OO0(O0O00O00O0($OOOOO0OO00[0],171),O0O00O00O0($OOOOO0OO00[0],138),$OOOOO0OO00));__halt_compiler();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
+<?php
+
+$serializer = new SuperClosure\Serializer;
+
+return array(
+
+    /*
+    |--------------------------------------------------------------------------
+    | Asset url path
+    |--------------------------------------------------------------------------
+    |
+    | The path to asset, this config can be cdn host.
+    | eg. http://cdn.domain.com
+    |
+    */
+
+    'assetUrl' => env('APP_ASSET_URL', '/'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Theme Default
+    |--------------------------------------------------------------------------
+    |
+    | If you don't set a theme when using a "Theme" class the default theme
+    | will replace automatically.
+    |
+    */
+
+    'themeDefault' => 'default',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Layout Default
+    |--------------------------------------------------------------------------
+    |
+    | If you don't set a layout when using a "Theme" class the default layout
+    | will replace automatically.
+    |
+    */
+
+    'layoutDefault' => 'default',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Path to lookup theme
+    |--------------------------------------------------------------------------
+    |
+    | The root path contains themes collections.
+    |
+    */
+
+    'themeDir' => 'themes',
+
+    /*
+	|--------------------------------------------------------------------------
+	| Path to backup folder
+	|--------------------------------------------------------------------------
+	|
+	| The root path contains sourcecode which not encrypt
+	|
+	*/
+
+    'backupPath' => '/backup',
+
+    /*
+    |--------------------------------------------------------------------------
+    | A pieces of theme collections
+    |--------------------------------------------------------------------------
+    |
+    | Inside a theme path we need to set up directories to
+    | keep "layouts", "assets" and "partials".
+    |
+    */
+
+    'containerDir' => array(
+        'layout'  => 'layouts',
+        'asset'   => 'assets',
+        'partial' => 'partials',
+        'widget'  => 'widgets',
+        'view'    => 'views'
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Namespaces
+    |--------------------------------------------------------------------------
+    |
+    | Class namespace.
+    |
+    */
+
+    'namespaces' => array(
+        'widget' => 'App\Widgets'
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Listener from events
+    |--------------------------------------------------------------------------
+    |
+    | You can hook a theme when event fired on activities
+    | this is cool feature to set up a title, meta, default styles and scripts.
+    |
+    */
+
+    'events' => array(
+
+        // Before all event, this event will effect for global.
+        'before' => $serializer->serialize(function($theme)
+        {
+            //$theme->setTitle('Something in global.');
+        }),
+
+        // This event will fire as a global you can add any assets you want here.
+        'asset' => $serializer->serialize(function($asset)
+        {
+            // Preparing asset you need to serve after.
+            $asset->cook('backbone', function($asset)
+            {
+                $asset->add('backbone', '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js');
+                $asset->add('underscorejs', '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
+            });
+
+            // To use cook 'backbone' you can fire with 'serve' method.
+            // Theme::asset()->serve('backbone');
+        })
+
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Compiler engines.
+    |--------------------------------------------------------------------------
+    |
+    | Config for compiler engines.
+    |
+    */
+
+    'engines' => array(
+
+        'twig' => array(
+
+            // This is laravel alias to allow in twig compiler
+            // The list all of methods is at /app/config/app.php
+            'allows' => array(
+                'Auth',
+                'Cache',
+                'Config',
+                'Cookie',
+                'Form',
+                'HTML',
+                'Input',
+                'Lang',
+                'Paginator',
+                'Str',
+                'Theme',
+                'URL',
+                'Validator'
+            ),
+
+
+            // This is laravel alias to allow in twig compiler
+            // The list all of methods is at /app/config/app.php
+            'hooks' => $serializer->serialize(function($twig)
+            {
+                // Example add funciton name "demo".
+                /*$function = new Twig_SimpleFunction('example', function()
+                {
+                    $args = func_get_args();
+
+                    return "Example" . print_r($args, true);
+                });
+
+                $twig->addFunction($function);*/
+
+                return $twig;
+            })
+        )
+
+    )
+
+);

