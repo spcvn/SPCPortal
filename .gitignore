@@ -8,3 +8,5 @@ Homestead.json
 /documentation
 log.txt
 public/backup/
+.env - Copy.example
+public/assets/js/temp.json
