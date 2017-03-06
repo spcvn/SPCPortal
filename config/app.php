@@ -194,7 +194,7 @@ return [
         SPCVN\Providers\EventServiceProvider::class,
         SPCVN\Providers\RouteServiceProvider::class,
         SPCVN\Services\Auth\TwoFactor\AuthyServiceProvider::class,
-
+        SPCVN\Theme\ThemeServiceProvider::class,
     ],
 
     /*
@@ -254,7 +254,7 @@ return [
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Settings' => anlutro\LaravelSettings\Facade::class,
         'Authy' => SPCVN\Services\Auth\TwoFactor\Facade::class,
-
+        'Theme' => SPCVN\Theme\Facades\Theme::class,
 
     ],
 

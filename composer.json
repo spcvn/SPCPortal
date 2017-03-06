@@ -31,7 +31,8 @@
             "database"
         ],
         "psr-4": {
-            "SPCVN\\": "app/"
+            "SPCVN\\": "app/",
+            "SPCVN\\Theme\\": "packages/spcvn/themes/src/"
         },
         "files": [
             "app/Support/helpers.php"
