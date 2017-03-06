@@ -335,5 +335,8 @@ return [
         'October' => 'October',
         'November' => 'November',
         'December' => 'December',
-    ]
+    ],
+
+    // Categories management
+    'categories'    =>  'Categories',
 ];
