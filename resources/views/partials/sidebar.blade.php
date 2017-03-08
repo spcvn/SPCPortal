@@ -89,6 +89,16 @@
                 </ul>
             </li>
             @endpermission
+
+
+            @permission('category.manage')
+                <li class="{{ Request::is('category*') ? 'active open' : ''  }}">
+                    <a href="{{ route('category.list') }}" class="{{ Request::is('category*') ? 'active' : ''  }}">
+                        <i class="fa fa-list-alt fa-fw"></i> @lang('app.category')
+                    </a>
+                </li>
+            @endpermission
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
