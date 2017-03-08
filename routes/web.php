@@ -380,3 +380,70 @@ $router->get('install/error', [
     'as' => 'install.error',
     'uses' => 'InstallController@error'
 ]);
+
+/**
+ * Questions
+ */
+Route::get('question', [
+    'as' => 'question.index',
+    'uses' => 'QuestionsController@index'
+]);
+
+Route::get('question/create', [
+    'as' => 'question.create',
+    'uses' => 'QuestionsController@create'
+]);
+
+Route::post('question/store', [
+    'as' => 'question.store',
+    'uses' => 'QuestionsController@store'
+]);
+
+Route::get('question/{question}/edit', [
+    'as' => 'question.edit',
+    'uses' => 'QuestionsController@edit'
+]);
+
+Route::put('question/{question}/update', [
+    'as' => 'question.update',
+    'uses' => 'QuestionsController@update'
+]);
+
+Route::delete('question/{question}/delete', [
+    'as' => 'question.delete',
+    'uses' => 'QuestionsController@delete'
+]);
+
+
+/**
+ * Answers
+ */
+Route::get('answer', [
+    'as' => 'answer.index',
+    'uses' => 'AnswersController@index'
+]);
+
+Route::get('answer/create', [
+    'as' => 'answer.create',
+    'uses' => 'AnswersController@create'
+]);
+
+Route::post('answer/store', [
+    'as' => 'answer.store',
+    'uses' => 'AnswersController@store'
+]);
+
+Route::get('answer/{answer}/edit', [
+    'as' => 'answer.edit',
+    'uses' => 'AnswersController@edit'
+]);
+
+Route::put('answer/{answer}/update', [
+    'as' => 'answer.update',
+    'uses' => 'AnswersController@update'
+]);
+
+Route::delete('answer/{answer}/delete', [
+    'as' => 'answer.delete',
+    'uses' => 'AnswersController@delete'
+]);

@@ -3,60 +3,47 @@
 namespace SPCVN\Http\Controllers;
 
 use Cache;
-use SPCVN\Events\Role\Created;
-use SPCVN\Events\Role\Deleted;
-use SPCVN\Events\Role\Updated;
-use SPCVN\Http\Requests\Role\CreateRoleRequest;
-use SPCVN\Http\Requests\Role\UpdateRoleRequest;
-use SPCVN\Repositories\Role\RoleRepository;
-use SPCVN\Repositories\User\UserRepository;
-use SPCVN\Role;
-use SPCVN\User;
+use SPCVN\Question;
+use SPCVN\Events\Question\Created;
+use SPCVN\Events\Question\Deleted;
+use SPCVN\Events\Question\Updated;
+use SPCVN\Http\Requests\Question\CreateQuestionRequest;
+use SPCVN\Http\Requests\Question\UpdateQuestionRequest;
+use SPCVN\Repositories\Question\QuestionRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class RolesController
+ * Class QuestionsController
  * @package SPCVN\Http\Controllers
  */
-class RolesController extends Controller
+class QuestionsController extends Controller
 {
     /**
-     * @var RoleRepository
+     * @var QuestionRepository
      */
-    private $roles;
+    private $questions;
 
     /**
-     * RolesController constructor.
-     * @param RoleRepository $roles
+     * QuestionsController constructor.
+     * @param QuestionRepository $questions
      */
-    public function __construct(RoleRepository $roles)
+    public function __construct(QuestionRepository $questions)
     {
-        $this->middleware('permission:roles.manage');
-        $this->roles = $roles;
+        // $this->middleware('permission:questions.manage');
+        $this->questions = $questions;
     }
 
     /**
-     * Display page with all available roles.
+     * Display page with all available questions.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $roles = $this->roles->getAllWithUsersCount();
+        $edit = true;
+        $questions = $this->questions->all();
 
-        return view('role.index', compact('roles'));
-    }
-
-    /**
-     * Display form for creating new role.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        $edit = false;
-
-        return view('role.add-edit', compact('edit'));
+        return view('question.index', compact('questions'));
     }
 
     /**
@@ -93,11 +80,9 @@ class RolesController extends Controller
      * @param UpdateRoleRequest $request
      * @return mixed
      */
-    public function update(Role $role, UpdateRoleRequest $request)
+    public function update(UpdateQuestionRequest $request)
     {
-        $this->roles->update($role->id, $request->all());
-
-        return redirect()->route('role.index')
+        return redirect()->route('question.index')
             ->withSuccess(trans('app.role_updated'));
     }
 

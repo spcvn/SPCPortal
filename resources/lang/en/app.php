@@ -11,6 +11,9 @@ return [
     'roles' => 'Roles',
     'permissions' => 'Permissions',
     'settings' => 'Settings',
+    'qa' => 'Q&A',
+    'questions' => 'Questions',
+    'answers' => 'Answers',
     'general' => 'General',
     'auth_and_registration' => 'Auth & Registration',
     'notifications' => 'Notifications',
@@ -335,5 +338,8 @@ return [
         'October' => 'October',
         'November' => 'November',
         'December' => 'December',
-    ]
+    ],
+
+    //Questions
+    'add_question' => 'Add Question',
 ];

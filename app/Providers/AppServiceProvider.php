@@ -11,6 +11,8 @@ use SPCVN\Repositories\Permission\EloquentPermission;
 use SPCVN\Repositories\Permission\PermissionRepository;
 use SPCVN\Repositories\Role\EloquentRole;
 use SPCVN\Repositories\Role\RoleRepository;
+use SPCVN\Repositories\Question\EloquentQuestion;
+use SPCVN\Repositories\Question\QuestionRepository;
 use SPCVN\Repositories\Session\DbSession;
 use SPCVN\Repositories\Session\SessionRepository;
 use SPCVN\Repositories\User\EloquentUser;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(UserRepository::class, EloquentUser::class);
+        $this->app->singleton(QuestionRepository::class, EloquentQuestion::class);
         $this->app->singleton(ActivityRepository::class, EloquentActivity::class);
         $this->app->singleton(RoleRepository::class, EloquentRole::class);
         $this->app->singleton(PermissionRepository::class, EloquentPermission::class);
