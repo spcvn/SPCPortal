@@ -340,6 +340,8 @@ return [
         'December' => 'December',
     ],
 
+    // Categories management
+    'categories'    =>  'Categories',
     //Questions
     'add_question' => 'Add Question',
 ];
