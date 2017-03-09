@@ -418,3 +418,40 @@ Route::delete('category/{category}/delete', [
     'uses' => 'CategoryController@delete'
 ]);
 /* End Categories */
+
+/* Topics */
+Route::get('topic', [
+    'as' => 'topic.list',
+    'uses' => 'TopicsController@index'
+]);
+
+Route::get('topic/create', [
+    'as' => 'topic.create',
+    'uses' => 'TopicsController@create'
+]);
+
+Route::post('topic/create', [
+    'as' => 'topic.store',
+    'uses' => 'TopicsController@store'
+]);
+
+Route::get('topic/{topic}/edit', [
+    'as' => 'topic.edit',
+    'uses' => 'TopicsController@edit'
+]);
+
+Route::put('topic/{topic}/edit', [
+    'as' => 'topic.update',
+    'uses' => 'TopicsController@update'
+]);
+
+Route::post('topic', [
+    'as' => 'topic.sort',
+    'uses' => 'TopicsController@updatePosition'
+]);
+
+Route::delete('topic/{topic}/delete', [
+    'as' => 'topic.delete',
+    'uses' => 'TopicsController@delete'
+]);
+/* End Topics */
