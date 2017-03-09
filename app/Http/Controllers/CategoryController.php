@@ -57,7 +57,7 @@ class CategoryController extends Controller
     public function create()
     {
         $edit       = false;
-        $categories = $this->getCategory();
+        $categories = $this->category->makeCategoryMultiLevel();
         $user       = Auth::user();
 
         return view('category.create', compact('categories', 'edit', 'user'));
@@ -73,7 +73,8 @@ class CategoryController extends Controller
     {
         $edit       = true;
         $user       = Auth::user();
-        return view('category.create', compact('category', 'edit', 'user'));
+        $categories = $this->category->makeCategoryMultiLevel($category->id);
+        return view('category.create', compact('category', 'categories', 'edit', 'user'));
     }
 
 
@@ -148,25 +149,4 @@ class CategoryController extends Controller
         } 
     }
 
-    private function getCategory()
-    {
-        /*
-        $query = Category::query();
-        $query->select('id', 'name');
-        $query->where('del_flag' => false);
-        //$query->'';
-        echo '<pre>';
-        print_r($results);
-        echo '</pre>';
-        exit;
-        $categories = [];
-
-        foreach ($results as $category) {
-            $categories[''];
-        }
-
-        return $array;
-        */
-        return Category::pluck('name', 'id');
-    }
 }

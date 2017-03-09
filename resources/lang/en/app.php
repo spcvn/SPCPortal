@@ -348,4 +348,5 @@ return [
     'category_deleted'  =>  'Category deleted successfully.',
     'sort_category'     =>  'Sort',
     'parent_name'       =>  'Parent category',
+    'select_one'        =>  'Select one --',
 ];

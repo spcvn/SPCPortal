@@ -64,7 +64,7 @@ interface CategoryRepository
      * @since 2017.03.07
      * @version 1.0
      */
-    public function count($condition = array());
+    public function count($condition);
 
     /**
      * Get list category by key => value.
@@ -101,7 +101,7 @@ interface CategoryRepository
      * @since 2017.03.07
      * @version 1.0
      */
-    public function create(array $data);
+    public function create($data);
 
     /**
      * Update category by id.
@@ -147,5 +147,17 @@ interface CategoryRepository
      * @version 1.0
      */
     public function updatePosition($data);
+
+    /**
+     * Make multiple level for category.
+     *
+     * @param (int) $category_id
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.07
+     * @version 1.0
+     */
+    public function makeCategoryMultiLevel($category_id);
 
 }
