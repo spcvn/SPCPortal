@@ -338,5 +338,14 @@ return [
     ],
 
     // Categories management
-    'categories'    =>  'Categories',
+    'category'          =>  'Category',
+    'add_category'      =>  'Add new',
+    'edit_category'     =>  'Edit category',
+    'delete_category'   =>  'Delete category',
+    'category_created'  =>  'Category created successfully.',
+    'category_updated'  =>  'Category updated successfully.',
+    'category_updated_false'  =>  'Category updated false.',
+    'category_deleted'  =>  'Category deleted successfully.',
+    'sort_category'     =>  'Sort',
+    'parent_name'       =>  'Parent category',
 ];

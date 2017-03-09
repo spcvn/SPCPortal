@@ -150,6 +150,7 @@ class CategoryController extends Controller
 
     private function getCategory()
     {
+        /*
         $query = Category::query();
         $query->select('id', 'name');
         $query->where('del_flag' => false);
@@ -165,6 +166,7 @@ class CategoryController extends Controller
         }
 
         return $array;
-        //return Category::pluck('name', 'id');
+        */
+        return Category::pluck('name', 'id');
     }
 }

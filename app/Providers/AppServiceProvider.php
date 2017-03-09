@@ -15,6 +15,10 @@ use SPCVN\Repositories\Session\DbSession;
 use SPCVN\Repositories\Session\SessionRepository;
 use SPCVN\Repositories\User\EloquentUser;
 use SPCVN\Repositories\User\UserRepository;
+
+use SPCVN\Repositories\Category\EloquentCategory;
+use SPCVN\Repositories\Category\CategoryRepository;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -43,6 +47,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PermissionRepository::class, EloquentPermission::class);
         $this->app->singleton(SessionRepository::class, DbSession::class);
         $this->app->singleton(CountryRepository::class, EloquentCountry::class);
+
+        // @huongdi
+        $this->app->singleton(CategoryRepository::class, EloquentCategory::class);
 
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
