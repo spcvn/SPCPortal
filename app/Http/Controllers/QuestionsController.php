@@ -40,10 +40,21 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        $edit = true;
         $questions = $this->questions->all();
 
         return view('question.index', compact('questions'));
+    }
+
+    /**
+     * Display form for creating new role.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        $topics = $topicRepository->lists();
+
+        return view('question.add-edit', compact('topics'));
     }
 
     /**

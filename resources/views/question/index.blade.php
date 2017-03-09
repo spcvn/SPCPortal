@@ -23,11 +23,32 @@
     @include('partials.messages')
 
     <div class="row tab-search">
-        <div class="col-md-2">
+        <div class="col-md-4">
             <a href="{{ route('question.create') }}" class="btn btn-success">
                 <i class="glyphicon glyphicon-plus"></i>
                 @lang('app.add_question')
             </a>
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-6"></div>
+            <form method="GET" action="" accept-charset="UTF-8" id="users-form">
+                <div class="col-md-6">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" name="search"
+                               value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_question')">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit" id="search-activities-btn">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                            @if (Input::has('search') && Input::get('search') != '')
+                                <a href="{{ route('activity.index') }}" class="btn btn-danger" type="button">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            @endif
+                        </span>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

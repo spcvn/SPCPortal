@@ -62,4 +62,11 @@ interface QuestionRepository
      * @return bool
      */
     public function delete($id);
+
+    /**
+     * List all topic from repository.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allTopics();
 }

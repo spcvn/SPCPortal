@@ -342,6 +342,23 @@ return [
 
     // Categories management
     'categories'    =>  'Categories',
+
     //Questions
     'add_question' => 'Add Question',
+    'topic_name' => 'Topic Name',
+    'roles' => 'Roles',
+    'create_new_question' => 'Create New Question',
+    'search_for_question' => 'Search for question...',
+    'edit_question_details' => 'edit question details',
+    'question_details' => 'Question details',
+    'question_details_big' => 'Question Details',
+    'question_name' => 'Question Name',
+    'display_name' => 'Display Name',
+    'update_question' => 'Update Question',
+    'create_question' => 'Create Question',
+    'available_system_roles' => 'available system roles',
+    'users_with_this_role' => '# of users with this role',
+    'edit_question' => 'Edit Question',
+    'delete_question' => 'Delete Question',
+    'are_you_sure_delete_question' => 'Are you sure that you want to delete this question?',
 ];
