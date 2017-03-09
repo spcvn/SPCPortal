@@ -381,6 +381,43 @@ $router->get('install/error', [
     'uses' => 'InstallController@error'
 ]);
 
+/* Categories */
+Route::get('category', [
+    'as' => 'category.list',
+    'uses' => 'CategoryController@index'
+]);
+
+Route::get('category/create', [
+    'as' => 'category.create',
+    'uses' => 'CategoryController@create'
+]);
+
+Route::post('category/create', [
+    'as' => 'user.store',
+    'uses' => 'CategoryController@store'
+]);
+
+Route::get('category/{category}/edit', [
+    'as' => 'category.edit',
+    'uses' => 'CategoryController@edit'
+]);
+
+Route::put('category/{category}/edit', [
+    'as' => 'category.update',
+    'uses' => 'CategoryController@update'
+]);
+
+Route::post('category', [
+    'as' => 'category.sort',
+    'uses' => 'CategoryController@updatePosition'
+]);
+
+Route::delete('category/{category}/delete', [
+    'as' => 'category.delete',
+    'uses' => 'CategoryController@delete'
+]);
+/* End Categories */
+
 /**
  * Questions
  */
