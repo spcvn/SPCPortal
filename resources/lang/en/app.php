@@ -341,7 +341,7 @@ return [
     ],
 
     // Categories management
-    'categories'    =>  'Categories',
+    'category'          =>  'Category',
 
     //Questions
     'add_question' => 'Add Question',
