@@ -18,6 +18,8 @@ use SPCVN\Repositories\User\UserRepository;
 
 use SPCVN\Repositories\Category\EloquentCategory;
 use SPCVN\Repositories\Category\CategoryRepository;
+use SPCVN\Repositories\Topic\EloquentTopic;
+use SPCVN\Repositories\Topic\TopicRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -50,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
 
         // @huongdi
         $this->app->singleton(CategoryRepository::class, EloquentCategory::class);
+        $this->app->singleton(TopicRepository::class, EloquentTopic::class);
 
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
