@@ -46,12 +46,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(UserRepository::class, EloquentUser::class);
-        $this->app->singleton(QuestionRepository::class, EloquentQuestion::class);
         $this->app->singleton(ActivityRepository::class, EloquentActivity::class);
         $this->app->singleton(RoleRepository::class, EloquentRole::class);
         $this->app->singleton(PermissionRepository::class, EloquentPermission::class);
         $this->app->singleton(SessionRepository::class, DbSession::class);
         $this->app->singleton(CountryRepository::class, EloquentCountry::class);
+
+        //2017-03-09 Nguyen Hien add
+        $this->app->singleton(QuestionRepository::class, EloquentQuestion::class);
+        $this->app->singleton(AnswerRepository::class, EloquentAnswer::class);
+        $this->app->singleton(TagRepository::class, EloquentTag::class);
 
         // @huongdi
         $this->app->singleton(CategoryRepository::class, EloquentCategory::class);

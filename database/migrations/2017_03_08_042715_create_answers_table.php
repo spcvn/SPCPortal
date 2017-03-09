@@ -16,11 +16,18 @@ class CreateAnswersTable extends Migration
        Schema::create('answers', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->unsignedInteger('question_id')->nullable();
-            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('question_id')->default(0);
+            $table->unsignedInteger('user_id')->default(0);
             $table->text('comment');
             $table->tinyInteger('del_flg');
             $table->timestamps();
+        });
+
+       Schema::table('answers', function(Blueprint $table) {
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
@@ -31,6 +38,10 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
+        Schema::table('answers', function(Blueprint $table) {
+            $table->dropForeign('answers_user_id_foreign');
+        });
+
         Schema::drop('answers');
     }
 }

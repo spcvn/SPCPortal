@@ -82,12 +82,4 @@ class EloquentQuestion implements QuestionRepository
 
         return $question->delete();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function allTopics()
-    {
-        return Question::all();
-    }
 }

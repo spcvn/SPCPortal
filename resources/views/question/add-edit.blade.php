@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label for="topic_name">@lang('app.topic_name')</label>
                     {!! Form::select('topic', $topics, $edit ? $question->topics->first()->id : '',
-                        ['class' => 'form-control', 'id' => 'topic', $profile ? 'disabled' : '']) !!}
+                        ['class' => 'form-control', 'id' => 'topic']) !!}
                 </div>
                 <div class="form-group">
                     <label for="topic_name">@lang('app.topic_name')</label>

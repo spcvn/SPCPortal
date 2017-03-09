@@ -3,32 +3,32 @@
 namespace SPCVN\Http\Controllers;
 
 use Cache;
-use SPCVN\Question;
-use SPCVN\Events\Question\Created;
-use SPCVN\Events\Question\Deleted;
-use SPCVN\Events\Question\Updated;
-use SPCVN\Http\Requests\Question\CreateQuestionRequest;
-use SPCVN\Http\Requests\Question\UpdateQuestionRequest;
-use SPCVN\Repositories\Question\QuestionRepository;
+use SPCVN\Tag;
+use SPCVN\Events\Tag\Created;
+use SPCVN\Events\Tag\Deleted;
+use SPCVN\Events\Tag\Updated;
+use SPCVN\Http\Requests\Tag\CreateTagRequest;
+use SPCVN\Http\Requests\Tag\UpdateTagRequest;
+use SPCVN\Repositories\Tag\TagRepository;
 use SPCVN\Repositories\Topic\TopicRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class QuestionsController
+ * Class TagsController
  * @package SPCVN\Http\Controllers
  */
-class QuestionsController extends Controller
+class TagsController extends Controller
 {
     /**
      * @var QuestionRepository
      */
-    private $questions;
+    private $tags;
 
     /**
      * QuestionsController constructor.
      * @param QuestionRepository $questions
      */
-    public function __construct(QuestionRepository $questions)
+    public function __construct(TagRepository $questions)
     {
         // $this->middleware('permission:questions.manage');
         $this->questions = $questions;

@@ -1,20 +1,20 @@
 <?php
 
-namespace SPCVN\Repositories\Question;
+namespace SPCVN\Repositories\Tag;
 
-use SPCVN\Question;
+use SPCVN\Tag;
 
-interface QuestionRepository
+interface TagRepository
 {
     /**
-     * Get all system questions.
+     * Get all system tags.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function all();
 
     /**
-     * Lists all system questions into $key => $column value pairs.
+     * Lists all system tags into $key => $column value pairs.
      *
      * @param string $column
      * @param string $key
@@ -23,15 +23,15 @@ interface QuestionRepository
     public function lists($column = 'name', $key = 'id');
 
     /**
-     * Find system question by id.
+     * Find system tag by id.
      *
-     * @param $id Question Id
-     * @return Question|null
+     * @param $id Tag Id
+     * @return Tag|null
      */
     public function findById($id);
 
     /**
-     * Find question by name:
+     * Find tag by name:
      *
      * @param $name
      * @return mixed
@@ -39,26 +39,26 @@ interface QuestionRepository
     public function findByName($name);
 
     /**
-     * Create new system question.
+     * Create new system tag.
      *
      * @param array $data
-     * @return Question
+     * @return Tag
      */
     public function create(array $data);
 
     /**
-     * Update specified question.
+     * Update specified tag.
      *
-     * @param $id Question Id
+     * @param $id Tag Id
      * @param array $data
-     * @return Question
+     * @return Tag
      */
     public function update($id, array $data);
 
     /**
-     * Remove question from repository.
+     * Remove tag from repository.
      *
-     * @param $id Question Id
+     * @param $id Tag Id
      * @return bool
      */
     public function delete($id);
