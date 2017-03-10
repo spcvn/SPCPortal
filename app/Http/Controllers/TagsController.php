@@ -9,8 +9,8 @@ use SPCVN\Events\Tag\Deleted;
 use SPCVN\Events\Tag\Updated;
 use SPCVN\Http\Requests\Tag\CreateTagRequest;
 use SPCVN\Http\Requests\Tag\UpdateTagRequest;
+use SPCVN\Http\Requests\Tag\BaseTagRequest;
 use SPCVN\Repositories\Tag\TagRepository;
-use SPCVN\Repositories\Topic\TopicRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -20,107 +20,39 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TagsController extends Controller
 {
     /**
-     * @var QuestionRepository
+     * @var TagsController
      */
     private $tags;
 
     /**
-     * QuestionsController constructor.
-     * @param QuestionRepository $questions
+     * TagsController constructor.
+     * @param TagsController $tags
      */
-    public function __construct(TagRepository $questions)
+    public function __construct(TagRepository $tags)
     {
-        // $this->middleware('permission:questions.manage');
-        $this->questions = $questions;
+        // $this->middleware('permission:tags.manage');
+        $this->tags = $tags;
     }
 
     /**
-     * Display page with all available questions.
+     * Display page with all available tags.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $questions = $this->questions->all();
+        $tags = $this->tags->all();
 
-        return view('question.index', compact('questions'));
+        return view('tag.index', compact('tags'));
     }
 
     /**
-     * Display form for creating new role.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * Display all data search
      */
-    public function create(TopicRepository $topicRepository)
+    public function find(BaseTagRequest $request)
     {
-        $edit = false;
-        $topics = $topicRepository->lists();
+        $tags = $this->tags->find($request->q);
 
-        return view('question.add-edit', compact('topics', 'edit'));
-    }
-
-    /**
-     * Store newly created role to database.
-     *
-     * @param CreateRoleRequest $request
-     * @return mixed
-     */
-    public function store(CreateRoleRequest $request)
-    {
-        $this->roles->create($request->all());
-
-        return redirect()->route('role.index')
-            ->withSuccess(trans('app.role_created'));
-    }
-
-    /**
-     * Display for for editing specified role.
-     *
-     * @param Role $role
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function edit(Role $role)
-    {
-        $edit = true;
-
-        return view('role.add-edit', compact('edit', 'role'));
-    }
-
-    /**
-     * Update specified role with provided data.
-     *
-     * @param Role $role
-     * @param UpdateRoleRequest $request
-     * @return mixed
-     */
-    public function update(UpdateQuestionRequest $request)
-    {
-        return redirect()->route('question.index')
-            ->withSuccess(trans('app.role_updated'));
-    }
-
-    /**
-     * Remove specified role from system.
-     *
-     * @param Role $role
-     * @param UserRepository $userRepository
-     * @return mixed
-     */
-    public function delete(Role $role, UserRepository $userRepository)
-    {
-        if (! $role->removable) {
-            throw new NotFoundHttpException;
-        }
-
-        $userRole = $this->roles->findByName('User');
-
-        $userRepository->switchRolesForUsers($role->id, $userRole->id);
-
-        $this->roles->delete($role->id);
-
-        Cache::flush();
-
-        return redirect()->route('role.index')
-            ->withSuccess(trans('app.role_deleted'));
+        return response()->json($tags);
     }
 }

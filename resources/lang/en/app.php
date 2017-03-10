@@ -361,4 +361,11 @@ return [
     'edit_question' => 'Edit Question',
     'delete_question' => 'Delete Question',
     'are_you_sure_delete_question' => 'Are you sure that you want to delete this question?',
+
+    'question_created' => 'Question created successfully.',
+    'question_updated' => 'Question updated successfully.',
+    'question_deleted' => 'Question deleted successfully.',
+
+    //Tags
+    'tag_name' => 'Tag Name',
 ];

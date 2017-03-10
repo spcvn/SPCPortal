@@ -20,7 +20,7 @@ interface QuestionRepository
      * @param string $key
      * @return mixed
      */
-    public function lists($column = 'name', $key = 'id');
+    public function lists($column = 'title', $key = 'id');
 
     /**
      * Find system question by id.
@@ -62,4 +62,22 @@ interface QuestionRepository
      * @return bool
      */
     public function delete($id);
+
+    /**
+     * Create new question mentor.
+     *
+     * @param $question_id Question Id
+     * @param $user_id User Id
+     * @return QuestionMenters
+     */
+    public function createQuestionMentors($question_id, $user_id);
+
+    /**
+     * Create new question tag.
+     *
+     * @param $question_id Question Id
+     * @param $tag_id Tag Id
+     * @return QuestionTags
+     */
+    public function createQuestionTags($question_id, $tag_id=array());
 }

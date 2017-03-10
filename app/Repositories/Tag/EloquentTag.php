@@ -40,9 +40,18 @@ class EloquentTag implements TagRepository
     /**
      * {@inheritdoc}
      */
-    public function findByName($name)
+    public function find($tag_name)
     {
-        return Tag::where('name', $name)->first();
+        $formatted_tags = [];
+
+        $tags = Tag::select("*")->where("name","LIKE","%$tag_name%")->get();
+
+        foreach ($tags as $tag) {
+
+            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->name];
+        }
+
+        return $formatted_tags;
     }
 
     /**

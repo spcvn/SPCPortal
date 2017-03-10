@@ -36,7 +36,7 @@ interface TagRepository
      * @param $name
      * @return mixed
      */
-    public function findByName($name);
+    public function find($tag_name);
 
     /**
      * Create new system tag.

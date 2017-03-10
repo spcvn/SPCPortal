@@ -4,6 +4,8 @@ namespace SPCVN\Http\Controllers;
 
 use Cache;
 use SPCVN\Question;
+use SPCVN\QuestionTag;
+use SPCVN\QuestionMenter;
 use SPCVN\Events\Question\Created;
 use SPCVN\Events\Question\Deleted;
 use SPCVN\Events\Question\Updated;
@@ -65,12 +67,13 @@ class QuestionsController extends Controller
      * @param CreateRoleRequest $request
      * @return mixed
      */
-    public function store(CreateRoleRequest $request)
+    public function store(CreateQuestionRequest $request)
     {
-        $this->roles->create($request->all());
+        $question = $this->questions->create($request->all());
+        $this->questions->createQuestionMentors($question->id, $request->get('user_id'));
+        $this->questions->createQuestionTags($question->id, $request->get('tag_ids'));
 
-        return redirect()->route('role.index')
-            ->withSuccess(trans('app.role_created'));
+        return redirect()->route('question.index')->withSuccess(trans('app.question_created'));
     }
 
     /**

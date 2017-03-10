@@ -16,7 +16,7 @@ class UpdateQuestionRequest extends Request
         $role = $this->route('role');
 
         return [
-            'name' => 'required|regex:/^[a-zA-Z0-9\-_\.]+$/|unique:roles,name,' . $role->id
+            'title' => 'required|regex:/^[a-zA-Z0-9\-_\.]+$/|unique:roles,title,' . $role->id
         ];
     }
 }

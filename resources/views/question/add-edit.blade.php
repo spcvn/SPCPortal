@@ -23,30 +23,32 @@
 @include('partials.messages')
 
 @if ($edit)
-    {!! Form::open(['route' => ['role.update', $role->id], 'method' => 'PUT', 'id' => 'role-form']) !!}
+    {!! Form::open(['route' => ['question.update', $question->id], 'method' => 'PUT', 'id' => 'question-form']) !!}
 @else
-    {!! Form::open(['route' => 'role.store', 'id' => 'role-form']) !!}
+    {!! Form::open(['route' => 'question.store', 'id' => 'question-form']) !!}
 @endif
-
+    {!! Form::hidden('user_id', Auth::user()->present()->id) !!}
 <div class="row">
     <div class="col-lg-6 col-md-12 col-sm-12">
         <div class="panel panel-default">
             <div class="panel-heading">@lang('app.question_details_big')</div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label for="name">@lang('app.name')</label>
-                    <input type="text" class="form-control" id="name"
-                           name="name" placeholder="@lang('app.role_name')" value="{{ $edit ? $question->name : old('name') }}">
+                    <label for="title">@lang('app.question_name')</label>
+                    <input type="text" class="form-control" id="title"
+                           name="title" placeholder="@lang('app.question_name')" value="{{ $edit ? $question->title : old('title') }}">
                 </div>
                 <div class="form-group">
-                    <label for="topic_name">@lang('app.topic_name')</label>
-                    {!! Form::select('topic', $topics, $edit ? $question->topics->first()->id : '',
-                        ['class' => 'form-control', 'id' => 'topic']) !!}
+                    <label for="topic_id">@lang('app.topic_name')</label>
+                    {!! Form::select('topic_id', $topics, $edit ? $question->topics->first()->id : '',['class' => 'form-control', 'id' => 'topic-id']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="topic_name">@lang('app.topic_name')</label>
-                    <input type="text" class="form-control" id="topic_name"
-                           name="topic_name" placeholder="@lang('app.topic_name')" value="{{ $edit ? $question->topic_name : old('topic_name') }}">
+                    <label for="user_id">@lang('app.tag_name')</label>
+                    <select id="user_ids" name="user_ids[]" class="form-control" multiple></select>
+                </div>
+                <div class="form-group">
+                    <label for="tag_id">@lang('app.tag_name')</label>
+                    <select id="tag_ids" name="tag_ids[]" class="form-control" multiple></select>
                 </div>
                 <div class="form-group">
                     <label for="description">@lang('app.description')</label>
@@ -70,8 +72,53 @@
 
 @section('scripts')
     @if ($edit)
-        {!! JsValidator::formRequest('SPCVN\Http\Requests\Role\UpdateRoleRequest', '#role-form') !!}
+        {!! JsValidator::formRequest('SPCVN\Http\Requests\Question\UpdateQuestionRequest', '#question-form') !!}
     @else
-        {!! JsValidator::formRequest('SPCVN\Http\Requests\Role\CreateRoleRequest', '#role-form') !!}
+        {!! JsValidator::formRequest('SPCVN\Http\Requests\Question\CreateQuestionRequest', '#question-form') !!}
     @endif
+
+    {!! HTML::style('assets/css/select2.min.css') !!}
+    {!! HTML::script('assets/js/select2.full.js') !!}
+    <script type="text/javascript">
+
+        $('#user_ids').select2({
+            placeholder: "Choose tags...",
+            minimumInputLength: 0,
+            ajax: {
+                url: "{{ route('tag.find') }}",
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#tag_ids').select2({
+            placeholder: "Choose tags...",
+            minimumInputLength: 0,
+            ajax: {
+                url: "{{ route('tag.find') }}",
+                dataType: "json",
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    </script>
 @stop

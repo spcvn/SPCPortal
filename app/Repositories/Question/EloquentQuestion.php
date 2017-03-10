@@ -2,12 +2,14 @@
 
 namespace SPCVN\Repositories\Question;
 
+use DB;
+use SPCVN\Question;
+use SPCVN\QuestionTag;
+use SPCVN\QuestionMenter;
 use SPCVN\Events\Question\Created;
 use SPCVN\Events\Question\Deleted;
 use SPCVN\Events\Question\Updated;
-use SPCVN\Question;
 use SPCVN\Support\Authorization\CacheFlusherTrait;
-use DB;
 
 class EloquentQuestion implements QuestionRepository
 {
@@ -24,7 +26,7 @@ class EloquentQuestion implements QuestionRepository
     /**
      * {@inheritdoc}
      */
-    public function lists($column = 'name', $key = 'id')
+    public function lists($column = 'title', $key = 'id')
     {
         return Question::pluck($column, $key);
     }
@@ -42,7 +44,7 @@ class EloquentQuestion implements QuestionRepository
      */
     public function findByName($name)
     {
-        return Question::where('name', $name)->first();
+        return Question::where('title', $name)->first();
     }
 
     /**
@@ -81,5 +83,30 @@ class EloquentQuestion implements QuestionRepository
         event(new Deleted($question));
 
         return $question->delete();
+    }
+
+    /**
+     * Create new question mentor.
+     * {@inheritdoc}
+     */
+    public function createQuestionMentors($question_id, $user_id)
+    {
+        $question_id = is_array($question_id) ? $question_id : [$question_id];
+
+        return $this->find($user_id)->roles()->sync($question_id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createQuestionTags($question_id, $tag_ids=array())
+    {
+        $data=array();
+        $data['question_id'] = $question_id;
+        foreach ($tag_ids as $key => $tag_id) {
+
+            $data['tag_id'] = $tag_id;
+        }
+        return QuestionTag::create($data);
     }
 }

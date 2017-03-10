@@ -393,7 +393,7 @@ Route::get('category/create', [
 ]);
 
 Route::post('category/create', [
-    'as' => 'user.store',
+    'as' => 'category.store',
     'uses' => 'CategoryController@store'
 ]);
 
@@ -483,4 +483,20 @@ Route::put('answer/{answer}/update', [
 Route::delete('answer/{answer}/delete', [
     'as' => 'answer.delete',
     'uses' => 'AnswersController@delete'
+]);
+
+/**
+ * Tags
+ */
+Route::get('tag/find', [
+    'as' => 'tag.find',
+    'uses' => 'TagsController@find'
+]);
+
+/**
+ * Members
+ */
+Route::get('topic/{topic}/show', [
+    'as' => 'user.show',
+    'uses' => 'UsersController@view'
 ]);
