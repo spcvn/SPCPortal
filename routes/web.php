@@ -394,7 +394,7 @@ Route::get('category/create', [
 ]);
 
 Route::post('category/create', [
-    'as' => 'user.store',
+    'as' => 'category.store',
     'uses' => 'CategoryController@store'
 ]);
 
