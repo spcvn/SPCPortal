@@ -26,19 +26,23 @@ class EloquentTopic implements TopicRepository
      */
     public function paginate($perPage = 30, $search = null)
     {
-    	$query = Topic::query();
-        $query->where('del_flag', false);
+        $query = DB::table('topics');
+        $query->select('topics.*', 'users.first_name', 'users.last_name', 'users.username');
+        $query->leftJoin('users', 'users.id', '=', 'topics.user_id');
+        $query->where('topics.del_flag', false);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('name', "like", "%{$search}%");
-                $q->orWhere('created', $search);
+                $q->where('topics.topic_name', "like", "%{$search}%");
+                $q->orWhere('users.first_name', "like", "%{$search}%");
+                $q->orWhere('users.last_name', "like", "%{$search}%");
+                $q->orWhere('topics.created', $search);
             });
         }
 
-        $result = $query->orderBy('created', 'ASC')
-                        ->orderBy('topic_name', 'ASC')
-            			->paginate($perPage);
+        $query->orderBy('topics.created', 'ASC');
+        $query->orderBy('topics.topic_name', 'ASC');
+        $result = $query->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
@@ -86,7 +90,6 @@ class EloquentTopic implements TopicRepository
     public function create(array $data) 
     {
     	$topic = Topic::create($data);
-
         return $topic;
     }
 
@@ -134,5 +137,14 @@ class EloquentTopic implements TopicRepository
             DB::rollBack();
             return false;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMentors($topicID, $userID)
+    {
+        $userID = is_array($userID) ? $userID : [$userID];
+        return $this->find($topicID)->users()->sync($userID, false);
     }
 }

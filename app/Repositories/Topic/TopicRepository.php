@@ -148,4 +148,17 @@ interface TopicRepository
      */
     public function updatePosition($data);
 
+    /**
+     * set mentors for topic.
+     *
+     * @param (int) $topicId
+     * @param array $userID
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.07
+     * @version 1.0
+     */
+    public function setMentors($topicId, $userID);
+
 }
