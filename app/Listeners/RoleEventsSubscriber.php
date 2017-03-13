@@ -2,18 +2,16 @@
 
 namespace SPCVN\Listeners;
 
-use SPCVN\Activity;
 use SPCVN\Events\Role\Created;
 use SPCVN\Events\Role\PermissionsUpdated;
 use SPCVN\Events\Role\Updated;
 use SPCVN\Events\Role\Deleted;
-use SPCVN\Events\User\UserEventContract;
 use SPCVN\Services\Logging\UserActivity\Logger;
 
 class RoleEventsSubscriber
 {
     /**
-     * @var UserActivityLogger
+     * @var Logger
      */
     private $logger;
 

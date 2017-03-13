@@ -337,6 +337,7 @@ return [
         'December' => 'December',
     ],
 
+    'avatar_not_changed' => 'Avatar image cannot be updated. Please try again.',
     // Categories management
     'category'          =>  'Category',
     'add_category'      =>  'Add new',

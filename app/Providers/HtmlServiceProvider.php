@@ -25,10 +25,10 @@ class HtmlServiceProvider extends BaseHtmlServiceProvider
         $this->app->singleton('form', function($app) {
 
             if (env('FORCE_SSL')) {
-                $app['url']->forceSchema('https');
+                $app['url']->forceScheme('https');
             }
 
-            $form = new FormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->getToken());
+            $form = new FormBuilder($app['html'], $app['url'], $app['view'], $app['session.store']->token());
 
             return $form->setSessionStore($app['session.store']);
         });

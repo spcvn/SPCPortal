@@ -24,6 +24,7 @@ class ActivityController extends Controller
      */
     public function __construct(ActivityRepository $activities)
     {
+        $this->middleware('auth');
         $this->middleware('permission:users.activity');
         $this->activities = $activities;
     }

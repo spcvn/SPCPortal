@@ -16,9 +16,9 @@ class UserSeeder extends Seeder
     {
         $user = User::create([
             'first_name' => 'SPCVN',
-            'email' => 'admin@example.com',
+            'email' => 'admin@admin.com',
             'username' => 'admin',
-            'password' => 'admin123',
+            'password' => '123456',
             'avatar' => null,
             'country_id' => null,
             'status' => UserStatus::ACTIVE
