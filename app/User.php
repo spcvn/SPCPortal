@@ -2,7 +2,6 @@
 
 namespace SPCVN;
 
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notifiable;
 use SPCVN\Presenters\UserPresenter;
 use SPCVN\Services\Auth\TwoFactor\Authenticatable as TwoFactorAuthenticatable;

@@ -188,7 +188,7 @@ class SocialAuthController extends Controller
      */
     private function handleMissingEmail($socialUser)
     {
-        Session::set('social.user', $socialUser);
+        Session::put('social.user', $socialUser);
 
         return redirect()->to('auth/twitter/email');
     }
@@ -201,6 +201,11 @@ class SocialAuthController extends Controller
      */
     private function loginAndRedirect($user)
     {
+        if ($user->isBanned()) {
+            return redirect()->to('login')
+                ->withErrors(trans('app.your_account_is_banned'));
+        }
+
         if (settings('2fa.enabled') && Authy::isEnabled($user)) {
             session()->put('auth.2fa.id', $user->id);
             return redirect()->route('auth.token');

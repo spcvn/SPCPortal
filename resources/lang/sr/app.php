@@ -324,5 +324,7 @@ return [
         'October' => 'Oktobar',
         'November' => 'Novembar',
         'December' => 'Decembar',
-    ]
+    ],
+
+    'avatar_not_changed' => 'Avatar ne može biti ažuriran. Molimo pokušajte ponovo.',
 ];

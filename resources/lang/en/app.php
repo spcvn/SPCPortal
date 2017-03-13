@@ -379,6 +379,7 @@ return [
     'tag_deleted'  =>  'Tag deleted successfully.',
     'are_you_sure_delete_tag' => 'Are you sure that you want to delete this tag?',
 
+    'avatar_not_changed' => 'Avatar image cannot be updated. Please try again.',
     // Categories management
     'category'          =>  'Category',
     'add_category'      =>  'Add new',
