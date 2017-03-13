@@ -143,7 +143,7 @@ class EloquentCategory implements CategoryRepository
         $query->orderBY('position', 'ASC');
         $results = $query->get();
 
-        $categories = [0    =>  trans('app.select_one')];
+        $categories = [''    =>  trans('app.select_one')];
 
         foreach ($results as $category) {
             

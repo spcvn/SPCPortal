@@ -209,6 +209,11 @@ Route::post('user/{user}/two-factor/disable', [
     'uses' => 'UsersController@disableTwoFactorAuth'
 ]);
 
+Route::post('user/search-user-by-name', [
+   'as' => 'user.search-user-by-name',
+    'uses' => 'UsersController@searchUserByName' 
+]);
+
 /**
  * Roles & Permissions
  */

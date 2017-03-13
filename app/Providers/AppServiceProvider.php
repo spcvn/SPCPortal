@@ -53,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
         // @huongdi
         $this->app->singleton(CategoryRepository::class, EloquentCategory::class);
         $this->app->singleton(TopicRepository::class, EloquentTopic::class);
+        // end @huongid
 
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

@@ -5,8 +5,9 @@ namespace SPCVN\Http\Controllers;
 
 use SPCVN\Repositories\User\UserRepository;
 use SPCVN\Repositories\Topic\TopicRepository;
-//use SPCVN\Http\Requests\Topic\CreateCategoryRequest;
-//use SPCVN\Http\Requests\Topics\UpdateCategoryRequest;
+use SPCVN\Repositories\Category\CategoryRepository;
+use SPCVN\Http\Requests\Topic\CreateTopicRequest;
+use SPCVN\Http\Requests\Topics\UpdateTopicRequest;
 use SPCVN\Topic;
 use SPCVN\User;
 use Auth;
@@ -22,7 +23,7 @@ class TopicsController extends Controller
     private $users;
 
     /**
-     * @var CategoryRepository
+     * @var TopicRepository
      */
     private $topic;
 
@@ -43,17 +44,9 @@ class TopicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $topics = $this->topic->paginate();
-
-        echo 'list topic';exit;
-        
-        // echo '<pre>';
-        // print_r($this->topic->lists());
-        // echo '</pre>';
-        // exit;
-
+        $topics = $this->topic->paginate(30, $request->input('search'));
         return view('topic.list', compact('topics'));
     }
 
@@ -62,9 +55,14 @@ class TopicsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Topic $topic, CategoryRepository $categoryRepos)
     {
-        //
+        $edit       = false;
+        $users      = User::all()->pluck('full_name', 'id');
+        $categories = $categoryRepos->makeCategoryMultiLevel();
+        $user_login_id = Auth::id();
+
+        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id'));
     }
 
     /**
@@ -73,9 +71,11 @@ class TopicsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTopicRequest $request)
     {
-        //
+        $topic = $this->topic->create($request->all());
+        $this->topic->setMentors($topic->id, $request->input('mentors'));
+        return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
     }
 
     /**

@@ -63,6 +63,11 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract
         $this->attributes['birthday'] = trim($value) ?: null;
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
+
     public function gravatar()
     {
         $hash = hash('md5', strtolower(trim($this->attributes['email'])));
@@ -98,5 +103,10 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract
     public function activities()
     {
         return $this->hasMany(Activity::class, 'user_id');
+    }
+
+    public function topics()
+    {
+        return $this->belongsToMany(Topic::class, 'topics_mentors', 'user_id', 'topic_id');
     }
 }

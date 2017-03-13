@@ -20,7 +20,7 @@ class CreateTopicsTable extends Migration
             $table->string('picture', 250);
             $table->text('description')->nullable();
             $table->unsignedInteger('view')->default(0);
-            $table->unsignedInteger('public')->default(0);
+            $table->unsignedInteger('public')->default(1);
             $table->unsignedInteger('del_flag')->default(0);
             $table->datetime('created')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->datetime('modified');

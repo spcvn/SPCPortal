@@ -167,4 +167,12 @@ interface UserRepository
      * @return mixed
      */
     public function findByConfirmationToken($token);
+
+    /**
+     * Search user by name via ajax.
+     *
+     * @param string $search
+     * @return jsons
+     */
+    public function searchUserByName($search);
 }
