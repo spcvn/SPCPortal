@@ -12,6 +12,11 @@ use Settings;
  */
 class SettingsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display general settings page.
      *

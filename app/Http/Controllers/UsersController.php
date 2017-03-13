@@ -197,16 +197,21 @@ class UsersController extends Controller
      * @param UserAvatarManager $avatarManager
      * @return mixed
      */
-    public function updateAvatar(User $user, UserAvatarManager $avatarManager)
+    public function updateAvatar(User $user, UserAvatarManager $avatarManager, Request $request)
     {
-        $name = $avatarManager->uploadAndCropAvatar($user);
+        $this->validate($request, ['avatar' => 'image']);
 
-        $this->users->update($user->id, ['avatar' => $name]);
+        if ($name = $avatarManager->uploadAndCropAvatar($user)) {
+            $this->users->update($user->id, ['avatar' => $name]);
 
-        event(new UpdatedByAdmin($user));
+            event(new UpdatedByAdmin($user));
+
+            return redirect()->route('user.edit', $user->id)
+                ->withSuccess(trans('app.avatar_changed'));
+        }
 
         return redirect()->route('user.edit', $user->id)
-            ->withSuccess(trans('app.avatar_changed'));
+            ->withErrors(trans('app.avatar_not_changed'));
     }
 
     /**

@@ -100,9 +100,16 @@ class ProfileController extends Controller
      */
     public function updateAvatar(Request $request, UserAvatarManager $avatarManager)
     {
-        $name = $avatarManager->uploadAndCropAvatar($this->theUser);
+        $this->validate($request, [
+            'avatar' => 'image'
+        ]);
 
-        return $this->handleAvatarUpdate($name);
+        if ($name = $avatarManager->uploadAndCropAvatar($this->theUser)) {
+            return $this->handleAvatarUpdate($name);
+        }
+
+        return redirect()->route('profile')
+            ->withErrors(trans('app.avatar_not_changed'));
     }
 
     /**

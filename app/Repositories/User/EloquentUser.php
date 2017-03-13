@@ -117,7 +117,7 @@ class EloquentUser implements UserRepository
      */
     public function update($id, array $data)
     {
-        if (array_get($data, 'country_id') == 0) {
+        if (! array_get($data, 'country_id')) {
             $data['country_id'] = null;
         }
 

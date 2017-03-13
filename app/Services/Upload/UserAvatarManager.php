@@ -49,7 +49,14 @@ class UserAvatarManager
     {
         list($name, $avatarImage) = $this->uploadFile($user);
 
-        $this->cropAndResizeImage($avatarImage);
+        try {
+            $this->cropAndResizeImage($avatarImage);
+            $this->deleteAvatarIfUploaded($user);
+        } catch (\Exception $e) {
+            logger("Cannot upload avatar. " . $e->getMessage());
+            $this->fs->delete($this->getDestinationDirectory() . "/" . $name);
+            return null;
+        }
 
         return $name;
     }
@@ -86,8 +93,6 @@ class UserAvatarManager
      */
     private function uploadFile(User $user)
     {
-        $this->deleteAvatarIfUploaded($user);
-
         $name = $this->generateAvatarName();
         $uploadedFile = $this->getUploadedFileFromRequest();
 
