@@ -48,7 +48,7 @@ class TopicsController extends Controller
         $topics = $this->topic->paginate();
 
         echo 'list topic';exit;
-        
+
         // echo '<pre>';
         // print_r($this->topic->lists());
         // echo '</pre>';
@@ -121,5 +121,18 @@ class TopicsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMemtorsByTopicId($id)
+    {
+        $memtors = $this->topic->find($id);
+
+        return response()->json($memtors);
     }
 }

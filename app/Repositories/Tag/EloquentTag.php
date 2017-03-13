@@ -91,4 +91,28 @@ class EloquentTag implements TagRepository
 
         return $tag->delete();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function paginate($perPage, $search = null)
+    {
+        $query = Tag::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', "like", "%{$search}%");
+                $q->where('del_flg', '=', "0");
+            });
+        }
+
+        $result = $query->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+
+        if ($search) {
+            $result->appends(['search' => $search]);
+        }
+
+        return $result;
+    }
 }

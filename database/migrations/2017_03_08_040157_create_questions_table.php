@@ -21,6 +21,7 @@ class CreateQuestionsTable extends Migration
             $table->string('title', 255);
             $table->text('description');
             $table->integer('views');
+            $table->unsignedInteger('public')->default(0);
             $table->tinyInteger('del_flg');
             $table->timestamps();
         });

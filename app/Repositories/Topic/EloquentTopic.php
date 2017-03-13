@@ -51,7 +51,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function find($id) 
+    public function find($id)
     {
     	return Topic::find($id);
     }
@@ -67,7 +67,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function count($condition = array()) 
+    public function count($condition = array())
     {
     	return true;
     }
@@ -75,7 +75,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function findByName($name) 
+    public function findByName($name)
     {
     	return true;
     }
@@ -83,7 +83,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function create(array $data) 
+    public function create(array $data)
     {
     	$topic = Topic::create($data);
 
@@ -93,7 +93,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function update($id, $data = array()) 
+    public function update($id, $data = array())
     {
     	$topic = $this->find($id);
         $topic->update($data);
@@ -103,7 +103,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function delete($id) 
+    public function delete($id)
     {
     	$topic = $this->find($id);
         $topic->update(['del_flag' => true]);
@@ -113,7 +113,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function updatePosition($data = array()) 
+    public function updatePosition($data = array())
     {
         if (empty($data)) {
             return false;
@@ -134,5 +134,15 @@ class EloquentTopic implements TopicRepository
             DB::rollBack();
             return false;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMemtorsByTopicId($id)
+    {
+        $memtors = $this->find($id);
+
+        return $memtors;
     }
 }

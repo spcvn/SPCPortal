@@ -62,4 +62,13 @@ interface TagRepository
      * @return bool
      */
     public function delete($id);
+
+    /**
+     * Paginate registered tags.
+     *
+     * @param $perPage
+     * @param null $search
+     * @return mixed
+     */
+    public function paginate($perPage, $search = null);
 }

@@ -36,6 +36,14 @@
                 </li>
             @endpermission
 
+            @permission('users.manage')
+                <li class="{{ Request::is('tag*') ? 'active open' : ''  }}">
+                    <a href="{{ route('tag.index') }}" class="{{ Request::is('tag*') ? 'active' : ''  }}">
+                        <i class="fa fa-tags"></i> @lang('app.tag')
+                    </a>
+                </li>
+            @endpermission
+
             @permission('users.activity')
                 <li class="{{ Request::is('activity*') ? 'active open' : ''  }}">
                     <a href="{{ route('activity.index') }}" class="{{ Request::is('activity*') ? 'active' : ''  }}">

@@ -82,7 +82,7 @@ class EloquentCategory implements CategoryRepository
     /**
      * {@inheritdoc}
      */
-    public function create(array $data) 
+    public function create($data = array()) 
     {
     	$category = Category::create($data);
 
@@ -133,5 +133,48 @@ class EloquentCategory implements CategoryRepository
             DB::rollBack();
             return false;
         }
+    }
+
+    public function makeCategoryMultiLevel($category_id = 0)
+    {
+        $query = Category::query();
+        $query->select('id', 'name', 'parent_id');
+        $query->where('del_flag', false);
+        $query->orderBY('position', 'ASC');
+        $results = $query->get();
+
+        $categories = [0    =>  trans('app.select_one')];
+
+        foreach ($results as $category) {
+            
+            if ($category_id == $category['id']) {
+                continue;
+            }
+
+            if ($category['parent_id'] == 0) {
+                $categories[$category['id']] = $category['name'];
+                $categories = $categories + $this->getChildCategory($category['id'], $category_id, $results, '---- ');
+            }
+        }
+
+        return $categories;
+    }
+
+    private function getChildCategory($catID, $catSelected = 0, $datas, $ext = '---- ')
+    {
+        $categories = [];
+        foreach ($datas as $data) {
+
+            if ($catSelected == $data['id']) {
+                continue;
+            }
+
+            if ($data['parent_id'] == $catID) {
+                $categories[$data['id']] = $ext . $data['name'];
+                $categories = $categories + $this->getChildCategory($data['id'], $catSelected, $datas, $ext . '---- ');
+            }
+        }
+
+        return $categories;
     }
 }

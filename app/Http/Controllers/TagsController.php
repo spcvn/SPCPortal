@@ -7,6 +7,7 @@ use SPCVN\Tag;
 use SPCVN\Events\Tag\Created;
 use SPCVN\Events\Tag\Deleted;
 use SPCVN\Events\Tag\Updated;
+use Illuminate\Support\Facades\Input;
 use SPCVN\Http\Requests\Tag\CreateTagRequest;
 use SPCVN\Http\Requests\Tag\UpdateTagRequest;
 use SPCVN\Http\Requests\Tag\BaseTagRequest;
@@ -41,9 +42,16 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = $this->tags->all();
+        $perPage = 10;
+
+        $tags = $this->tags->paginate($perPage, Input::get('search'));
 
         return view('tag.index', compact('tags'));
+    }
+
+    public function edit()
+    {
+        $edit = true;
     }
 
     /**

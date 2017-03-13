@@ -418,6 +418,49 @@ Route::delete('category/{category}/delete', [
 ]);
 /* End Categories */
 
+
+/* Topics */
+Route::get('topic', [
+    'as' => 'topic.list',
+    'uses' => 'TopicsController@index'
+]);
+
+Route::get('topic/create', [
+    'as' => 'topic.create',
+    'uses' => 'TopicsController@create'
+]);
+
+Route::post('topic/create', [
+    'as' => 'topic.store',
+    'uses' => 'TopicsController@store'
+]);
+
+Route::get('topic/{topic}/edit', [
+    'as' => 'topic.edit',
+    'uses' => 'TopicsController@edit'
+]);
+
+Route::put('topic/{topic}/edit', [
+    'as' => 'topic.update',
+    'uses' => 'TopicsController@update'
+]);
+
+Route::post('topic', [
+    'as' => 'topic.sort',
+    'uses' => 'TopicsController@updatePosition'
+]);
+
+Route::post('topic/{topic}/memtor', [
+    'as' => 'topic.memtor',
+    'uses' => 'TopicsController@getMemtorsByTopicId'
+]);
+
+Route::delete('topic/{topic}/delete', [
+    'as' => 'topic.delete',
+    'uses' => 'TopicsController@delete'
+]);
+/* End Topics */
+
 /**
  * Questions
  */
@@ -488,6 +531,36 @@ Route::delete('answer/{answer}/delete', [
 /**
  * Tags
  */
+Route::get('tag', [
+    'as' => 'tag.index',
+    'uses' => 'TagsController@index'
+]);
+
+Route::get('tag/create', [
+    'as' => 'tag.create',
+    'uses' => 'TagsController@create'
+]);
+
+Route::post('tag/store', [
+    'as' => 'tag.store',
+    'uses' => 'TagsController@store'
+]);
+
+Route::get('tag/{tag}/edit', [
+    'as' => 'tag.edit',
+    'uses' => 'TagsController@edit'
+]);
+
+Route::put('tag/{tag}/update', [
+    'as' => 'tag.update',
+    'uses' => 'TagsController@update'
+]);
+
+Route::delete('tag/{tag}/delete', [
+    'as' => 'tag.delete',
+    'uses' => 'TagsController@delete'
+]);
+
 Route::get('tag/find', [
     'as' => 'tag.find',
     'uses' => 'TagsController@find'
