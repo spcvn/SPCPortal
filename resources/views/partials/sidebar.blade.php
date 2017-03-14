@@ -15,9 +15,31 @@
                 </a>
             </li>
             @permission('users.manage')
-                <li class="{{ Request::is('user*') ? 'active open' : ''  }}">
-                    <a href="{{ route('user.list') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
-                        <i class="fa fa-users fa-fw"></i> @lang('app.users')
+                <li class="{{ Request::is('question*') || Request::is('answer*') ? 'active open' : ''  }}">
+                    <a href="#">
+                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        @lang('app.qa')
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="{{ route('question.index') }}" class="{{ Request::is('question*') ? 'active' : ''  }}">
+                                @lang('app.questions')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('answer.index') }}" class="{{ Request::is('answer*') ? 'active' : ''  }}">
+                                @lang('app.answers')
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endpermission
+
+            @permission('users.manage')
+                <li class="{{ Request::is('tag*') ? 'active open' : ''  }}">
+                    <a href="{{ route('tag.index') }}" class="{{ Request::is('tag*') ? 'active' : ''  }}">
+                        <i class="fa fa-tags"></i> @lang('app.tag')
                     </a>
                 </li>
             @endpermission
@@ -26,6 +48,14 @@
                 <li class="{{ Request::is('activity*') ? 'active open' : ''  }}">
                     <a href="{{ route('activity.index') }}" class="{{ Request::is('activity*') ? 'active' : ''  }}">
                         <i class="fa fa-list-alt fa-fw"></i> @lang('app.activity_log')
+                    </a>
+                </li>
+            @endpermission
+
+            @permission('users.manage')
+                <li class="{{ Request::is('user*') ? 'active open' : ''  }}">
+                    <a href="{{ route('user.list') }}" class="{{ Request::is('user*') ? 'active' : ''  }}">
+                        <i class="fa fa-users fa-fw"></i> @lang('app.users')
                     </a>
                 </li>
             @endpermission

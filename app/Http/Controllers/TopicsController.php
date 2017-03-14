@@ -184,4 +184,17 @@ class TopicsController extends Controller
     {
         //
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMemtorsByTopicId($id)
+    {
+        $memtors = $this->topic->find($id);
+
+        return response()->json($memtors);
+    }
 }
