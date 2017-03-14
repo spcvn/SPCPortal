@@ -37,8 +37,8 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="name" class="required">@lang('app.category_name')</label>
-                            {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['class' => 'form-control']) !!}
+                            <label for="category_id" class="required">@lang('app.category_name')</label>
+                            {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['id' => 'category_id', 'class' => 'form-control', 'required' => true]) !!}
                         </div>
                         <div class="form-group">
                             <label for="name" class="required">@lang('app.topic_name')</label>
@@ -46,8 +46,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="name">@lang('app.topic_picture')</label>
-                            <input type="file" class="form-control" id="picture" placeholder="(@lang('app.topic_name'))" name="picture" value="{{ $edit ? $topic->topic_name : '' }}">
+                            <label for="picture">@lang('app.topic_picture')</label>
+                            
+                            @if ($edit && $topic->picture)
+                                <br/>
+                                <img class="form-control" style=" height: 300px;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
+                                <br/>
+                            @endif
+                            <input type="file" class="form-control" id="picture" placeholder="(@lang('app.topic_picture'))" name="picture" value="">
                         </div>
 
                         <div class="form-group">
@@ -79,12 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">@lang('app.mentors')</label>
-                            {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control select2', 'multiple' => 'true']) !!}
-                        </div>
-
-                        <div class="form-group">
-                            <label for="name">@lang('app.documents')</label>
-                            <input type="file" class="form-control" id="documents" placeholder="(@lang('app.documents'))" name="documents" value="{{ '' }}">
+                            {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
                         </div>
 
                     </div>
@@ -115,36 +116,24 @@
     <script>
         $(".switch").bootstrapSwitch({size: 'small'});
         $('.select2').select2({
-            tags: true,
-            theme: "classic",
-            //placeholder: "@lang('app.topic_name')",
-
+            placeholder: "@lang('app.topic_name')",
+            minimumInputLength: 0,
             ajax: {
                 url: "{{ route('user.search-user-by-name') }}",
                 method: "POST",
                 dataType: 'json',
-                delay: 250,
+                cache: false,
                 data: function (params) {
                   return {
                     q: params.term
                   };
-                },
-                processResults: function (data, params) {
-                  // parse the results into the format expected by Select2
-                  // since we are using custom formatting functions we do not need to
-                  // alter the remote JSON data, except to indicate that infinite
-                  // scrolling can be used
+                },                
+                processResults: function (data) {
                   return {
-                    results: data.items
+                    results: data
                   };
-                },
-                cache: false
-            },
-            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-            minimumInputLength: 1,
-            //templateResult: formatRepo, // omitted for brevity, see the source of this page
-            //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-
+                }
+            }
         });
     </script>
 @stop

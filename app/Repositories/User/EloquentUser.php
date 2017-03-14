@@ -283,9 +283,17 @@ class EloquentUser implements UserRepository
         $query = User::query();        
         $query->where(function ($qr) use ($q) {
             $qr->where('first_name', "like", "%{$q}%");
-            $qr->orWhere('first_name', "like", "%{$q}%");
+            $qr->orWhere('last_name', "like", "%{$q}%");
         });
 
-        return $query->get()->pluck('full_name', 'id');
+        $result = $query->get()->pluck('full_name', 'id')->toArray();
+        
+        $res = [];
+        foreach ($result as $key => $val) {
+            $res[] = ['id' => $key, 'text' => $val];
+        }
+
+        return $res;
+        
     }
 }

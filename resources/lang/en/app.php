@@ -189,6 +189,25 @@ return [
     'disabling' => 'Disabling...',
     'enabling' => 'Enabling...',
 
+    // Topics management
+    'topic'             =>  'Topic',
+    'add_topic'         =>  'Add new topic',
+    'topic_name'        =>  'Topic name',
+    'edit_topic'        =>  'Edit topic',
+    'created_by'        =>  'Created by',
+    'topic_information' =>  'Topic information',
+    'category_name'     =>  'Category name',
+    'topic_picture'     =>  'Picture',
+    'topic_options'     =>  'Options',
+    'public'            =>  'Public',
+    'mentors'           =>  'Mentors',
+    'documents'         =>  'Documents',
+    'delete_topic'      =>  'Delete category',
+    'topic_created'     =>  'Category created successfully.',
+    'topic_updated'     =>  'Category updated successfully.',
+    'topic_updated_false'  =>  'Category updated false.',
+    'topic_deleted'     =>  'Category deleted successfully.',
+
     // Users
     'add_user' => 'Add User',
     'create_new_user' => 'Create New User',

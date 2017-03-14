@@ -55,7 +55,8 @@
         <table id="sortable" class="table-fill" width="100%" cellpadding="0" cellspacing="0" border="0">
             <thead>
                 <!--<th style="width: 2%;">@lang('app.sort_category')</th>-->
-                <th style="width: 70%;">@lang('app.topic_name')</th>
+                <th style="width: 15%;" class="text-center">@lang('app.topic_picture')</th>
+                <th style="width: 55%;">@lang('app.topic_name')</th>
                 <th style="width: 20%;">@lang('app.created_by')</th>
                 <th style="width: 10%;" class="text-center">@lang('app.action')</th>
                 </thead>
@@ -63,6 +64,19 @@
             @if (count($topics))
                 @foreach ($topics as $topic)
                     <tr id="cat-{{$topic->id}}">
+                        <td style="text-align: center;">
+                            <a href="{{ route('topic.edit', $topic->id) }}">
+                                @php
+                                    if ($topic->picture) {
+                                        $source = url('/upload/topics/'. $topic->picture);
+                                    } else {
+                                        $source = url('assets/img/profile.png');
+                                    }
+                                @endphp
+
+                                <img style="max-width: 100px; max-height: 100px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
+                            </a>
+                        </td>
                         <td><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
                         <td><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->first_name }} {{ $topic->last_name }}</a></td>
                         <td class="text-center">

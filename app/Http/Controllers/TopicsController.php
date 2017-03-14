@@ -7,7 +7,7 @@ use SPCVN\Repositories\User\UserRepository;
 use SPCVN\Repositories\Topic\TopicRepository;
 use SPCVN\Repositories\Category\CategoryRepository;
 use SPCVN\Http\Requests\Topic\CreateTopicRequest;
-use SPCVN\Http\Requests\Topics\UpdateTopicRequest;
+use SPCVN\Http\Requests\Topic\UpdateTopicRequest;
 use SPCVN\Topic;
 use SPCVN\User;
 use Auth;
@@ -73,8 +73,31 @@ class TopicsController extends Controller
      */
     public function store(CreateTopicRequest $request)
     {
-        $topic = $this->topic->create($request->all());
-        $this->topic->setMentors($topic->id, $request->input('mentors'));
+        // upload file
+        if ($request->hasFile('picture')) {
+
+            $dir = date('Y-m-d', time());
+            $path = public_path().'/upload/topics/' . $dir;
+
+            $photo      = $request->file('picture');
+            $filename   = str_random(6).'.'.$photo->getClientOriginalExtension();
+            
+            // save picture
+            $photo->move($path, $filename);
+
+            // add picture name to request to save to DB
+            $request->request->add(['picture' => $dir .'/'. $filename]);   
+        }
+
+        // save topic
+        $topic = $this->topic->create($request->input());
+
+        // save topics_mentors if existed input request mentors
+        if ($request->input('mentors')) {
+            $this->topic->setMentors($topic->id, $request->input('mentors'), false);    
+        }
+        
+        // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
     }
 
@@ -95,9 +118,19 @@ class TopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Topic $topic, CategoryRepository $categoryRepos)
     {
-        //
+        $edit       = true;
+        $users      = User::all()->pluck('full_name', 'id');
+        $categories = $categoryRepos->makeCategoryMultiLevel();
+        $user_login_id  = Auth::id();
+        
+        $userSelected = [];
+        foreach ($topic->users as $mentor) {
+            $userSelected[] = $mentor->id;
+        }
+
+        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected'));
     }
 
     /**
@@ -107,9 +140,38 @@ class TopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Topic $topic, UpdateTopicRequest $request)
     {
-        //
+
+        // upload file
+        if ($request->hasFile('picture')) {
+
+            $dir = date('Y-m-d', time());
+            $path = public_path().'/upload/topics/';
+
+            $photo      = $request->file('picture');
+            $filename   = str_random(6).'.'.$photo->getClientOriginalExtension();
+            
+            // save picture
+            $photo->move($path . $dir, $filename);
+
+            // add picture name to request to save to DB
+            $request->request->add(['picture' => $dir .'/'. $filename]);   
+
+            // delete old picture
+            if ($topic->picture) {
+                @unlink($path .'/'. $topic->picture);
+            }
+        }
+
+        // save topic
+        $topic = $this->topic->update($topic->id, $request->input());
+
+        // save topics_mentors if existed input request mentors
+        $this->topic->setMentors($topic->id, $request->input('mentors'), true);    
+        
+        // redirect to list topic
+        return redirect()->route('topic.list')->withSuccess(trans('app.topic_updated'));
     }
 
     /**

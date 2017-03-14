@@ -379,8 +379,6 @@ class UsersController extends Controller
 
     public function searchUserByName(Request $request)
     {
-        return response()
-            ->json(['items' => [$this->users->searchUserByName($request->input('q'))]])
-            ->withCallback($request->input('callback'));
+        return response()->json($this->users->searchUserByName($request->q));
     }
 }

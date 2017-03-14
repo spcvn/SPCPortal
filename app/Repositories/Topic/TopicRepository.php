@@ -153,12 +153,13 @@ interface TopicRepository
      *
      * @param (int) $topicId
      * @param array $userID
+     * @param boolean $sync | false is created, true is updated
      * @return mixed
      * 
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
      */
-    public function setMentors($topicId, $userID);
+    public function setMentors($topicId, $userID, $sync);
 
 }

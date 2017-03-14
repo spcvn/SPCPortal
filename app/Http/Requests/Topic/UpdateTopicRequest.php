@@ -16,7 +16,9 @@ class UpdateTopicRequest extends Request
         $topic = $this->route('topic');
 
         return [
-            'topic_name' => 'required|unique:topics,topic_name,' . $topic->id
+             'category_id'   => 'required:topics,category_id,'. $topic->id,
+             'topic_name'    => 'required|regex:/^[a-zA-Z][a-zA-Z0-9.,$;]+$/|unique:topics,topic_name,'. $topic->id
+            //'topic_name'    => 'required'
         ];
     }
 }

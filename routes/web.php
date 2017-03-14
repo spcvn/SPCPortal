@@ -213,6 +213,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'UsersController@disableTwoFactorAuth'
     ]);
 
+    Route::post('user/search-user-by-name', [
+       'as' => 'user.search-user-by-name',
+        'uses' => 'UsersController@searchUserByName' 
+    ]);
+
     /**
      * Roles & Permissions
      */

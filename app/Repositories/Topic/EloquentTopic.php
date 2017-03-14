@@ -142,9 +142,13 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function setMentors($topicID, $userID)
+    public function setMentors($topicID, $userID, $sync = 'false')
     {
-        $userID = is_array($userID) ? $userID : [$userID];
-        return $this->find($topicID)->users()->sync($userID, false);
+        $data = [];
+        if (is_array($userID) && !empty($userID[0])) {
+            $data = $userID;
+        }       
+
+        return $this->find($topicID)->users()->sync($data, $sync);
     }
 }
