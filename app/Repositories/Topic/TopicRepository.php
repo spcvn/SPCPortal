@@ -163,7 +163,7 @@ interface TopicRepository
      */
     public function setMentors($topicId, $userID, $sync);
 
-
+    /*
      * get memtor list by topic id
      *
      * @param (int) $id

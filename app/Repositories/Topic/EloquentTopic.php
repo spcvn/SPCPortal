@@ -153,7 +153,9 @@ class EloquentTopic implements TopicRepository
         return $this->find($topicID)->users()->sync($data, $sync);
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function getMemtorsByTopicId($id)
     {
         $memtors = $this->find($id);
