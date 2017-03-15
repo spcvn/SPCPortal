@@ -10,6 +10,10 @@ return [
     'deleted_role' => 'Deleted role named :name.',
     'updated_role_permissions' => 'Updated role permissions.',
 
+    'new_category' => 'Created new category called :name.',
+    'updated_category' => 'Updated the category named :name.',
+    'deleted_category' => 'Deleted category named :name.',
+
     'logged_in' => 'Logged in.',
     'logged_out' => 'Logged out.',
     'created_account' => 'Created an account.',

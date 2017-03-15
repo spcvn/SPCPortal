@@ -2,7 +2,9 @@
 
 namespace SPCVN\Http\Controllers;
 
-
+use SPCVN\Events\Category\Created;
+use SPCVN\Events\Category\Deleted;
+use SPCVN\Events\Category\Updated;
 use SPCVN\Repositories\User\UserRepository;
 use SPCVN\Repositories\Category\CategoryRepository;
 use SPCVN\Http\Requests\Category\CreateCategoryRequest;

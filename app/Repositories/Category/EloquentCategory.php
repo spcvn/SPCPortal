@@ -2,22 +2,25 @@
 
 namespace SPCVN\Repositories\Category;
 
+use SPCVN\Events\Category\Created;
+use SPCVN\Events\Category\Deleted;
+use SPCVN\Events\Category\Updated;
 use SPCVN\Category;
 use SPCVN\User;
 use Carbon\Carbon;
 use DB;
-//use Illuminate\Database\SQLiteConnection;
-//use SPCVN\Support\Authorization\CacheFlusherTrait;
+use SPCVN\Support\Authorization\CacheFlusherTrait;
 
 class EloquentCategory implements CategoryRepository
 {
-    //use CacheFlusherTrait;
+    use CacheFlusherTrait;
 
     /**
      * {@inheritdoc}
      */
     public function all()
     {
+        return Category::all();
     }
 
     /**
@@ -85,7 +88,7 @@ class EloquentCategory implements CategoryRepository
     public function create($data = array()) 
     {
     	$category = Category::create($data);
-
+        event(new Created($category));
         return $category;
     }
 
@@ -96,6 +99,7 @@ class EloquentCategory implements CategoryRepository
     {
     	$category = $this->find($id);
         $category->update($data);
+        event(new Updated($category));
         return $category;
     }
 
@@ -106,6 +110,7 @@ class EloquentCategory implements CategoryRepository
     {
     	$category = $this->find($id);
         $category->update(['del_flag' => true]);
+        event(new Deleted($category));
         return $category;
     }
 
@@ -135,6 +140,9 @@ class EloquentCategory implements CategoryRepository
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function makeCategoryMultiLevel($category_id = 0)
     {
         $query = Category::query();
@@ -160,6 +168,9 @@ class EloquentCategory implements CategoryRepository
         return $categories;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     private function getChildCategory($catID, $catSelected = 0, $datas, $ext = '---- ')
     {
         $categories = [];

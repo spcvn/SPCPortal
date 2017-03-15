@@ -7,6 +7,7 @@ use SPCVN\Listeners\PermissionEventsSubscriber;
 use SPCVN\Listeners\RoleEventsSubscriber;
 use SPCVN\Listeners\UserEventsSubscriber;
 use SPCVN\Listeners\UserWasRegisteredListener;
+use SPCVN\Listeners\CategoryEventsSubscriber;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -28,7 +29,8 @@ class EventServiceProvider extends ServiceProvider
     protected $subscribe = [
         UserEventsSubscriber::class,
         RoleEventsSubscriber::class,
-        PermissionEventsSubscriber::class
+        PermissionEventsSubscriber::class,
+        CategoryEventsSubscriber::class
     ];
 
     /**
