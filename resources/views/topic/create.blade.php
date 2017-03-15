@@ -7,12 +7,22 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                @lang('app.add_topic')
+                @if ($edit)
+                    @lang('app.edit_topic')
+                @else
+                    @lang('app.add_topic')
+                @endif
                 <div class="pull-right">
                     <ol class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
-                        <li><a href="{{ route('category.list') }}">@lang('app.topic')</a></li>
-                        <li class="active">@lang('app.create')</li>
+                        <li><a href="{{ route('topic.list') }}">@lang('app.topic')</a></li>
+                        <li class="active">
+                            @if ($edit)
+                                @lang('app.edit_topic')
+                            @else
+                                @lang('app.add_topic')
+                            @endif
+                        </li>
                     </ol>
                 </div>
 
@@ -50,7 +60,7 @@
                             
                             @if ($edit && $topic->picture)
                                 <br/>
-                                <img class="form-control" style=" height: 300px;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
+                                <img class="form-control" style=" height: auto;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
                                 <br/>
                             @endif
                             <input type="file" class="form-control" id="picture" placeholder="(@lang('app.topic_picture'))" name="picture" value="">
@@ -85,7 +95,12 @@
                         </div>
                         <div class="form-group">
                             <label for="name">@lang('app.mentors')</label>
-                            {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
+                            {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control mentors select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tags">@lang('app.tag_name')</label>
+                            {!! Form::select('tags[]', $tags, $edit ? $tagsSelected : '', ['class' => 'form-control tags select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
                         </div>
 
                     </div>
@@ -115,12 +130,33 @@
     {!! HTML::script('assets/plugins/select2/select2.full.min.js') !!}
     <script>
         $(".switch").bootstrapSwitch({size: 'small'});
-        $('.select2').select2({
+        $('.mentors.select2').select2({
             placeholder: "@lang('app.topic_name')",
             minimumInputLength: 0,
             ajax: {
                 url: "{{ route('user.search-user-by-name') }}",
                 method: "POST",
+                dataType: 'json',
+                cache: false,
+                data: function (params) {
+                  return {
+                    q: params.term
+                  };
+                },                
+                processResults: function (data) {
+                  return {
+                    results: data
+                  };
+                }
+            }
+        });
+
+        $('.tags.select2').select2({
+            placeholder: "@lang('app.tag_name')",
+            minimumInputLength: 0,
+            ajax: {
+                url: "{{ route('tag.find') }}",
+                method: "GET",
                 dataType: 'json',
                 cache: false,
                 data: function (params) {

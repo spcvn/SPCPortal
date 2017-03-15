@@ -205,11 +205,12 @@ return [
     'public'            =>  'Public',
     'mentors'           =>  'Mentors',
     'documents'         =>  'Documents',
-    'delete_topic'      =>  'Delete category',
-    'topic_created'     =>  'Category created successfully.',
-    'topic_updated'     =>  'Category updated successfully.',
-    'topic_updated_false'  =>  'Category updated false.',
-    'topic_deleted'     =>  'Category deleted successfully.',
+    'delete_topic'      =>  'Delete topic',
+    'topic_created'     =>  'Topic created successfully.',
+    'topic_updated'     =>  'Topic updated successfully.',
+    'topic_updated_false'       =>  'Topic updated false.',
+    'topic_deleted'             =>  'Topic deleted successfully.',
+    'are_you_sure_delete_topic' => 'Are you sure that you want to delete this topic?',
 
     // Users
     'add_user' => 'Add User',

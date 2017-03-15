@@ -149,7 +149,6 @@ interface TopicRepository
     public function updatePosition($data);
 
     /**
-
      * set mentors for topic.
      *
      * @param (int) $topicId
@@ -163,7 +162,21 @@ interface TopicRepository
      */
     public function setMentors($topicId, $userID, $sync);
 
-    /*
+    /**
+     * set tags for topic.
+     *
+     * @param (int) $topicId
+     * @param array $tagsID
+     * @param boolean $sync | false is created, true is updated
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.14
+     * @version 1.0
+     */
+    public function setTags($topicId, $tagsID, $sync);
+
+    /**
      * get memtor list by topic id
      *
      * @param (int) $id

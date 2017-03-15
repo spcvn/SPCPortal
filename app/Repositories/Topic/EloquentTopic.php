@@ -26,19 +26,16 @@ class EloquentTopic implements TopicRepository
      */
     public function paginate($perPage = 30, $search = null)
     {
-        $query = DB::table('topics');
-        $query->select('topics.*', 'users.first_name', 'users.last_name', 'users.username');
-        $query->leftJoin('users', 'users.id', '=', 'topics.user_id');
-        $query->where('topics.del_flag', false);
+        $query = Topic::with(['tags', 'user', 'users'])
+                    ->where('topics.del_flag', false);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('topics.topic_name', "like", "%{$search}%");
-                $q->orWhere('users.first_name', "like", "%{$search}%");
-                $q->orWhere('users.last_name', "like", "%{$search}%");
-                $q->orWhere('topics.created', $search);
+                $q->orWhere('topics.created', "{$search}");
             });
         }
+
 
         $query->orderBy('topics.created', 'ASC');
         $query->orderBy('topics.topic_name', 'ASC');
@@ -124,15 +121,12 @@ class EloquentTopic implements TopicRepository
 
         try {
             DB::beginTransaction();
-
             foreach ($data as $position => $topic_id) {
                 $topic = $this->find($topic_id);
                 $topic->update(array('position' => $position));
             }
-
             DB::commit();
             return true;
-
         } catch (Exception $e) {
             DB::rollBack();
             return false;
@@ -142,7 +136,6 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-
     public function setMentors($topicID, $userID, $sync = 'false')
     {
         $data = [];
@@ -151,6 +144,19 @@ class EloquentTopic implements TopicRepository
         }       
 
         return $this->find($topicID)->users()->sync($data, $sync);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTags($topicID, $tagsID, $sync = 'false')
+    {
+        $data = [];
+        if (is_array($tagsID) && !empty($tagsID[0])) {
+            $data = $tagsID;
+        }       
+
+        return $this->find($topicID)->tags()->sync($data, $sync);
     }
 
     /**

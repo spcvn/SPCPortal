@@ -10,6 +10,7 @@ use SPCVN\Http\Requests\Topic\CreateTopicRequest;
 use SPCVN\Http\Requests\Topic\UpdateTopicRequest;
 use SPCVN\Topic;
 use SPCVN\User;
+use SPCVN\Tag;
 use Auth;
 use Authy;
 use Illuminate\Http\Request;
@@ -61,8 +62,9 @@ class TopicsController extends Controller
         $users      = User::all()->pluck('full_name', 'id');
         $categories = $categoryRepos->makeCategoryMultiLevel();
         $user_login_id = Auth::id();
+        $tags       = [];
 
-        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id'));
+        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'tags'));
     }
 
     /**
@@ -96,6 +98,11 @@ class TopicsController extends Controller
         if ($request->input('mentors')) {
             $this->topic->setMentors($topic->id, $request->input('mentors'), false);    
         }
+
+        // save topics_tags if existed input request tags
+        if ($request->input('tags')) {
+            $this->topic->setTags($topic->id, $request->input('tags'), false);    
+        }
         
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
@@ -122,15 +129,20 @@ class TopicsController extends Controller
     {
         $edit       = true;
         $users      = User::all()->pluck('full_name', 'id');
+        $tags       = Tag::all()->pluck('name', 'id');
         $categories = $categoryRepos->makeCategoryMultiLevel();
         $user_login_id  = Auth::id();
         
-        $userSelected = [];
+        $tagsSelected = $userSelected = [];
         foreach ($topic->users as $mentor) {
             $userSelected[] = $mentor->id;
         }
 
-        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected'));
+        foreach ($topic->tags as $tag) {
+            $tagsSelected[] = $tag->id;
+        }
+
+        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected'));
     }
 
     /**
@@ -168,7 +180,9 @@ class TopicsController extends Controller
         $topic = $this->topic->update($topic->id, $request->input());
 
         // save topics_mentors if existed input request mentors
-        $this->topic->setMentors($topic->id, $request->input('mentors'), true);    
+        $this->topic->setMentors($topic->id, $request->input('mentors'), true);
+        // save topics_tags if existed input request tags
+        $this->topic->setTags($topic->id, $request->input('tags'), true);    
         
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_updated'));
@@ -180,9 +194,10 @@ class TopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Topic $topic)
     {
-        //
+        $this->topic->delete($topic->id);
+        return redirect()->route('topic.list')->withSuccess(trans('app.topic_deleted'));
     }
 
     /**
