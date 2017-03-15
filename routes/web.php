@@ -577,11 +577,3 @@ Route::get('tag/find', [
     'as' => 'tag.find',
     'uses' => 'TagsController@find'
 ]);
-
-/**
- * Members
- */
-Route::get('topic/{topic}/show', [
-    'as' => 'user.show',
-    'uses' => 'UsersController@view'
-]);
