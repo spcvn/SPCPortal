@@ -8,6 +8,7 @@ use SPCVN\Listeners\RoleEventsSubscriber;
 use SPCVN\Listeners\UserEventsSubscriber;
 use SPCVN\Listeners\UserWasRegisteredListener;
 use SPCVN\Listeners\CategoryEventsSubscriber;
+use SPCVN\Listeners\TopicEventsSubscriber;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -30,7 +31,8 @@ class EventServiceProvider extends ServiceProvider
         UserEventsSubscriber::class,
         RoleEventsSubscriber::class,
         PermissionEventsSubscriber::class,
-        CategoryEventsSubscriber::class
+        CategoryEventsSubscriber::class,
+        TopicEventsSubscriber::class
     ];
 
     /**

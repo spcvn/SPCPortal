@@ -14,6 +14,10 @@ return [
     'updated_category' => 'Updated the category named :name.',
     'deleted_category' => 'Deleted category named :name.',
 
+    'new_topic' => 'Created new topic called :name.',
+    'updated_topic' => 'Updated the topic named :name.',
+    'deleted_topic' => 'Deleted topic named :name.',
+
     'logged_in' => 'Logged in.',
     'logged_out' => 'Logged out.',
     'created_account' => 'Created an account.',

@@ -2,6 +2,9 @@
 
 namespace SPCVN\Repositories\Topic;
 
+use SPCVN\Events\Topic\Created;
+use SPCVN\Events\Topic\Deleted;
+use SPCVN\Events\Topic\Updated;
 use SPCVN\Topic;
 use SPCVN\User;
 use Carbon\Carbon;
@@ -87,6 +90,7 @@ class EloquentTopic implements TopicRepository
     public function create(array $data)
     {
     	$topic = Topic::create($data);
+        event(new Created($topic));
         return $topic;
     }
 
@@ -97,6 +101,7 @@ class EloquentTopic implements TopicRepository
     {
     	$topic = $this->find($id);
         $topic->update($data);
+        event(new Updated($topic));
         return $topic;
     }
 
@@ -107,6 +112,7 @@ class EloquentTopic implements TopicRepository
     {
     	$topic = $this->find($id);
         $topic->update(['del_flag' => true]);
+        event(new Deleted($topic));
         return $topic;
     }
 
