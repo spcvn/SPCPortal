@@ -376,4 +376,9 @@ class UsersController extends Controller
         return redirect()->route('user.sessions', $user->id)
             ->withSuccess(trans('app.session_invalidated'));
     }
+
+    public function searchUserByName(Request $request)
+    {
+        return response()->json($this->users->searchUserByName($request->q));
+    }
 }

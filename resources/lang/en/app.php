@@ -192,6 +192,26 @@ return [
     'disabling' => 'Disabling...',
     'enabling' => 'Enabling...',
 
+    // Topics management
+    'topic'             =>  'Topic',
+    'add_topic'         =>  'Add new topic',
+    'topic_name'        =>  'Topic name',
+    'edit_topic'        =>  'Edit topic',
+    'created_by'        =>  'Created by',
+    'topic_information' =>  'Topic information',
+    'category_name'     =>  'Category name',
+    'topic_picture'     =>  'Picture',
+    'topic_options'     =>  'Options',
+    'public'            =>  'Public',
+    'mentors'           =>  'Mentors',
+    'documents'         =>  'Documents',
+    'delete_topic'      =>  'Delete topic',
+    'topic_created'     =>  'Topic created successfully.',
+    'topic_updated'     =>  'Topic updated successfully.',
+    'topic_updated_false'       =>  'Topic updated false.',
+    'topic_deleted'             =>  'Topic deleted successfully.',
+    'are_you_sure_delete_topic' => 'Are you sure that you want to delete this topic?',
+
     // Users
     'add_user' => 'Add User',
     'create_new_user' => 'Create New User',
@@ -340,6 +360,7 @@ return [
         'December' => 'December',
     ],
 
+
     //Questions
     'add_question' => 'Add Question',
     'topic_name' => 'Topic Name',
@@ -385,7 +406,6 @@ return [
     'tag_deleted_successfully'  =>  'Tag deleted successfully.',
     'are_you_sure_delete_tag' => 'Are you sure that you want to delete this tag?',
 
-    'avatar_not_changed' => 'Avatar image cannot be updated. Please try again.',
     // Categories management
     'category'          =>  'Category',
     'add_category'      =>  'Add new',

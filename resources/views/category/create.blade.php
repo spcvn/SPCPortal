@@ -37,7 +37,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="name" class="required">@lang('app.parent_name')</label>
+                            <label for="name">@lang('app.parent_name')</label>
                             {!! Form::select('parent_id', $categories, $edit ? $category->parent_id : '', ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">

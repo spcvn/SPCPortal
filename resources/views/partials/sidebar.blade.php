@@ -129,6 +129,14 @@
                 </li>
             @endpermission
 
+            @permission('topic.manage')
+                <li class="{{ Request::is('topic*') ? 'active open' : ''  }}">
+                    <a href="{{ route('topic.list') }}" class="{{ Request::is('topic*') ? 'active' : ''  }}">
+                        <i class="fa fa-list-alt fa-fw"></i> @lang('app.topic')
+                    </a>
+                </li>
+            @endpermission
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

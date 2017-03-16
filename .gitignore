@@ -10,3 +10,13 @@ log.txt
 public/backup/
 .env - Copy.example
 public/assets/js/temp.json
+.idea/
+vendor/
+storage/framework/views/
+storage/framework/cache/
+public/backup/
+storage/logs/
+bootstrap/cache/
+public/assets/js/temp.json
+log.txt
+.env

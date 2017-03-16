@@ -32,7 +32,7 @@
 
 
     <div class="table-responsive" id="users-table-wrapper">
-        <table id="sortable" class="table-fill" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <table id="sortable" class="table" width="100%" cellpadding="0" cellspacing="0" border="0">
             <thead>
                 <th style="width: 2%;">@lang('app.sort_category')</th>
                 <th style="width: 80%;">@lang('app.name')</th>

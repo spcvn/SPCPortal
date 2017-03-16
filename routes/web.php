@@ -213,6 +213,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'UsersController@disableTwoFactorAuth'
     ]);
 
+    Route::post('user/search-user-by-name', [
+       'as' => 'user.search-user-by-name',
+        'uses' => 'UsersController@searchUserByName' 
+    ]);
+
     /**
      * Roles & Permissions
      */
@@ -571,12 +576,4 @@ Route::delete('tag/{tag}/delete', [
 Route::get('tag/find', [
     'as' => 'tag.find',
     'uses' => 'TagsController@find'
-]);
-
-/**
- * Members
- */
-Route::get('topic/{topic}/show', [
-    'as' => 'user.show',
-    'uses' => 'UsersController@view'
 ]);
