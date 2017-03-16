@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests;
+
+use Config;
+use Exception;
 use GuzzleHttp\Client;
 
 trait MailTrap

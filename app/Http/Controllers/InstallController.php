@@ -70,7 +70,7 @@ class InstallController extends Controller
                 ->withErrors("Connection to your database cannot be established. Please provide correct database credentials.");
         }
 
-        Session::set('install.db_credentials', $dbCredentials);
+        Session::put('install.db_credentials', $dbCredentials);
 
         return view('install.installation');
     }

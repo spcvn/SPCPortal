@@ -33,6 +33,7 @@ class PermissionsController extends Controller
      */
     public function __construct(RoleRepository $roles, PermissionRepository $permissions)
     {
+        $this->middleware('auth');
         $this->middleware('permission:permissions.manage');
         $this->roles = $roles;
         $this->permissions = $permissions;

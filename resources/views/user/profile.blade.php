@@ -71,7 +71,7 @@
     <div role="tabpanel" class="tab-pane" id="auth">
         <div class="row">
             <div class="col-md-8">
-                {!! Form::open(['route' => 'profile.update.login-details', 'method' => 'PUT', 'id' => 'socials-form']) !!}
+                {!! Form::open(['route' => 'profile.update.login-details', 'method' => 'PUT', 'id' => 'login-details-form']) !!}
                     @include('user.partials.auth')
                 {!! Form::close() !!}
             </div>
@@ -106,7 +106,7 @@
     {!! JsValidator::formRequest('SPCVN\Http\Requests\User\UpdateDetailsRequest', '#details-form') !!}
     {!! JsValidator::formRequest('SPCVN\Http\Requests\User\UpdateProfileLoginDetailsRequest', '#login-details-form') !!}
 
-    @if (config('auth.2fa.enabled'))
+    @if (settings('2fa.enabled'))
         {!! JsValidator::formRequest('SPCVN\Http\Requests\User\EnableTwoFactorRequest', '#two-factor-form') !!}
     @endif
 @stop

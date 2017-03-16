@@ -39,7 +39,7 @@ $factory->define(SPCVN\Role::class, function (Faker\Generator $faker) {
     return [
         'name' => str_random(5),
         'display_name' => implode(" ", $faker->words(2)),
-        'description' => $faker->paragraph,
+        'description' => substr($faker->paragraph, 0, 255),
         'removable' => true,
     ];
 });
@@ -61,7 +61,7 @@ $factory->define(Activity::class, function (Faker\Generator $faker, array $attrs
 
     return [
         'user_id' => $userId,
-        'description' => $faker->paragraph,
+        'description' => substr($faker->paragraph, 0, 255),
         'ip_address' => $faker->ipv4,
         'user_agent' => $faker->userAgent
     ];

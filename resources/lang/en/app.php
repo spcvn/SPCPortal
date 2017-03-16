@@ -335,5 +335,19 @@ return [
         'October' => 'October',
         'November' => 'November',
         'December' => 'December',
-    ]
+    ],
+
+    'avatar_not_changed' => 'Avatar image cannot be updated. Please try again.',
+    // Categories management
+    'category'          =>  'Category',
+    'add_category'      =>  'Add new',
+    'edit_category'     =>  'Edit category',
+    'delete_category'   =>  'Delete category',
+    'category_created'  =>  'Category created successfully.',
+    'category_updated'  =>  'Category updated successfully.',
+    'category_updated_false'  =>  'Category updated false.',
+    'category_deleted'  =>  'Category deleted successfully.',
+    'sort_category'     =>  'Sort',
+    'parent_name'       =>  'Parent category',
+    'select_one'        =>  'Select one --',
 ];

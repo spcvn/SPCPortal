@@ -2,6 +2,7 @@
 
 namespace SPCVN\Repositories\Session;
 
+use Carbon\Carbon;
 use SPCVN\Repositories\User\UserRepository;
 use DB;
 
@@ -26,8 +27,11 @@ class DbSession implements SessionRepository
      */
     public function getUserSessions($userId)
     {
+        $validTimestamp = Carbon::now()->subMinutes(config('session.lifetime'))->timestamp;
+
         return DB::table('sessions')
             ->where('user_id', $userId)
+            ->where('last_activity', '>=', $validTimestamp)
             ->get(['id', 'ip_address', 'user_agent', 'last_activity'])
             ->all();
     }

@@ -4,11 +4,13 @@
  * Authentication
  */
 
+Route::group([ 'prefix'=> 'admin', 'namespace'=> 'Admin'], function() {
+    Route::get('login', 'AuthController@getLogin');
+    Route::post('login', 'AuthController@postLogin');
+
+});
+
 Route::get('login', 'Auth\AuthController@getLogin');
-Route::get('testconnection', 'TestController@index');
-
-
-
 Route::post('login', 'Auth\AuthController@postLogin');
 
 Route::get('logout', [
@@ -63,274 +65,279 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 Route::get('auth/twitter/email', 'Auth\SocialAuthController@getTwitterEmail');
 Route::post('auth/twitter/email', 'Auth\SocialAuthController@postTwitterEmail');
 
-/**
- * Other
- */
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/', [
-    'as' => 'dashboard',
-    'uses' => 'DashboardController@index'
-]);
+    /**
+     * Dashboard
+     */
 
-/**
- * User Profile
- */
+    Route::get('/', [
+        'as' => 'dashboard',
+        'uses' => 'DashboardController@index'
+    ]);
 
-Route::get('profile', [
-    'as' => 'profile',
-    'uses' => 'ProfileController@index'
-]);
+    /**
+     * User Profile
+     */
 
-Route::get('profile/activity', [
-    'as' => 'profile.activity',
-    'uses' => 'ProfileController@activity'
-]);
+    Route::get('profile', [
+        'as' => 'profile',
+        'uses' => 'ProfileController@index'
+    ]);
 
-Route::put('profile/details/update', [
-    'as' => 'profile.update.details',
-    'uses' => 'ProfileController@updateDetails'
-]);
+    Route::get('profile/activity', [
+        'as' => 'profile.activity',
+        'uses' => 'ProfileController@activity'
+    ]);
 
-Route::post('profile/avatar/update', [
-    'as' => 'profile.update.avatar',
-    'uses' => 'ProfileController@updateAvatar'
-]);
+    Route::put('profile/details/update', [
+        'as' => 'profile.update.details',
+        'uses' => 'ProfileController@updateDetails'
+    ]);
 
-Route::post('profile/avatar/update/external', [
-    'as' => 'profile.update.avatar-external',
-    'uses' => 'ProfileController@updateAvatarExternal'
-]);
+    Route::post('profile/avatar/update', [
+        'as' => 'profile.update.avatar',
+        'uses' => 'ProfileController@updateAvatar'
+    ]);
 
-Route::put('profile/login-details/update', [
-    'as' => 'profile.update.login-details',
-    'uses' => 'ProfileController@updateLoginDetails'
-]);
+    Route::post('profile/avatar/update/external', [
+        'as' => 'profile.update.avatar-external',
+        'uses' => 'ProfileController@updateAvatarExternal'
+    ]);
 
-Route::put('profile/social-networks/update', [
-    'as' => 'profile.update.social-networks',
-    'uses' => 'ProfileController@updateSocialNetworks'
-]);
+    Route::put('profile/login-details/update', [
+        'as' => 'profile.update.login-details',
+        'uses' => 'ProfileController@updateLoginDetails'
+    ]);
 
-Route::post('profile/two-factor/enable', [
-    'as' => 'profile.two-factor.enable',
-    'uses' => 'ProfileController@enableTwoFactorAuth'
-]);
+    Route::put('profile/social-networks/update', [
+        'as' => 'profile.update.social-networks',
+        'uses' => 'ProfileController@updateSocialNetworks'
+    ]);
 
-Route::post('profile/two-factor/disable', [
-    'as' => 'profile.two-factor.disable',
-    'uses' => 'ProfileController@disableTwoFactorAuth'
-]);
+    Route::post('profile/two-factor/enable', [
+        'as' => 'profile.two-factor.enable',
+        'uses' => 'ProfileController@enableTwoFactorAuth'
+    ]);
 
-Route::get('profile/sessions', [
-    'as' => 'profile.sessions',
-    'uses' => 'ProfileController@sessions'
-]);
+    Route::post('profile/two-factor/disable', [
+        'as' => 'profile.two-factor.disable',
+        'uses' => 'ProfileController@disableTwoFactorAuth'
+    ]);
 
-Route::delete('profile/sessions/{session}/invalidate', [
-    'as' => 'profile.sessions.invalidate',
-    'uses' => 'ProfileController@invalidateSession'
-]);
+    Route::get('profile/sessions', [
+        'as' => 'profile.sessions',
+        'uses' => 'ProfileController@sessions'
+    ]);
 
-/**
- * User Management
- */
-Route::get('user', [
-    'as' => 'user.list',
-    'uses' => 'UsersController@index'
-]);
+    Route::delete('profile/sessions/{session}/invalidate', [
+        'as' => 'profile.sessions.invalidate',
+        'uses' => 'ProfileController@invalidateSession'
+    ]);
 
-Route::get('user/create', [
-    'as' => 'user.create',
-    'uses' => 'UsersController@create'
-]);
+    /**
+     * User Management
+     */
+    Route::get('user', [
+        'as' => 'user.list',
+        'uses' => 'UsersController@index'
+    ]);
 
-Route::post('user/create', [
-    'as' => 'user.store',
-    'uses' => 'UsersController@store'
-]);
+    Route::get('user/create', [
+        'as' => 'user.create',
+        'uses' => 'UsersController@create'
+    ]);
 
-Route::get('user/{user}/show', [
-    'as' => 'user.show',
-    'uses' => 'UsersController@view'
-]);
+    Route::post('user/create', [
+        'as' => 'user.store',
+        'uses' => 'UsersController@store'
+    ]);
 
-Route::get('user/{user}/edit', [
-    'as' => 'user.edit',
-    'uses' => 'UsersController@edit'
-]);
+    Route::get('user/{user}/show', [
+        'as' => 'user.show',
+        'uses' => 'UsersController@view'
+    ]);
 
-Route::put('user/{user}/update/details', [
-    'as' => 'user.update.details',
-    'uses' => 'UsersController@updateDetails'
-]);
+    Route::get('user/{user}/edit', [
+        'as' => 'user.edit',
+        'uses' => 'UsersController@edit'
+    ]);
 
-Route::put('user/{user}/update/login-details', [
-    'as' => 'user.update.login-details',
-    'uses' => 'UsersController@updateLoginDetails'
-]);
+    Route::put('user/{user}/update/details', [
+        'as' => 'user.update.details',
+        'uses' => 'UsersController@updateDetails'
+    ]);
 
-Route::delete('user/{user}/delete', [
-    'as' => 'user.delete',
-    'uses' => 'UsersController@delete'
-]);
+    Route::put('user/{user}/update/login-details', [
+        'as' => 'user.update.login-details',
+        'uses' => 'UsersController@updateLoginDetails'
+    ]);
 
-Route::post('user/{user}/update/avatar', [
-    'as' => 'user.update.avatar',
-    'uses' => 'UsersController@updateAvatar'
-]);
+    Route::delete('user/{user}/delete', [
+        'as' => 'user.delete',
+        'uses' => 'UsersController@delete'
+    ]);
 
-Route::post('user/{user}/update/avatar/external', [
-    'as' => 'user.update.avatar.external',
-    'uses' => 'UsersController@updateAvatarExternal'
-]);
+    Route::post('user/{user}/update/avatar', [
+        'as' => 'user.update.avatar',
+        'uses' => 'UsersController@updateAvatar'
+    ]);
 
-Route::post('user/{user}/update/social-networks', [
-    'as' => 'user.update.socials',
-    'uses' => 'UsersController@updateSocialNetworks'
-]);
+    Route::post('user/{user}/update/avatar/external', [
+        'as' => 'user.update.avatar.external',
+        'uses' => 'UsersController@updateAvatarExternal'
+    ]);
 
-Route::get('user/{user}/sessions', [
-    'as' => 'user.sessions',
-    'uses' => 'UsersController@sessions'
-]);
+    Route::post('user/{user}/update/social-networks', [
+        'as' => 'user.update.socials',
+        'uses' => 'UsersController@updateSocialNetworks'
+    ]);
 
-Route::delete('user/{user}/sessions/{session}/invalidate', [
-    'as' => 'user.sessions.invalidate',
-    'uses' => 'UsersController@invalidateSession'
-]);
+    Route::get('user/{user}/sessions', [
+        'as' => 'user.sessions',
+        'uses' => 'UsersController@sessions'
+    ]);
 
-Route::post('user/{user}/two-factor/enable', [
-    'as' => 'user.two-factor.enable',
-    'uses' => 'UsersController@enableTwoFactorAuth'
-]);
+    Route::delete('user/{user}/sessions/{session}/invalidate', [
+        'as' => 'user.sessions.invalidate',
+        'uses' => 'UsersController@invalidateSession'
+    ]);
 
-Route::post('user/{user}/two-factor/disable', [
-    'as' => 'user.two-factor.disable',
-    'uses' => 'UsersController@disableTwoFactorAuth'
-]);
+    Route::post('user/{user}/two-factor/enable', [
+        'as' => 'user.two-factor.enable',
+        'uses' => 'UsersController@enableTwoFactorAuth'
+    ]);
 
-/**
- * Roles & Permissions
- */
+    Route::post('user/{user}/two-factor/disable', [
+        'as' => 'user.two-factor.disable',
+        'uses' => 'UsersController@disableTwoFactorAuth'
+    ]);
 
-Route::get('role', [
-    'as' => 'role.index',
-    'uses' => 'RolesController@index'
-]);
+    /**
+     * Roles & Permissions
+     */
 
-Route::get('role/create', [
-    'as' => 'role.create',
-    'uses' => 'RolesController@create'
-]);
+    Route::get('role', [
+        'as' => 'role.index',
+        'uses' => 'RolesController@index'
+    ]);
 
-Route::post('role/store', [
-    'as' => 'role.store',
-    'uses' => 'RolesController@store'
-]);
+    Route::get('role/create', [
+        'as' => 'role.create',
+        'uses' => 'RolesController@create'
+    ]);
 
-Route::get('role/{role}/edit', [
-    'as' => 'role.edit',
-    'uses' => 'RolesController@edit'
-]);
+    Route::post('role/store', [
+        'as' => 'role.store',
+        'uses' => 'RolesController@store'
+    ]);
 
-Route::put('role/{role}/update', [
-    'as' => 'role.update',
-    'uses' => 'RolesController@update'
-]);
+    Route::get('role/{role}/edit', [
+        'as' => 'role.edit',
+        'uses' => 'RolesController@edit'
+    ]);
 
-Route::delete('role/{role}/delete', [
-    'as' => 'role.delete',
-    'uses' => 'RolesController@delete'
-]);
+    Route::put('role/{role}/update', [
+        'as' => 'role.update',
+        'uses' => 'RolesController@update'
+    ]);
+
+    Route::delete('role/{role}/delete', [
+        'as' => 'role.delete',
+        'uses' => 'RolesController@delete'
+    ]);
 
 
-Route::post('permission/save', [
-    'as' => 'permission.save',
-    'uses' => 'PermissionsController@saveRolePermissions'
-]);
+    Route::post('permission/save', [
+        'as' => 'permission.save',
+        'uses' => 'PermissionsController@saveRolePermissions'
+    ]);
 
-Route::resource('permission', 'PermissionsController');
+    Route::resource('permission', 'PermissionsController');
 
-/**
- * Settings
- */
+    /**
+     * Settings
+     */
 
-Route::get('settings', [
-    'as' => 'settings.general',
-    'uses' => 'SettingsController@general',
-    'middleware' => 'permission:settings.general'
-]);
+    Route::get('settings', [
+        'as' => 'settings.general',
+        'uses' => 'SettingsController@general',
+        'middleware' => 'permission:settings.general'
+    ]);
 
-Route::post('settings/general', [
-    'as' => 'settings.general.update',
-    'uses' => 'SettingsController@update',
-    'middleware' => 'permission:settings.general'
-]);
+    Route::post('settings/general', [
+        'as' => 'settings.general.update',
+        'uses' => 'SettingsController@update',
+        'middleware' => 'permission:settings.general'
+    ]);
 
-Route::get('settings/auth', [
-    'as' => 'settings.auth',
-    'uses' => 'SettingsController@auth',
-    'middleware' => 'permission:settings.auth'
-]);
+    Route::get('settings/auth', [
+        'as' => 'settings.auth',
+        'uses' => 'SettingsController@auth',
+        'middleware' => 'permission:settings.auth'
+    ]);
 
-Route::post('settings/auth', [
-    'as' => 'settings.auth.update',
-    'uses' => 'SettingsController@update',
-    'middleware' => 'permission:settings.auth'
-]);
+    Route::post('settings/auth', [
+        'as' => 'settings.auth.update',
+        'uses' => 'SettingsController@update',
+        'middleware' => 'permission:settings.auth'
+    ]);
 
 // Only allow managing 2FA if AUTHY_KEY is defined inside .env file
-if (env('AUTHY_KEY')) {
-    Route::post('settings/auth/2fa/enable', [
-        'as' => 'settings.auth.2fa.enable',
-        'uses' => 'SettingsController@enableTwoFactor',
+    if (env('AUTHY_KEY')) {
+        Route::post('settings/auth/2fa/enable', [
+            'as' => 'settings.auth.2fa.enable',
+            'uses' => 'SettingsController@enableTwoFactor',
+            'middleware' => 'permission:settings.auth'
+        ]);
+
+        Route::post('settings/auth/2fa/disable', [
+            'as' => 'settings.auth.2fa.disable',
+            'uses' => 'SettingsController@disableTwoFactor',
+            'middleware' => 'permission:settings.auth'
+        ]);
+    }
+
+    Route::post('settings/auth/registration/captcha/enable', [
+        'as' => 'settings.registration.captcha.enable',
+        'uses' => 'SettingsController@enableCaptcha',
         'middleware' => 'permission:settings.auth'
     ]);
 
-    Route::post('settings/auth/2fa/disable', [
-        'as' => 'settings.auth.2fa.disable',
-        'uses' => 'SettingsController@disableTwoFactor',
+    Route::post('settings/auth/registration/captcha/disable', [
+        'as' => 'settings.registration.captcha.disable',
+        'uses' => 'SettingsController@disableCaptcha',
         'middleware' => 'permission:settings.auth'
     ]);
-}
 
-Route::post('settings/auth/registration/captcha/enable', [
-    'as' => 'settings.registration.captcha.enable',
-    'uses' => 'SettingsController@enableCaptcha',
-    'middleware' => 'permission:settings.auth'
-]);
+    Route::get('settings/notifications', [
+        'as' => 'settings.notifications',
+        'uses' => 'SettingsController@notifications',
+        'middleware' => 'permission:settings.notifications'
+    ]);
 
-Route::post('settings/auth/registration/captcha/disable', [
-    'as' => 'settings.registration.captcha.disable',
-    'uses' => 'SettingsController@disableCaptcha',
-    'middleware' => 'permission:settings.auth'
-]);
+    Route::post('settings/notifications', [
+        'as' => 'settings.notifications.update',
+        'uses' => 'SettingsController@update',
+        'middleware' => 'permission:settings.notifications'
+    ]);
 
-Route::get('settings/notifications', [
-    'as' => 'settings.notifications',
-    'uses' => 'SettingsController@notifications',
-    'middleware' => 'permission:settings.notifications'
-]);
+    /**
+     * Activity Log
+     */
 
-Route::post('settings/notifications', [
-    'as' => 'settings.notifications.update',
-    'uses' => 'SettingsController@update',
-    'middleware' => 'permission:settings.notifications'
-]);
+    Route::get('activity', [
+        'as' => 'activity.index',
+        'uses' => 'ActivityController@index'
+    ]);
 
-/**
- * Activity Log
- */
+    Route::get('activity/user/{user}/log', [
+        'as' => 'activity.user',
+        'uses' => 'ActivityController@userActivity'
+    ]);
 
-Route::get('activity', [
-    'as' => 'activity.index',
-    'uses' => 'ActivityController@index'
-]);
+});
 
-Route::get('activity/user/{user}/log', [
-    'as' => 'activity.user',
-    'uses' => 'ActivityController@userActivity'
-]);
 
 /**
  * Installation
@@ -380,3 +387,78 @@ $router->get('install/error', [
     'as' => 'install.error',
     'uses' => 'InstallController@error'
 ]);
+
+
+/* Categories */
+Route::get('category', [
+    'as' => 'category.list',
+    'uses' => 'CategoryController@index'
+]);
+
+Route::get('category/create', [
+    'as' => 'category.create',
+    'uses' => 'CategoryController@create'
+]);
+
+Route::post('category/create', [
+    'as' => 'category.store',
+    'uses' => 'CategoryController@store'
+]);
+
+Route::get('category/{category}/edit', [
+    'as' => 'category.edit',
+    'uses' => 'CategoryController@edit'
+]);
+
+Route::put('category/{category}/edit', [
+    'as' => 'category.update',
+    'uses' => 'CategoryController@update'
+]);
+
+Route::post('category', [
+    'as' => 'category.sort',
+    'uses' => 'CategoryController@updatePosition'
+]);
+
+Route::delete('category/{category}/delete', [
+    'as' => 'category.delete',
+    'uses' => 'CategoryController@delete'
+]);
+/* End Categories */
+
+/* Topics */
+Route::get('topic', [
+    'as' => 'topic.list',
+    'uses' => 'TopicsController@index'
+]);
+
+Route::get('topic/create', [
+    'as' => 'topic.create',
+    'uses' => 'TopicsController@create'
+]);
+
+Route::post('topic/create', [
+    'as' => 'topic.store',
+    'uses' => 'TopicsController@store'
+]);
+
+Route::get('topic/{topic}/edit', [
+    'as' => 'topic.edit',
+    'uses' => 'TopicsController@edit'
+]);
+
+Route::put('topic/{topic}/edit', [
+    'as' => 'topic.update',
+    'uses' => 'TopicsController@update'
+]);
+
+Route::post('topic', [
+    'as' => 'topic.sort',
+    'uses' => 'TopicsController@updatePosition'
+]);
+
+Route::delete('topic/{topic}/delete', [
+    'as' => 'topic.delete',
+    'uses' => 'TopicsController@delete'
+]);
+/* End Topics */
