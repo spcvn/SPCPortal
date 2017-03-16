@@ -71,4 +71,12 @@ interface TagRepository
      * @return mixed
      */
     public function paginate($perPage, $search = null);
+
+    /**
+     * Check exists tag name
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function checkExistsName($name, $id);
 }

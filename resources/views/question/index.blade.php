@@ -8,7 +8,7 @@
         <div class="col-lg-12">
             <h1 class="page-header">
                 @lang('app.questions')
-                <small>@lang('app.available_system_roles')</small>
+                <small>@lang('app.available_system_questions')</small>
                 <div class="pull-right">
                     <ol class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
@@ -57,7 +57,8 @@
         <table class="table">
             <thead>
                 <th>@lang('app.name')</th>
-                <th>@lang('app.display_name')</th>
+                <th>@lang('app.topic_name')</th>
+                <th>@lang('app.created_by')</th>
                 <th>@lang('app.users_with_this_role')</th>
                 <th class="text-center">@lang('app.action')</th>
             </thead>
@@ -67,13 +68,13 @@
                     <tr>
                         <td>{{ $question->title }}</td>
                         <td>{{ $question->topic_id }}</td>
+                        <td>{{ $question->user_id }}</td>
                         <td>{{ $question->views }}</td>
                         <td class="text-center">
                             <a href="{{ route('question.edit', $question->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_question')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            @if ($question->removable)
                                 <a href="{{ route('question.delete', $question->id) }}" class="btn btn-danger btn-circle"
                                    title="@lang('app.delete_role')"
                                    data-toggle="tooltip"
@@ -84,7 +85,6 @@
                                    data-confirm-delete="@lang('app.yes_delete_it')">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </a>
-                            @endif
                         </td>
                     </tr>
                 @endforeach

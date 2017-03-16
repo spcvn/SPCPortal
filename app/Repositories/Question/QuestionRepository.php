@@ -80,4 +80,20 @@ interface QuestionRepository
      * @return QuestionTags
      */
     public function createQuestionTags($question_id, $tag_id=array());
+
+    /**
+     * Create new tag.
+     *
+     * @param $tag_names
+     * @return Tag_names
+     */
+    public function createNewTagIfNotExisis($user_id, array $data);
+
+    /**
+     * Check tag name.
+     *
+     * @param $tag_name
+     * @return boolean
+     */
+    public function checkTagExists($tag_name);
 }

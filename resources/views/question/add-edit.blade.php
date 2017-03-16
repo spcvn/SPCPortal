@@ -43,10 +43,6 @@
                     {!! Form::select('topic_id', $topics, $edit ? $question->topics->first()->id : '',['class' => 'form-control', 'id' => 'topic-id']) !!}
                 </div>
                 <div class="form-group">
-                    <label for="user_id">@lang('app.tag_name')</label>
-                    <select id="user_ids" name="user_ids[]" class="form-control" multiple></select>
-                </div>
-                <div class="form-group">
                     <label for="tag_id">@lang('app.tag_name')</label>
                     <select id="tag_ids" name="tag_ids[]" class="form-control" multiple></select>
                 </div>
@@ -54,10 +50,10 @@
                     <label for="description">@lang('app.description')</label>
                     <textarea name="description" id="description" class="form-control">{{ $edit ? $question->description : old('description') }}</textarea>
                 </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 <div class="row">
     <div class="col-md-2">
@@ -77,33 +73,14 @@
         {!! JsValidator::formRequest('SPCVN\Http\Requests\Question\CreateQuestionRequest', '#question-form') !!}
     @endif
 
-    {!! HTML::style('assets/css/select2.min.css') !!}
-    {!! HTML::script('assets/js/select2.full.js') !!}
     <script type="text/javascript">
 
-        $('#user_ids').select2({
-            placeholder: "Choose tags...",
-            minimumInputLength: 0,
-            ajax: {
-                url: "{{ route('tag.find') }}",
-                dataType: "json",
-                data: function (params) {
-                    return {
-                        q: $.trim(params.term)
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            }
-        });
-
+        //autocomplete tags
         $('#tag_ids').select2({
-            placeholder: "Choose tags...",
-            minimumInputLength: 0,
+            placeholder: "@lang('app.placeholder_for_tag')",
+            tags: "true",
+            allowClear: true,
+            tokenSeparators: [',', ' '],
             ajax: {
                 url: "{{ route('tag.find') }}",
                 dataType: "json",

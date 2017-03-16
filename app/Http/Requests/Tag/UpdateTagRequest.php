@@ -16,7 +16,7 @@ class UpdateTagRequest extends Request
         $tag = $this->route('tag');
 
         return [
-            'name' => 'required|regex:/^[a-zA-Z0-9\-_\.]+$/|unique:roles,name,' . $role->id
+            // 'name' => 'required|regex:/^[a-zA-Z0-9\-_\.]+$/|unique:tags,name,' . $tag->id
         ];
     }
 }

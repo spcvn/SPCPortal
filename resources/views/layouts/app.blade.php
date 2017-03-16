@@ -27,6 +27,8 @@
     {!! HTML::style('assets/css/sweetalert.css') !!}
     {!! HTML::style('assets/css/bootstrap-social.css') !!}
     {!! HTML::style('assets/css/app.css') !!}
+    {!! HTML::style('assets/plugins/toastr/toastr.css') !!}
+    {!! HTML::style('assets/css/select2.min.css') !!}
 
     @yield('styles')
 </head>
@@ -92,10 +94,34 @@
     {!! HTML::script('assets/js/sweetalert.min.js') !!}
     {!! HTML::script('assets/js/delete.handler.js') !!}
     {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
+    {!! HTML::script('assets/plugins/toastr/toastr.min.js') !!}
+    {!! HTML::script('assets/js/select2.full.js') !!}
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
+
+        //2017-03-14 Nguyen Hien add
+        @if(Session::has('notification'))
+        alert("{{ Session::get('notification.alert-type') }}");
+            var type = "{{ Session::get('notification.alert-type', 'info') }}";
+            switch(type){
+                case 'info':
+                    toastr.info("{{ Session::get('notification.message') }}");
+                    break;
+
+                case 'warning':
+                    toastr.warning("{{ Session::get('notification.message') }}");
+                    break;
+                case 'success':
+                    toastr.success("{{ Session::get('notification.message') }}");
+                    break;
+                case 'error':
+                    toastr.error("{{ Session::get('notification.message') }}");
+                    break;
+          }
+        @endif
     </script>
     {!! HTML::script('vendor/jsvalidation/js/jsvalidation.js') !!}
     {!! HTML::script('assets/js/as/app.js') !!}

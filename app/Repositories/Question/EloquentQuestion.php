@@ -3,17 +3,29 @@
 namespace SPCVN\Repositories\Question;
 
 use DB;
+use SPCVN\Tag;
 use SPCVN\Question;
 use SPCVN\QuestionTag;
 use SPCVN\QuestionMenter;
 use SPCVN\Events\Question\Created;
 use SPCVN\Events\Question\Deleted;
 use SPCVN\Events\Question\Updated;
+use SPCVN\Repositories\Tag\TagRepository;
 use SPCVN\Support\Authorization\CacheFlusherTrait;
 
 class EloquentQuestion implements QuestionRepository
 {
     use CacheFlusherTrait;
+
+    /**
+     * @var RoleRepository
+     */
+    private $tags;
+
+    public function __construct(TagRepository $tags)
+    {
+        $this->tags = $tags;
+    }
 
     /**
      * {@inheritdoc}
@@ -108,5 +120,45 @@ class EloquentQuestion implements QuestionRepository
             $data['tag_id'] = $tag_id;
         }
         return QuestionTag::create($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createNewTagIfNotExisis($user_id, array $data)
+    {
+        $res=array();
+        $tag=array();
+        $tag["user_id"]=$user_id;
+
+        foreach ($data as $key => $item) {
+
+            if (!is_numeric($item)) {
+
+                if($this->checkTagExists($item)) {
+
+                    $tag["name"]=$item;
+                    $res[] = $this->tags->create($tag);
+                }
+            }
+        }
+
+        return $res;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkTagExists($name)
+    {
+        $res=true;
+        if(Tag::where('name', '=', $name)
+            ->where('del_flg', '=', '0')
+            ->count() > 0) {
+
+            $res=false;
+        }
+
+        return $res;
     }
 }

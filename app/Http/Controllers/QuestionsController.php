@@ -2,6 +2,7 @@
 
 namespace SPCVN\Http\Controllers;
 
+use DB;
 use Cache;
 use SPCVN\Question;
 use SPCVN\QuestionTag;
@@ -45,6 +46,8 @@ class QuestionsController extends Controller
     {
         $questions = $this->questions->all();
 
+        dd($questions);
+
         return view('question.index', compact('questions'));
     }
 
@@ -64,42 +67,52 @@ class QuestionsController extends Controller
     /**
      * Store newly created role to database.
      *
-     * @param CreateRoleRequest $request
+     * @param CreateQuestionRequest $request
      * @return mixed
      */
     public function store(CreateQuestionRequest $request)
     {
-        $question = $this->questions->create($request->all());
-        $this->questions->createQuestionMentors($question->id, $request->get('user_id'));
-        $this->questions->createQuestionTags($question->id, $request->get('tag_ids'));
+        DB::beginTransaction();
 
-        return redirect()->route('question.index')->withSuccess(trans('app.question_created'));
+        try {
+
+            $this->questions->create($request->all());
+            $this->questions->createNewTagIfNotExisis($request->user_id, $request->tag_ids);
+            DB::commit();
+
+            return redirect()->route('question.index')->withSuccess(trans('app.question_created'));
+
+        } catch(\Exception $e) {
+
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
-     * Display for for editing specified role.
+     * Display for for editing specified question.
      *
-     * @param Role $role
+     * @param Question $question
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Role $role)
+    public function edit(Question $question)
     {
         $edit = true;
 
-        return view('role.add-edit', compact('edit', 'role'));
+        return view('role.add-edit', compact('edit', 'question'));
     }
 
     /**
-     * Update specified role with provided data.
+     * Update specified question with provided data.
      *
-     * @param Role $role
-     * @param UpdateRoleRequest $request
+     * @param Question $question
+     * @param UpdateQuestionRequest $request
      * @return mixed
      */
     public function update(UpdateQuestionRequest $request)
     {
         return redirect()->route('question.index')
-            ->withSuccess(trans('app.role_updated'));
+            ->withSuccess(trans('app.question_updated'));
     }
 
     /**
