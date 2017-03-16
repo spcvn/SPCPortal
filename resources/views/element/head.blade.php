@@ -12,7 +12,7 @@
 {{ HTML::style('spcvn/css/fonts.googleapis.com.css') }}
 {{ HTML::style('spcvn/css/ace-skins.min.css') }}
 {{ HTML::style('spcvn/css/ace-rtl.min.css') }}
-<link rel="stylesheet" href="{{ asset('spcvn/css/ace.min.css') }}" class="ace-main-stylesheet" id="main-ace-style" />
+{{ HTML::style('spcvn/css/ace.min.css', array('class' => 'ace-main-stylesheet', 'id' => 'main-ace-style')) }}
 
 {{ HTML::script('spcvn/js/ace-extra.min.js') }}
 {{ HTML::script('spcvn/js/jquery-2.1.4.min.js') }}
