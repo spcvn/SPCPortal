@@ -31,9 +31,7 @@
 
                 <div class="page-content">
                     @include('element.setting')
-
                     @yield('content')
-
                 </div>
             </div>
         </div>
