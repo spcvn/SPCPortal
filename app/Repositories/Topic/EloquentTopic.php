@@ -90,7 +90,8 @@ class EloquentTopic implements TopicRepository
     public function create(array $data)
     {
     	$topic = Topic::create($data);
-        event(new Created($topic));
+        $mentors = (isset($data['mentors'])) ? $data['mentors'] : [];
+        event(new Created($topic, $mentors));
         return $topic;
     }
 
@@ -99,9 +100,16 @@ class EloquentTopic implements TopicRepository
      */
     public function update($id, $data = array())
     {
-    	$topic = $this->find($id);
+        $oldMentors = [];
+        $topic = Topic::with('users')->find($id);
+
+        foreach ($topic->users as $user) {
+            $oldMentors[] = $user->id;
+        }
+
         $topic->update($data);
-        event(new Updated($topic));
+        $mentors = (isset($data['mentors'])) ? $data['mentors'] : [];
+        event(new Updated($topic, $mentors, $oldMentors));
         return $topic;
     }
 
@@ -110,9 +118,15 @@ class EloquentTopic implements TopicRepository
      */
     public function delete($id)
     {
+        $oldMentors = [];
     	$topic = $this->find($id);
+
+        foreach ($topic->users as $user) {
+            $oldMentors[] = $user->id;
+        }
+
         $topic->update(['del_flag' => true]);
-        event(new Deleted($topic));
+        event(new Deleted($topic, $oldMentors));
         return $topic;
     }
 

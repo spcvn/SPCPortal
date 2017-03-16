@@ -200,7 +200,7 @@ return [
     'created_by'        =>  'Created by',
     'topic_information' =>  'Topic information',
     'category_name'     =>  'Category name',
-    'topic_picture'     =>  'Picture',
+    'topic_picture'     =>  'Topic picture',
     'topic_options'     =>  'Options',
     'public'            =>  'Public',
     'mentors'           =>  'Mentors',

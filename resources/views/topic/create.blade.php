@@ -63,7 +63,8 @@
                                 <img class="form-control" style=" height: auto;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
                                 <br/>
                             @endif
-                            <input type="file" class="form-control" id="picture" placeholder="(@lang('app.topic_picture'))" name="picture" value="">
+
+                            {!! Form::file('picture', ['id' => 'picture', 'class' => 'form-control']) !!}
                         </div>
 
                         <div class="form-group">
