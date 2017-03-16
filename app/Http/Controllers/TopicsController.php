@@ -13,6 +13,7 @@ use SPCVN\User;
 use SPCVN\Tag;
 use Auth;
 use Authy;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class TopicsController extends Controller
@@ -101,8 +102,24 @@ class TopicsController extends Controller
 
         // save topics_tags if existed input request tags
         if ($request->input('tags')) {
-            $this->topic->setTags($topic->id, $request->input('tags'), false);    
+            $this->topic->setTags($topic->id, $request->input('tags'), false);
         }
+
+
+        // upload document
+        if ($request->hasFile('document')) {
+
+            $dir = $this->topic->alphaID($topic->id, false, NUMBER_CHARACTER_RANDOM);
+            $path = public_path().'/upload/documents/' . $dir;
+
+            $document   = $request->file('document');
+            $filename   = str_random(6).'.'.$document->getClientOriginalExtension();
+            
+            // save picture , not save to DB
+            $document->move($path, $filename);  
+        }
+
+
         
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
@@ -182,7 +199,20 @@ class TopicsController extends Controller
         // save topics_mentors if existed input request mentors
         $this->topic->setMentors($topic->id, $request->input('mentors'), true);
         // save topics_tags if existed input request tags
-        $this->topic->setTags($topic->id, $request->input('tags'), true);    
+        $this->topic->setTags($topic->id, $request->input('tags'), true);
+
+        // upload document
+        if ($request->hasFile('document')) {
+
+            $dir = $this->topic->alphaID($topic->id, false, NUMBER_CHARACTER_RANDOM);
+            $path = public_path().'/upload/documents/' . $dir;
+
+            $document   = $request->file('document');
+            $filename   = str_random(6).'.'.$document->getClientOriginalExtension();
+            
+            // save picture , not save to DB
+            $document->move($path, $filename);  
+        } 
         
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_updated'));
@@ -211,5 +241,50 @@ class TopicsController extends Controller
         $memtors = $this->topic->find($id);
 
         return response()->json($memtors);
+    }
+
+    public function document(Topic $topic)
+    {
+        $dir        = $this->topic->alphaID($topic->id, false, NUMBER_CHARACTER_RANDOM);
+        $documents  = Storage::files('/upload/documents/' . $dir);
+        $documentExtention = [];
+        foreach ($documents as $key => $document) {
+            $documentExtention[$key] = $this->get_file_extension($document);
+        }
+
+        $pdfImg = 'http://cdn1.iconfinder.com/data/icons/CrystalClear/128x128/mimetypes/pdf.png';
+        $docImg = 'http://cdn2.iconfinder.com/data/icons/sleekxp/Microsoft%20Office%202007%20Word.png';
+        $pptImg = 'http://cdn2.iconfinder.com/data/icons/sleekxp/Microsoft%20Office%202007%20PowerPoint.png';
+        $txtImg = 'http://cdn1.iconfinder.com/data/icons/CrystalClear/128x128/mimetypes/txt2.png';
+        $xlsImg = 'http://cdn2.iconfinder.com/data/icons/sleekxp/Microsoft%20Office%202007%20Excel.png';
+        $audioImg = 'http://cdn2.iconfinder.com/data/icons/oxygen/128x128/mimetypes/audio-x-pn-realaudio-plugin.png';
+        $videoImg = 'http://cdn4.iconfinder.com/data/icons/Pretty_office_icon_part_2/128/video-file.png';
+        $htmlImg = 'http://cdn1.iconfinder.com/data/icons/nuove/128x128/mimetypes/html.png';
+        $fileImg = 'http://cdn3.iconfinder.com/data/icons/musthave/128/New.png';
+
+        $listIcon = [
+            'pdf' => $pdfImg,
+            'doc' => $docImg,
+            'docx' => $docImg,
+            'txt' => $txtImg,
+            'xls' => $xlsImg,
+            'xlsx' => $xlsImg,
+            'xlsm' => $xlsImg,
+            'ppt' => $pptImg,
+            'pptx' => $pptImg,
+            'mp3' => $audioImg,
+            'wmv' => $videoImg,
+            'mp4' => $videoImg,
+            'mpeg' => $videoImg,
+            'html' => $htmlImg,
+            'file' => $fileImg
+        ];
+
+        return view('topic.document', compact('documents', 'documentExtention', 'listIcon'));
+    }
+
+    private function get_file_extension($f) {
+        $ftype = pathinfo($f);
+        return $extension = $ftype['extension'];
     }
 }

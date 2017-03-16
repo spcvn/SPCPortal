@@ -2,6 +2,7 @@
 
 namespace SPCVN;
 
+use SPCVN\Repositories\Topic\EloquentTopic;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
@@ -11,7 +12,15 @@ class Topic extends Model
     const CREATED_AT 	= 'created';
     const UPDATED_AT 	= 'modified';
 
+
+
     protected $fillable = ['category_id', 'user_id', 'topic_name', 'picture', 'description', 'view', 'public', 'del_flag', 'created', 'modified'];
+
+    public function getEncryptIdAttribute()
+    {
+    	$topic = new EloquentTopic();
+        return $topic->alphaID($this->id, false, NUMBER_CHARACTER_RANDOM);
+    }
 
     public function user()
 	{

@@ -104,6 +104,11 @@
                             {!! Form::select('tags[]', $tags, $edit ? $tagsSelected : '', ['class' => 'form-control tags select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
                         </div>
 
+                        <div class="form-group">
+                            <label for="picture">@lang('app.documents')</label>
+                            {!! Form::file('document', ['id' => 'document', 'class' => 'form-control']) !!}
+                        </div>
+
                     </div>
                     <div class="panel-footer">
                         <button type="submit" class="btn btn-primary">
@@ -128,7 +133,8 @@
     @endif
 
     {!! HTML::script('assets/plugins/bootstrap-switch/bootstrap-switch.min.js') !!}
-    {!! HTML::script('assets/plugins/select2/select2.full.min.js') !!}
+    {!! HTML::style('assets/css/select2.min.css') !!}
+    {!! HTML::script('assets/js/select2.full.js') !!}
     <script>
         $(".switch").bootstrapSwitch({size: 'small'});
         $('.mentors.select2').select2({
