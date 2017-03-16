@@ -65,6 +65,10 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 Route::get('auth/twitter/email', 'Auth\SocialAuthController@getTwitterEmail');
 Route::post('auth/twitter/email', 'Auth\SocialAuthController@postTwitterEmail');
 
+Route::get('/acelayout', function(){
+    return View::make('layouts.master');
+});
+
 Route::group(['middleware' => 'auth'], function () {
 
     /**
