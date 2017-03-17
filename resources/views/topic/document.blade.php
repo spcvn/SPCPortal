@@ -41,37 +41,27 @@
             <div class="model-document-title">Documents</div>
             <div class="model-document-content">
                 <ul class="list-document row">
-                @php
-                #echo '<pre>';
-                #print_r($documentExtention);
-                #print_r($documents);
-                #echo '</pre>';
-                #exit;
-                @endphp
-
                 @foreach ($documents as $key => $document)
-
                     @php
-                        $other = array_pop($listIcon);
+                        $files      = @explode('/', $document);
+                        $fileName   = array_pop($files);
+                        $other      = array_pop($listIcon);
                         if (isset($listIcon[$documentExtention[$key]])) {
                             $src = $listIcon[$documentExtention[$key]];
                         } else {
                             $src = $other;
                         }
                     @endphp
-                    
                     <li class="item col-md-3">
                         <a href="{{ url($document) }}">
                             <div>
-                                <img style=" height: 100px; width: 100px;" class="avatar avatar-preview img-circle" src="{{ $src }}">
+                                <img style=" height: 100px; width: 100px;" class="" src="{{ $src }}">
                             </div>
                             <div>
-                                <span>{{ $document }}</span>
+                                <span>{{ $fileName }}</span>
                             </div>
                         </a>
                     </li>   
-                    
-
                 @endforeach
                 </ul>
 

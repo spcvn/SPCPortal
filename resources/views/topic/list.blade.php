@@ -74,8 +74,6 @@
                                     } else {
                                         $source = url('assets/img/profile.png');
                                     }
-
-                                    //echo $topic->encrypt_id . '<br/>';
                                 @endphp
 
                                 <img style="max-width: 100px; max-height: 100px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
@@ -133,15 +131,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="loading" style="text-align: center; padding: 50px 0;">
-                <!--<img alt="loading" src="<?php echo 'img/ajax-loader.gif'?>" width="50px"/>-->
-            </div>
-        </div>
-      </div>
-    </div>
+    @include('topic.partials.modal')
 
 @stop
 
@@ -149,11 +139,16 @@
     <script>
         $(document).ready(function(){
             // load document to bootstrap modal
-            $('.topic-table .show-document').on('click', function(e){
+            $('.topic-table .show-document, #topic-form .show-document').on('click', function(e){
                 var link = $(this).data('link');
                 $('#documentModal').removeData('bs.modal');
+                $('body').on('hidden.bs.modal', '.modal', function () {
+                     $(this).removeData('bs.modal');
+                });
                 $('#documentModal').modal({remote: link});
-                $('#documentModal').modal('show');
+                setTimeout(function(){
+                    $('#documentModal').modal('show');
+                }, 500);
             });
         });
     </script>
