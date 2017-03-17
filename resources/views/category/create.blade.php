@@ -7,12 +7,22 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                @lang('app.add_category')
+                @if ($edit)
+                    @lang('app.edit_category')
+                @else
+                    @lang('app.add_category')
+                @endif
                 <div class="pull-right">
                     <ol class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
                         <li><a href="{{ route('category.list') }}">@lang('app.category')</a></li>
-                        <li class="active">@lang('app.create')</li>
+                        <li class="active">
+                            @if ($edit)
+                                @lang('app.edit_category')
+                            @else
+                                @lang('app.add_category')
+                            @endif
+                        </li>
                     </ol>
                 </div>
 
