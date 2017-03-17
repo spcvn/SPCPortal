@@ -30,7 +30,7 @@ class TopicsController extends Controller
     private $topic;
 
     /**
-     * UsersController constructor.
+     * Constructor.
      * @param UserRepository $users
      * @param TopicRepository $category
      */
@@ -76,6 +76,14 @@ class TopicsController extends Controller
      */
     public function store(CreateTopicRequest $request)
     {
+
+        // echo '<pre>';
+        // print_r($request->all());
+        // echo '</pre>';
+        // exit;
+
+        
+
         // upload file
         if ($request->hasFile('picture')) {
 
@@ -105,22 +113,11 @@ class TopicsController extends Controller
             $this->topic->setTags($topic->id, $request->input('tags'), false);
         }
 
-
         // upload document
         if ($request->hasFile('document')) {
-
-            $dir = $this->topic->alphaID($topic->id, false, NUMBER_CHARACTER_RANDOM);
-            $path = public_path().'/upload/documents/' . $dir;
-
-            $document   = $request->file('document');
-            $filename   = str_random(6).'.'.$document->getClientOriginalExtension();
-            
-            // save picture , not save to DB
-            $document->move($path, $filename);  
+            $this->uploadDocument($topic->id, $request);
         }
 
-
-        
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
     }
@@ -203,16 +200,8 @@ class TopicsController extends Controller
 
         // upload document
         if ($request->hasFile('document')) {
-
-            $dir = $this->topic->alphaID($topic->id, false, NUMBER_CHARACTER_RANDOM);
-            $path = public_path().'/upload/documents/' . $dir;
-
-            $document   = $request->file('document');
-            $filename   = str_random(6).'.'.$document->getClientOriginalExtension();
-            
-            // save picture , not save to DB
-            $document->move($path, $filename);  
-        } 
+            $this->uploadDocument($topic->id, $request);
+        }
         
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_updated'));
@@ -286,5 +275,30 @@ class TopicsController extends Controller
     private function get_file_extension($f) {
         $ftype = pathinfo($f);
         return $extension = $ftype['extension'];
+    }
+
+    /**
+     * upload document
+     *
+     * @param int $topicID
+     * @param array $request
+     *
+     * @return boolean
+     * @since 2017.03.17
+     * @version 1.0
+     * @author Dinh Van Huong
+     */
+    private function uploadDocument($topicID, $request)
+    {
+        foreach ($request->document as $document) {
+            $dir = $this->topic->alphaID($topicID, false, NUMBER_CHARACTER_RANDOM);
+            $path = public_path().'/upload/documents/' . $dir;
+            $filename   = str_random(6).'.'.$document->getClientOriginalExtension();
+            
+            // save picture , not save to DB
+            $document->move($path, $filename);
+        }
+
+        return true;
     }
 }

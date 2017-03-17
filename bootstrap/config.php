@@ -50,5 +50,5 @@ if (!isset($_SERVER['REQUEST_URI']))
     define( 'SCRIPT_RELPATH', str_replace('install', null, dirname($_SERVER['REQUEST_URI'] . '&r=null')=='/' ? null : dirname($_SERVER['REQUEST_URI'] . '&r=null')) );
 }
 
-define( 'NUMBER_CHARACTER_RANDOM', 6 );
+define( 'NUMBER_CHARACTER_RANDOM', 11 );
 define( 'SCRIPT_UPLOAD_LIMIT', 134217728 );

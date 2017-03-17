@@ -40,7 +40,7 @@ class EloquentTopic implements TopicRepository
         }
 
 
-        $query->orderBy('topics.created', 'ASC');
+        $query->orderBy('topics.created', 'DESC');
         $query->orderBy('topics.topic_name', 'ASC');
         $result = $query->paginate($perPage);
 
@@ -192,10 +192,11 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function alphaID ($in, $to_num = false, $pad_up = false, $pass_key = false)
+    public function alphaID ($in, $to_num = false, $pad_up = false, $pass_key = null)
     {
         $out   =   '';
-        $index = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        //$index = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $index = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $base  = strlen($index);
 
         if ($pass_key !== null) {

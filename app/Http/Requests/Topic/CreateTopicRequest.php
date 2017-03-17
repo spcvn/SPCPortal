@@ -16,7 +16,8 @@ class CreateTopicRequest extends Request
         return [
             'category_id'   => 'required:topics,category_id',
             'topic_name'    => 'required|regex:/^[a-zA-Z0-9\-_\. ]+$/|unique:topics,topic_name',
-            //'picture'       => 'mimes:jpeg,jpg,png,gif,bmp'
+            //'picture'       => 'mimes:jpeg,jpg,png,gif,bmp',
+            'document'      => 'max:10000'
         ];
     }
 }
