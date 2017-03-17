@@ -67,13 +67,12 @@
                 @foreach ($questions as $question)
                     <tr>
                         <td>
-
                                 {{ $question->title }}
                         </td>
                         <td>
-                            <a href="#" id="topics" data-type="select" data-pk="{{ $question->topic->id }}" data-url="{{route('topic.list')}}" data-title="Select topic name">
+
                                 {{ $question->topic->topic_name or 'Not selected' }}
-                            </a>
+
                         </td>
                         <td>{{ $question->user->present()->nameOrEmail }}</td>
                         <td>
