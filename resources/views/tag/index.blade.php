@@ -56,6 +56,7 @@
             <thead>
                 <th>ID</th>
                 <th>@lang('app.name')</th>
+                <th>@lang('app.created_by')</th>
                 <th class="text-center">@lang('app.action')</th>
             </thead>
             <tbody id="tag-list" name="tag-list">
@@ -63,7 +64,12 @@
                 @foreach ($tags as $tag)
                     <tr id="tag{{$tag->id}}">
                         <td>{{ $tag->id }}</td>
-                        <td>{{ $tag->name }}</td>
+                        <td>
+                            <a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="tag_name_edit" data-type="text" data-pk="{{$tag->id}}" data-name="tag_name_edit" data-url="/{{$tag->id}}/update" data-original-title="Enter tag name">
+                                {{ $tag->name }}
+                            </a>
+                        </td>
+                        <td>{{ $tag->user->present()->nameOrEmail }}</td>
                         <td class="text-center">
                             <button class="btn btn-primary btn-circle open-modal" title="@lang('app.edit_tag')" value="{{$tag->id}}"><i class="glyphicon glyphicon-edit"></i></button>
                             <a href="{{ route('tag.delete', $tag->id) }}" class="btn btn-danger btn-circle"
@@ -121,11 +127,30 @@
     </div>
 
 @stop
-
 @section('scripts')
     <script type="text/javascript">
 
         var url = "{{ route('tag.index') }}";
+
+        $(document).on("mouseup", "#tag_name_edit", function() {
+
+            $(this).editable({
+                method: 'PUT',
+                success: function(response, newValue) {
+                    alert(response);
+                    // userModel.set('username', newValue); //update backbone model
+                }
+            })
+        });
+
+
+        // $(document).one("click", ".editable-submit", function() {
+
+        //     // alert('aaaaaaaaaaaa');
+        // });
+
+        //edit table
+        // $('#tag_name_edit').editable();
 
         //display modal form for tag editing
         $(document).on('click', '.open-modal', function() {

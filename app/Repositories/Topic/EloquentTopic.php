@@ -147,7 +147,7 @@ class EloquentTopic implements TopicRepository
         $data = [];
         if (is_array($userID) && !empty($userID[0])) {
             $data = $userID;
-        }       
+        }
 
         return $this->find($topicID)->users()->sync($data, $sync);
     }
@@ -160,7 +160,7 @@ class EloquentTopic implements TopicRepository
         $data = [];
         if (is_array($tagsID) && !empty($tagsID[0])) {
             $data = $tagsID;
-        }       
+        }
 
         return $this->find($topicID)->tags()->sync($data, $sync);
     }

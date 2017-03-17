@@ -15,8 +15,6 @@ class CreateQuestionRequest extends Request
     {
         return [
             'title' => 'required|regex:/^[a-zA-Z0-9\-_ \.]+$/|unique:questions,title',
-            'topic_id'  => 'required',
-            'user_id'   => 'required'
         ];
     }
 }

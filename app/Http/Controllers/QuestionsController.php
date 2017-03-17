@@ -4,9 +4,10 @@ namespace SPCVN\Http\Controllers;
 
 use DB;
 use Cache;
+use SPCVN\Tag;
 use SPCVN\Question;
-use SPCVN\QuestionTag;
 use SPCVN\QuestionMenter;
+use Illuminate\Http\Request;
 use SPCVN\Events\Question\Created;
 use SPCVN\Events\Question\Deleted;
 use SPCVN\Events\Question\Updated;
@@ -14,6 +15,7 @@ use SPCVN\Http\Requests\Question\CreateQuestionRequest;
 use SPCVN\Http\Requests\Question\UpdateQuestionRequest;
 use SPCVN\Repositories\Question\QuestionRepository;
 use SPCVN\Repositories\Topic\TopicRepository;
+use SPCVN\Repositories\Tag\TagRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -42,11 +44,11 @@ class QuestionsController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $questions = $this->questions->all();
+        $perPage = 10;
 
-        dd($questions);
+        $questions = $this->questions->paginateQuestions($perPage, $request->get('search'));
 
         return view('question.index', compact('questions'));
     }
@@ -59,7 +61,7 @@ class QuestionsController extends Controller
     public function create(TopicRepository $topicRepository)
     {
         $edit = false;
-        $topics = $topicRepository->lists();
+        $topics = $this->parseTopics($topicRepository);
 
         return view('question.add-edit', compact('topics', 'edit'));
     }
@@ -72,21 +74,47 @@ class QuestionsController extends Controller
      */
     public function store(CreateQuestionRequest $request)
     {
-        DB::beginTransaction();
+            DB::beginTransaction();
 
-        try {
+            try {
+                    //create new question
+                    $question = $this->questions->create($request->all());
 
-            $this->questions->create($request->all());
-            $this->questions->createNewTagIfNotExisis($request->user_id, $request->tag_ids);
-            DB::commit();
+                    $tag_ids = ($request->tag_ids)?$request->tag_ids:'';
 
-            return redirect()->route('question.index')->withSuccess(trans('app.question_created'));
+                    $int_ids = array();
+                    if(!empty($tag_ids)) {
 
-        } catch(\Exception $e) {
+                            $int_ids = array_filter($tag_ids, 'is_numeric');
 
-            DB::rollback();
-            throw $e;
-        }
+                            //check tag
+                            $tags = $this->questions->createNewTagIfNotExisis($request->user_id, $tag_ids);
+
+                            //regist tag_ids
+                            $new_tag_ids = ($this->setTagId($tags))?$this->setTagId($tags):$int_ids;
+
+                            $tag_ids_regist = '';
+                            if(!empty($int_ids)) $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
+
+                            //insert question tag into DB
+                            $this->questions->setQuestionTag($question->id, $tag_ids_regist, true);
+
+                    } else {
+
+                            //insert question tag into DB
+                            $this->questions->setQuestionTag($question->id, $tag_ids, true);
+
+                    }
+
+                    DB::commit();
+
+                    return redirect()->route('question.index')->withSuccess(trans('app.question_created'));
+
+            } catch(\Exception $e) {
+
+                    DB::rollback();
+                    throw $e;
+            }
     }
 
     /**
@@ -95,11 +123,22 @@ class QuestionsController extends Controller
      * @param Question $question
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Question $question)
+    public function edit(Question $question, TopicRepository $topicRepository, TagRepository $tagRepository)
     {
-        $edit = true;
+            $edit = true;
+            $tags = ($this->getTags($tagRepository))?$this->getTags($tagRepository):'';
 
-        return view('role.add-edit', compact('edit', 'question'));
+            $tag_createds=array();
+            $questions_tags=($question->question_tag)?$question->question_tag:'';
+
+            foreach ($questions_tags as $key => $tag) {
+
+                $tag_createds[] = $tag->id;
+            }
+
+            $topics = $this->parseTopics($topicRepository);
+
+            return view('question.add-edit', compact('edit', 'question', 'topics', 'tags', 'tag_createds'));
     }
 
     /**
@@ -109,34 +148,120 @@ class QuestionsController extends Controller
      * @param UpdateQuestionRequest $request
      * @return mixed
      */
-    public function update(UpdateQuestionRequest $request)
+    public function update(Question $question, UpdateQuestionRequest $request)
     {
-        return redirect()->route('question.index')
-            ->withSuccess(trans('app.question_updated'));
+            DB::beginTransaction();
+
+            try {
+                    //update question
+                    $question = $this->questions->update($question->id, $request->all());
+
+                    $tag_ids = ($request->tag_ids)?$request->tag_ids:'';
+
+                    if(!empty($tag_ids)) {
+
+                            $int_ids = array();
+                            $int_ids = array_filter($tag_ids, 'is_numeric');
+
+                            //check tag
+                            $tags = $this->questions->createNewTagIfNotExisis($request->user_id, $tag_ids);
+
+                            //regist tag_ids
+                            $new_tag_ids = ($this->setTagId($tags))?$this->setTagId($tags):$int_ids;
+
+                            $tag_ids_regist = '';
+                            if(!empty($int_ids)) $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
+                            if(empty($tag_ids_regist)) $tag_ids_regist = $new_tag_ids;
+
+                            //insert question tag into DB
+                            $this->questions->setQuestionTag($question->id, $tag_ids_regist, true);
+
+                    } else {
+
+                            //insert question tag into DB
+                            $this->questions->setQuestionTag($question->id, $tag_ids, true);
+                    }
+
+                    DB::commit();
+                    return redirect()->route('question.index')->withSuccess(trans('app.question_updated'));
+
+            } catch(\Exception $e) {
+
+                    DB::rollback();
+                    throw $e;
+            }
+
     }
 
     /**
-     * Remove specified role from system.
+     * Remove specified question from system.
      *
-     * @param Role $role
-     * @param UserRepository $userRepository
+     * @param Question $question
      * @return mixed
      */
-    public function delete(Role $role, UserRepository $userRepository)
+    public function delete(Question $question)
     {
-        if (! $role->removable) {
-            throw new NotFoundHttpException;
-        }
+            // if (! $question->removable) {
 
-        $userRole = $this->roles->findByName('User');
+            //         throw new NotFoundHttpException;
+            // }
 
-        $userRepository->switchRolesForUsers($role->id, $userRole->id);
+            $this->questions->delete($question->id);
 
-        $this->roles->delete($role->id);
+            Cache::flush();
 
-        Cache::flush();
-
-        return redirect()->route('role.index')
-            ->withSuccess(trans('app.role_deleted'));
+            return redirect()->route('question.index')->withSuccess(trans('app.question_deleted'));
     }
+
+    /**
+     * Parse topics into an array that also has a blank
+     * item as first element, which will allow users to
+     * @param TopicRepository $topicRepository
+     * @return array
+     */
+    private function parseTopics(TopicRepository $topicRepository)
+    {
+            return [0 => 'Select a Topic'] + $topicRepository->lists()->toArray();
+    }
+
+    /**
+     * get tags list
+     *
+     * @param TagRepository $tagRepository
+     * @return array;
+     */
+    private function getTags(TagRepository $tagRepository)
+    {
+            return $tags=$tagRepository->lists();
+    }
+
+    /**
+     * get tags list
+     *
+     * @param TagRepository $tagRepository
+     * @return array;
+     */
+    private function getTagsByQuestionId($question_id)
+    {
+            return $tags=$tagRepository->lists();
+    }
+
+    /**
+     * set tag id
+     *
+     * @param $tags
+     * @return array();
+     */
+    private function setTagId($tags)
+    {
+            $res=[];
+
+            foreach ($tags as $key => $tag) {
+
+                    $res[] =  (string)$tag->id;
+            }
+
+            return $res;
+    }
+
 }

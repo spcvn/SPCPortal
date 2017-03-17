@@ -26,7 +26,7 @@ class EloquentTag implements TagRepository
      */
     public function lists($column = 'name', $key = 'id')
     {
-        return Tag::pluck($column, $key);
+        return  Tag::where('del_flg', '=' , 0)->pluck($column, $key);
     }
 
     /**
@@ -89,9 +89,11 @@ class EloquentTag implements TagRepository
     {
         $tag = Tag::find($id);
 
-        event(new Deleted($tag));
+        $tag->del_flg = 1;
 
-        return $tag->delete();
+        event(new Updated($tag));
+
+        return $tag->save();
     }
 
     /**
@@ -99,16 +101,15 @@ class EloquentTag implements TagRepository
      */
     public function paginate($perPage, $search = null)
     {
-        $query = Tag::query();
+        $query = Tag::query()->with('user');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', "like", "%{$search}%");
-                $q->where('del_flg', '=', "0");
             });
         }
 
-        $result = $query->orderBy('id', 'asc')->paginate($perPage);
+        $result = $query->where('del_flg', 0)->orderBy('created_at', 'DESC')->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);

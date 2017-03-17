@@ -18,7 +18,7 @@ class EloquentQuestion implements QuestionRepository
     use CacheFlusherTrait;
 
     /**
-     * @var RoleRepository
+     * @var TagRepository
      */
     private $tags;
 
@@ -38,15 +38,48 @@ class EloquentQuestion implements QuestionRepository
     /**
      * {@inheritdoc}
      */
-    public function lists($column = 'title', $key = 'id')
+    public function paginateQuestions($perPage = 10, $search = null)
     {
-        return Question::pluck($column, $key);
+        $query = Question::with('topic', 'user', 'question_tag');
+
+        return $this->paginateAndFilterResults($perPage, $search, $query);
+    }
+
+    /**
+     * @param $perPage
+     * @param $search
+     * @param $query
+     * @return mixed
+     */
+    private function paginateAndFilterResults($perPage, $search, $query)
+    {
+        if ($search) {
+            $query->where('title', 'LIKE', "%$search%");
+        }
+
+        $result = $query->where('del_flg', '=', 0)
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
+
+        if ($search) {
+            $result->appends(['search' => $search]);
+        }
+
+        return $result;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById($id)
+    public function lists($column = 'title', $key = 'id')
+    {
+        return Question::where('del_flg', 0)->pluck($column, $key);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find($id)
     {
         return Question::find($id);
     }
@@ -85,6 +118,20 @@ class EloquentQuestion implements QuestionRepository
         return $question;
     }
 
+     /**
+     * {@inheritdoc}
+     */
+    public function setQuestionTag($question_id, $tag_id, $flg='false')
+    {
+        $data = [];
+        if (is_array($tag_id) && !empty($tag_id[0])) {
+
+            $data = $tag_id;
+        }
+
+        return $this->find($question_id)->question_tag()->sync($data, $flg);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -92,13 +139,14 @@ class EloquentQuestion implements QuestionRepository
     {
         $question = $this->find($id);
 
-        event(new Deleted($question));
+        $question->del_flg = 1;
 
-        return $question->delete();
+        event(new Updated($question));
+
+        return $question->save();
     }
 
     /**
-     * Create new question mentor.
      * {@inheritdoc}
      */
     public function createQuestionMentors($question_id, $user_id)

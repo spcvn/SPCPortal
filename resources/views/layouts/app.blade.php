@@ -27,8 +27,9 @@
     {!! HTML::style('assets/css/sweetalert.css') !!}
     {!! HTML::style('assets/css/bootstrap-social.css') !!}
     {!! HTML::style('assets/css/app.css') !!}
-    {!! HTML::style('assets/plugins/toastr/toastr.css') !!}
     {!! HTML::style('assets/css/select2.min.css') !!}
+    {!! HTML::style('assets/plugins/toastr/toastr.css') !!}
+    {!! HTML::style('assets/plugins/bootstrap3-editable/css/bootstrap-editable.css') !!}
 
     @yield('styles')
 </head>
@@ -96,6 +97,8 @@
     {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
     {!! HTML::script('assets/plugins/toastr/toastr.min.js') !!}
     {!! HTML::script('assets/js/select2.full.js') !!}
+    {{-- <script src="http://120.26.143.106/packages/admin/bootstrap3-editable/js/bootstrap-editable.min.js"></script> --}}
+    {!! HTML::script('assets/plugins/bootstrap3-editable/js/bootstrap-editable.min.js') !!}
 
     <script type="text/javascript">
         $.ajaxSetup({
