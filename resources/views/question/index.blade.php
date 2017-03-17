@@ -67,9 +67,8 @@
                 @foreach ($questions as $question)
                     <tr>
                         <td>
-                            <a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="questions_name_edit" data-type="text" data-pk="{{$question->id}}" data-name="questions_name_edit" data-url="/{{$question->id}}/update" data-original-title="Enter question name">
+
                                 {{ $question->title }}
-                            </a>
                         </td>
                         <td>
                             <a href="#" id="topics" data-type="select" data-pk="{{ $question->topic->id }}" data-url="{{route('topic.list')}}" data-title="Select topic name">
