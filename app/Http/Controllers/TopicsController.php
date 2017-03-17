@@ -65,6 +65,11 @@ class TopicsController extends Controller
         $user_login_id = Auth::id();
         $tags       = [];
 
+        // redirect to category screen if the category does not exist
+        if (count($categories) <= 1) { // first item is default
+            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+        }
+
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'tags'));
     }
 
@@ -146,6 +151,11 @@ class TopicsController extends Controller
 
         foreach ($topic->tags as $tag) {
             $tagsSelected[] = $tag->id;
+        }
+
+        // redirect to category screen if the category does not exist
+        if (count($categories) <= 1) { // first item is default
+            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
         }
 
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected'));
