@@ -188,4 +188,19 @@ interface TopicRepository
      */
     public function getMemtorsByTopicId($id);
 
+    /**
+     * Alpha ID | Encryption - Decryption ID.
+     *
+     * @param mixed $in
+     * @param boolean $to_num
+     * @param boolean|int $pad_up
+     * @param string|null $pass_key
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.16
+     * @version 1.0
+     */
+    public function alphaID($in, $to_num, $pad_up, $pass_key);
+
 }

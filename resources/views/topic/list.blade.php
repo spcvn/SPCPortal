@@ -51,16 +51,16 @@
     </div>
 
 
-    <div class="table-responsive" id="users-table-wrapper">
+    <div class="table-responsive topic-table" id="users-table-wrapper">
         <table class="table" width="100%" cellpadding="0" cellspacing="0" border="0">
             <thead>
                 <!--<th style="width: 2%;">@lang('app.sort_category')</th>-->
                 <th style="width: 10%;" class="text-center">@lang('app.topic_picture')</th>
-                <th style="width: 35%;">@lang('app.topic_name')</th>
+                <th style="width: 30%;">@lang('app.topic_name')</th>
                 <th style="width: 15%;">@lang('app.mentors')</th>
                 <th style="width: 15%;">@lang('app.tag')</th>
                 <th style="width: 15%;">@lang('app.created_by')</th>
-                <th style="width: 10%;" class="text-center">@lang('app.action')</th>
+                <th style="width: 15%;" class="text-center">@lang('app.action')</th>
                 </thead>
             <tbody>
             @if (count($topics))
@@ -74,6 +74,8 @@
                                     } else {
                                         $source = url('assets/img/profile.png');
                                     }
+
+                                    //echo $topic->encrypt_id . '<br/>';
                                 @endphp
 
                                 <img style="max-width: 100px; max-height: 100px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
@@ -92,6 +94,13 @@
                         </td>
                         <td><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->user->first_name }} {{ $topic->user->last_name }}</a></td>
                         <td class="text-center">
+                        @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
+                            <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
+                               title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
+                               data-toggle="modal" data-target="#documentModal">
+                                <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                            </button>
+                        @endif
                             <a href="{{ route('topic.edit', $topic->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_topic')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -123,4 +132,29 @@
 
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="loading" style="text-align: center; padding: 50px 0;">
+                <!--<img alt="loading" src="<?php echo 'img/ajax-loader.gif'?>" width="50px"/>-->
+            </div>
+        </div>
+      </div>
+    </div>
+
+@stop
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            // load document to bootstrap modal
+            $('.topic-table .show-document').on('click', function(e){
+                var link = $(this).data('link');
+                $('#documentModal').removeData('bs.modal');
+                $('#documentModal').modal({remote: link});
+                $('#documentModal').modal('show');
+            });
+        });
+    </script>
 @stop

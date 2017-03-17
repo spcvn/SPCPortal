@@ -471,6 +471,11 @@ Route::delete('topic/{topic}/delete', [
     'as' => 'topic.delete',
     'uses' => 'TopicsController@delete'
 ]);
+
+Route::get('topic/{topic}/document', [
+    'as' => 'topic.document',
+    'uses' => 'TopicsController@document'
+]);
 /* End Topics */
 
 /**

@@ -90,7 +90,8 @@ class EloquentTopic implements TopicRepository
     public function create(array $data)
     {
     	$topic = Topic::create($data);
-        event(new Created($topic));
+        $mentors = (isset($data['mentors'])) ? $data['mentors'] : [];
+        event(new Created($topic, $mentors));
         return $topic;
     }
 
@@ -99,9 +100,16 @@ class EloquentTopic implements TopicRepository
      */
     public function update($id, $data = array())
     {
-    	$topic = $this->find($id);
+        $oldMentors = [];
+        $topic = Topic::with('users')->find($id);
+
+        foreach ($topic->users as $user) {
+            $oldMentors[] = $user->id;
+        }
+
         $topic->update($data);
-        event(new Updated($topic));
+        $mentors = (isset($data['mentors'])) ? $data['mentors'] : [];
+        event(new Updated($topic, $mentors, $oldMentors));
         return $topic;
     }
 
@@ -110,9 +118,15 @@ class EloquentTopic implements TopicRepository
      */
     public function delete($id)
     {
+        $oldMentors = [];
     	$topic = $this->find($id);
+
+        foreach ($topic->users as $user) {
+            $oldMentors[] = $user->id;
+        }
+
         $topic->update(['del_flag' => true]);
-        event(new Deleted($topic));
+        event(new Deleted($topic, $oldMentors));
         return $topic;
     }
 
@@ -173,6 +187,74 @@ class EloquentTopic implements TopicRepository
         $memtors = $this->find($id);
 
         return $memtors;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function alphaID ($in, $to_num = false, $pad_up = false, $pass_key = false)
+    {
+        $out   =   '';
+        $index = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $base  = strlen($index);
+
+        if ($pass_key !== null) {
+            // Although this function's purpose is to just make the
+            // ID short - and not so much secure,
+            // with this patch by Simon Franz (http://blog.snaky.org/)
+            // you can optionally supply a password to make it harder
+            // to calculate the corresponding numeric ID
+
+            for ($n = 0; $n < strlen($index); $n++) {
+                $i[] = substr($index, $n, 1);
+            }
+
+            $pass_hash = hash('sha256',$pass_key);
+            $pass_hash = (strlen($pass_hash) < strlen($index) ? hash('sha512', $pass_key) : $pass_hash);
+
+            for ($n = 0; $n < strlen($index); $n++) {
+                $p[] =  substr($pass_hash, $n, 1);
+            }
+
+            array_multisort($p, SORT_DESC, $i);
+            $index = implode($i);
+        }
+
+        if ($to_num) {
+            // Digital number  <<--  alphabet letter code
+            $len = strlen($in) - 1;
+
+            for ($t = $len; $t >= 0; $t--) {
+                $bcp = bcpow($base, $len - $t);
+                $out = $out + strpos($index, substr($in, $t, 1)) * $bcp;
+            }
+
+            if (is_numeric($pad_up)) {
+                $pad_up--;
+
+                if ($pad_up > 0) {
+                    $out -= pow($base, $pad_up);
+                }
+            }
+        } else {
+            // Digital number  -->>  alphabet letter code
+            if (is_numeric($pad_up)) {
+                $pad_up--;
+
+                if ($pad_up > 0) {
+                    $in += pow($base, $pad_up);
+                }
+            }
+
+            for ($t = ($in != 0 ? floor(log($in, $base)) : 0); $t >= 0; $t--) {
+                $bcp = bcpow($base, $t);
+                $a   = floor($in / $bcp) % $base;
+                $out = $out . substr($index, $a, 1);
+                $in  = $in - ($a * $bcp);
+            }
+        }
+
+        return $out;
     }
 }
 

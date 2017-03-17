@@ -51,6 +51,27 @@ class Logger
     }
 
     /**
+     * Log user action.
+     *
+     * @param $description
+     * @param int $userID
+     * @return mixed
+     */
+    public function logV1($description, $userID)
+    {
+        if (!$userID || !is_numeric($userID)) {
+            return;
+        }
+
+        return $this->activities->log([
+            'description'   => $description,
+            'user_id'       => $userID,
+            'ip_address'    => $this->request->ip(),
+            'user_agent'    => $this->getUserAgent()
+        ]);
+    }
+
+    /**
      * Get id if the user for who we want to log this action.
      * If user was manually set, then we will just return id of that user.
      * If not, we will return the id of currently logged user.
