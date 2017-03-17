@@ -13,6 +13,8 @@ class Tag extends Model
      */
     protected $table = 'tags';
 
+    protected $primarykey = 'id';
+
     protected $fillable = ['id', 'user_id', 'name', 'position', 'del_flg'];
 
     /**
@@ -22,4 +24,9 @@ class Tag extends Model
 	{
 		return $this->belongsToMany(Topic::class, 'topics_tags', 'tag_id', 'topic_id');
 	}
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

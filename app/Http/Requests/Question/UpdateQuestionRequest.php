@@ -13,10 +13,10 @@ class UpdateQuestionRequest extends Request
      */
     public function rules()
     {
-        $role = $this->route('role');
+        $question = $this->route('question');
 
         return [
-            'title' => 'required|regex:/^[a-zA-Z0-9\-_\.]+$/|unique:roles,title,' . $role->id
+            'title' => 'required|regex:/^[a-zA-Z0-9\-_ \.]+$/|unique:questions,title,' . $question->id
         ];
     }
 }

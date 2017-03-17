@@ -26,7 +26,7 @@ class EloquentTag implements TagRepository
      */
     public function lists($column = 'name', $key = 'id')
     {
-        return Tag::pluck($column, $key);
+        return  Tag::where('del_flg', '=' , 0)->pluck($column, $key);
     }
 
     /**
@@ -44,7 +44,9 @@ class EloquentTag implements TagRepository
     {
         $formatted_tags = [];
 
-        $tags = Tag::select("*")->where("name","LIKE","%$tag_name%")->get();
+        $tags = Tag::select("id", "name", "del_flg")
+                ->where("name", "LIKE", "%$tag_name%")
+                ->where('del_flg', '=', 0)->get();
 
         foreach ($tags as $tag) {
 
@@ -71,7 +73,7 @@ class EloquentTag implements TagRepository
      */
     public function update($id, array $data)
     {
-        $tag = $this->find($id);
+        $tag = Tag::find($id);
 
         $tag->update($data);
 
@@ -85,11 +87,13 @@ class EloquentTag implements TagRepository
      */
     public function delete($id)
     {
-        $tag = $this->find($id);
+        $tag = Tag::find($id);
 
-        event(new Deleted($tag));
+        $tag->del_flg = 1;
 
-        return $tag->delete();
+        event(new Updated($tag));
+
+        return $tag->save();
     }
 
     /**
@@ -97,22 +101,37 @@ class EloquentTag implements TagRepository
      */
     public function paginate($perPage, $search = null)
     {
-        $query = Tag::query();
+        $query = Tag::query()->with('user');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', "like", "%{$search}%");
-                $q->where('del_flg', '=', "0");
             });
         }
 
-        $result = $query->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+        $result = $query->where('del_flg', 0)->orderBy('created_at', 'DESC')->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
         }
 
         return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkExistsName($name, $id=null)
+    {
+        $res=false;
+
+        if(Tag::where('name', '=', $name)
+            ->where('id', '<>', intval($id))
+            ->where('del_flg', '=', 0)->count() > 0) {
+
+            $res=true;
+        }
+
+        return $res;
     }
 }
