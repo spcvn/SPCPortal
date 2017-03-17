@@ -106,7 +106,19 @@
 
                         <div class="form-group">
                             <label for="picture">@lang('app.documents')</label>
-                            {!! Form::file('document', ['id' => 'document', 'class' => 'form-control']) !!}
+
+
+                            @if ($edit && count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
+                                <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
+                                   title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
+                                   data-toggle="modal" data-target="#documentModal">
+                                    <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                                </button>
+                            @endif
+
+
+
+                            {!! Form::file('document[]', ['id' => 'document', 'class' => 'form-control', 'multiple' => 'true']) !!}
                         </div>
 
                     </div>
@@ -122,6 +134,9 @@
 
     </div>
     {!! Form::close() !!}
+
+    <!-- Modal -->
+    @include('topic.partials.modal')
 
 @stop
 
@@ -177,6 +192,21 @@
                   };
                 }
             }
+        });
+
+        $(document).ready(function(){
+            // load document to bootstrap modal
+            $('.topic-table .show-document, #topic-form .show-document').on('click', function(e){
+                var link = $(this).data('link');
+                $('#documentModal').removeData('bs.modal');
+                $('body').on('hidden.bs.modal', '.modal', function () {
+                     $(this).removeData('bs.modal');
+                });
+                $('#documentModal').modal({remote: link});
+                setTimeout(function(){
+                    $('#documentModal').modal('show');
+                }, 500);
+            });
         });
     </script>
 @stop
