@@ -45,9 +45,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->category->paginate();
+        $categories = $this->category->paginate(30, $request->input('search'));
         return view('category.list', compact('categories'));
     }
 
