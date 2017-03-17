@@ -36,10 +36,12 @@
                         <h3 class="panel-title">@lang('app.add_category')</h3>
                     </div>
                     <div class="panel-body">
+                        @if (count($categories) > 1)
                         <div class="form-group">
                             <label for="name">@lang('app.parent_name')</label>
                             {!! Form::select('parent_id', $categories, $edit ? $category->parent_id : '', ['class' => 'form-control']) !!}
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="name" class="required">@lang('app.name')</label>
                             <input type="text" class="form-control" id="name" placeholder="(@lang('app.name'))" name="name" value="{{ $edit ? $category->name : '' }}">
