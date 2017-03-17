@@ -76,18 +76,10 @@ class TopicsController extends Controller
      */
     public function store(CreateTopicRequest $request)
     {
-
-        // echo '<pre>';
-        // print_r($request->all());
-        // echo '</pre>';
-        // exit;
-
-        
-
         // upload file
         if ($request->hasFile('picture')) {
 
-            $dir = date('Y-m-d', time());
+            $dir = date('Y-m', time());
             $path = public_path().'/upload/topics/' . $dir;
 
             $photo      = $request->file('picture');
@@ -172,7 +164,7 @@ class TopicsController extends Controller
         // upload file
         if ($request->hasFile('picture')) {
 
-            $dir = date('Y-m-d', time());
+            $dir = date('Y-m', time());
             $path = public_path().'/upload/topics/';
 
             $photo      = $request->file('picture');
