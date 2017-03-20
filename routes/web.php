@@ -65,10 +65,6 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 Route::get('auth/twitter/email', 'Auth\SocialAuthController@getTwitterEmail');
 Route::post('auth/twitter/email', 'Auth\SocialAuthController@postTwitterEmail');
 
-Route::get('/acelayout', function(){
-    return View::make('layouts.master');
-});
-
 Route::group(['middleware' => 'auth'], function () {
 
     /**
@@ -466,3 +462,33 @@ Route::delete('topic/{topic}/delete', [
     'uses' => 'TopicsController@delete'
 ]);
 /* End Topics */
+
+
+/*--ACE LAYOUT--*/
+// Route::get('/acelayout', function(){
+//     return View::make('ace.index');
+// });
+
+Route::group(['prefix' => 'acelayout'], function () {
+    Route::get('/', function () {
+        return View::make('ace.dashboard.index');
+    });
+    Route::get('/uielement/typography', function () {
+        return View::make('ace.typography.index');
+    });
+    Route::get('/uielement/elements', function () {
+        return View::make('ace.elements.index');
+    });
+    Route::get('/uielement/buttonico', function () {
+        return View::make('ace.buttonico.index');
+    });
+    Route::get('/uielement/contentslide', function () {
+        return View::make('ace.contentslide.index');
+    });
+    Route::get('/uielement/treeview', function () {
+        return View::make('ace.treeview.index');
+    });
+    Route::get('/uielement/jqueryui', function () {
+        return View::make('ace.jqueryui.index');
+    });
+});

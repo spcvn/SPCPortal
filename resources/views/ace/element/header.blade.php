@@ -179,7 +179,7 @@
 							<ul class="dropdown-menu dropdown-navbar">
 								<li>
 									<a href="#" class="clearfix">
-										{{ HTML::image('spcvn/images/avatars/avatar.png', "Alex's Avatar", array('class' => 'msg-photo')) }}
+										{{ HTML::image('spcvn/ace/images/avatars/avatar.png', "Alex's Avatar", array('class' => 'msg-photo')) }}
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Alex:</span>
@@ -196,7 +196,7 @@
 
 								<li>
 									<a href="#" class="clearfix">
-										{{ HTML::image('spcvn/images/avatars/avatar3.png', "Susan's Avatar", array('class' => 'msg-photo')) }}
+										{{ HTML::image('spcvn/ace/images/avatars/avatar3.png', "Susan's Avatar", array('class' => 'msg-photo')) }}
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Susan:</span>
@@ -213,7 +213,7 @@
 
 								<li>
 									<a href="#" class="clearfix">
-										{{ HTML::image('spcvn/images/avatars/avatar4.png', "Bob's Avatar", array('class' => 'msg-photo')) }}
+										{{ HTML::image('spcvn/ace/images/avatars/avatar4.png', "Bob's Avatar", array('class' => 'msg-photo')) }}
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Bob:</span>
@@ -230,7 +230,7 @@
 
 								<li>
 									<a href="#" class="clearfix">
-										{{ HTML::image('spcvn/images/avatars/avatar2.png', "Kate's Avatar", array('class' => 'msg-photo')) }}
+										{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Kate's Avatar", array('class' => 'msg-photo')) }}
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Kate:</span>
@@ -247,7 +247,7 @@
 
 								<li>
 									<a href="#" class="clearfix">
-										{{ HTML::image('spcvn/images/avatars/avatar5.png', "Fred's Avatar", array('class' => 'msg-photo')) }}
+										{{ HTML::image('spcvn/ace/images/avatars/avatar5.png', "Fred's Avatar", array('class' => 'msg-photo')) }}
 										<span class="msg-body">
 											<span class="msg-title">
 												<span class="blue">Fred:</span>
@@ -275,7 +275,7 @@
 
 				<li class="light-blue dropdown-modal">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-						{{ HTML::image('spcvn/images/avatars/user.jpg', "Jason's Photo", array('class' => 'nav-user-photo')) }}
+						{{ HTML::image('spcvn/ace/images/avatars/user.jpg', "Jason's Photo", array('class' => 'nav-user-photo')) }}
 						<span class="user-info">
 							<small>Welcome,</small>
 							Jason

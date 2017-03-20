@@ -34,14 +34,137 @@
 	</div><!-- /.sidebar-shortcuts -->
 
 	<ul class="nav nav-list">
-		<li class="{{ Request::is('/') ? 'active' : ''  }}">
-			<a href="{{ route('dashboard') }}">
+		<li class="{{ Request::is('acelayout') ? 'active' : ''  }}">
+			<a href="/acelayout">
                 <i class="menu-icon fa fa-tachometer"></i>
                 <span class="menu-text">@lang('app.dashboard')</span>
             </a>
-
 			<b class="arrow"></b>
 		</li>
+
+        <li class="{{ Request::is('acelayout/uielement*') ? 'active open' : ''  }}">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">UI &amp; Elements</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="{{ Request::is('acelayout/uielement/typography*') ? 'active' : ''  }}">
+                    <a href="/acelayout/uielement/typography">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Typography
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/uielement/elements*') ? 'active' : ''  }}">
+                    <a href="/acelayout/uielement/elements">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Elements
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/uielement/buttonico*') ? 'active' : ''  }}">
+                    <a href="/acelayout/uielement/buttonico">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Buttons &amp; Icons
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/uielement/contentslide*') ? 'active' : ''  }}">
+                    <a href="/acelayout/uielement/contentslide">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Content Sliders
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/uielement/treeview*') ? 'active' : ''  }}">
+                    <a href="/acelayout/uielement/treeview">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Treeview
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/uielement/jqueryui*') ? 'active' : ''  }}">
+                    <a href="/acelayout/uielement/jqueryui">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        jQuery UI
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="nestable-list.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Nestable Lists
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-caret-right"></i>
+
+                        Three Level Menu
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="#">
+                                <i class="menu-icon fa fa-leaf green"></i>
+                                Item #1
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-pencil orange"></i>
+
+                                4th level
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+
+                            <ul class="submenu">
+                                <li class="">
+                                    <a href="#">
+                                        <i class="menu-icon fa fa-plus purple"></i>
+                                        Add Product
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="">
+                                    <a href="#">
+                                        <i class="menu-icon fa fa-eye pink"></i>
+                                        View Products
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
 
 		@permission('users.manage')
             <li class="{{ Request::is('user*') ? 'active' : ''  }}">
