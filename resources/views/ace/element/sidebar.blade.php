@@ -80,7 +80,6 @@
                         <i class="menu-icon fa fa-caret-right"></i>
                         Content Sliders
                     </a>
-
                     <b class="arrow"></b>
                 </li>
 
@@ -89,7 +88,6 @@
                         <i class="menu-icon fa fa-caret-right"></i>
                         Treeview
                     </a>
-
                     <b class="arrow"></b>
                 </li>
 
@@ -98,75 +96,39 @@
                         <i class="menu-icon fa fa-caret-right"></i>
                         jQuery UI
                     </a>
-
                     <b class="arrow"></b>
-                </li>
-
-                <li class="">
-                    <a href="nestable-list.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Nestable Lists
-                    </a>
-
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-caret-right"></i>
-
-                        Three Level Menu
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                        <li class="">
-                            <a href="#">
-                                <i class="menu-icon fa fa-leaf green"></i>
-                                Item #1
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="">
-                            <a href="#" class="dropdown-toggle">
-                                <i class="menu-icon fa fa-pencil orange"></i>
-
-                                4th level
-                                <b class="arrow fa fa-angle-down"></b>
-                            </a>
-
-                            <b class="arrow"></b>
-
-                            <ul class="submenu">
-                                <li class="">
-                                    <a href="#">
-                                        <i class="menu-icon fa fa-plus purple"></i>
-                                        Add Product
-                                    </a>
-
-                                    <b class="arrow"></b>
-                                </li>
-
-                                <li class="">
-                                    <a href="#">
-                                        <i class="menu-icon fa fa-eye pink"></i>
-                                        View Products
-                                    </a>
-
-                                    <b class="arrow"></b>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </li>
 
-		@permission('users.manage')
+        <li class="{{ Request::is('acelayout/tables*') ? 'active open' : ''  }}">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-list"></i>
+                <span class="menu-text">Tables</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="{{ Request::is('acelayout/tables/simple*') ? 'active' : ''  }}">
+                    <a href="/acelayout/tables/simple">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Simple & Dynamic
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/tables/jqgrid*') ? 'active' : ''  }}">
+                    <a href="/acelayout/tables/jqgrid">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        jqGrid plugin
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        @permission('users.manage')
             <li class="{{ Request::is('user*') ? 'active' : ''  }}">
                 <a href="{{ route('user.list') }}">
                     <i class="menu-icon fa fa-users"></i>

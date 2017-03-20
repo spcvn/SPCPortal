@@ -29,8 +29,7 @@
 								<pre class="prettyprint linenums">&lt;a href="#" class="btn btn-default btn-app radius-4"&gt;
 	&lt;i class="ace-icon fa fa-cog bigger-230"&gt;&lt;/i&gt;Default
 	&lt;span class="badge badge-pink"&gt;+3&lt;/span&gt;
-&lt;/a&gt;
-							</pre>
+&lt;/a&gt;</pre>
 							</td>
 						</tr>
 						<tr>
@@ -56,8 +55,7 @@
 							<td>
 								<pre class="prettyprint linenums">&lt;a href="#" class="btn btn-app btn-success"&gt;
 	&lt;i class="ace-icon fa fa-refresh bigger-230"&gt;&lt;/i&gt;Reload
-&lt;/a&gt;
-							</pre></td>
+&lt;/a&gt;</pre></td>
 						</tr>
 						<tr>
 							<td>
@@ -68,8 +66,7 @@
 							<td>
 								<pre class="prettyprint linenums">&lt;button class="btn btn-app btn-warning"&gt;
 	&lt;i class="ace-icon fa fa-undo bigger-230"&gt;&lt;/i&gt;Undo
-&lt;/button&gt;
-							</pre></td>
+&lt;/button&gt;</pre></td>
 						</tr>
 						<tr>
 							<td>
@@ -82,8 +79,7 @@
 								<pre class="prettyprint linenums">&lt;a href="#" class="btn btn-app btn-info btn-sm no-radius"&gt;
 	&lt;i class="ace-icon fa fa-envelope bigger-200"&gt;&lt;/i&gt;Mailbox
 	&lt;span class="label label-inverse arrowed-in"&gt;6+&lt;/span&gt;
-&lt;/a&gt;
-							</pre></td>
+&lt;/a&gt;</pre></td>
 						</tr>
 						<tr>
 							<td>
@@ -94,8 +90,7 @@
 							<td>
 								<pre class="prettyprint linenums">&lt;button class="btn btn-app btn-danger btn-sm"&gt;
 	&lt;i class="ace-icon fa fa-trash-o bigger-200"&gt;&lt;/i&gt;Delete
-&lt;/button&gt;
-							</pre></td>
+&lt;/button&gt;</pre></td>
 						</tr>
 						<tr>
 							<td>
@@ -106,8 +101,7 @@
 							<td>
 								<pre class="prettyprint linenums">&lt;button class="btn btn-app btn-purple btn-sm"&gt;
 	&lt;i class="ace-icon fa fa-cloud-upload bigger-200"&gt;&lt;/i&gt;Upload
-&lt;/button&gt;
-							</pre></td>
+&lt;/button&gt;</pre></td>
 						</tr>
 						<tr>
 							<td>
@@ -118,8 +112,7 @@
 							<td>
 								<pre class="prettyprint linenums">&lt;button class="btn btn-app btn-pink btn-sm"&gt;
 	&lt;i class="ace-icon fa fa-share bigger-200"&gt;&lt;/i&gt;Share
-&lt;/button&gt;
-							</pre></td>
+&lt;/button&gt;</pre></td>
 						</tr>
 						<tr>
 							<td>
@@ -147,51 +140,101 @@
 	&lt;span class="badge badge-transparent"&gt;
 		&lt;i class="light-red ace-icon fa fa-asterisk"&gt;&lt;/i&gt;
 	&lt;/span&gt;
-&lt;/button&gt;
+&lt;/button&gt;</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button class="btn btn-app btn-light btn-xs">
+									<i class="ace-icon fa fa-print bigger-160"></i>Print
+								</button>
+							</td>
+							<td>
+								<pre class="prettyprint linenums">&lt;button class="btn btn-app btn-light btn-xs"&gt;
+	&lt;i class="ace-icon fa fa-print bigger-160"&gt;&lt;/i&gt;Print
+&lt;/button&gt;</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="#" class="btn btn-app btn-yellow btn-xs">
+									<i class="ace-icon fa fa-shopping-cart bigger-160"></i>Shop
+								</a>
+							</td>
+							<td>
+								<pre class="prettyprint linenums">&lt;a href="#" class="btn btn-app btn-yellow btn-xs"&gt;
+	&lt;i class="ace-icon fa fa-shopping-cart bigger-160"&gt;&lt;/i&gt;Shop
+&lt;/a&gt;</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="btn-group">
+									<button class="btn btn-app btn-pink btn-xs">
+										<i class="ace-icon fa fa-share bigger-175"></i>
+										Share
+									</button>
+
+									<button data-toggle="dropdown" class="btn btn-app btn-pink btn-xs dropdown-toggle">
+										<span class="bigger-110 ace-icon fa fa-caret-down icon-only"></span>
+									</button>
+
+									<ul class="dropdown-menu dropdown-pink">
+										<li>
+											<a href="#">Action</a>
+										</li>
+
+										<li>
+											<a href="#">Another action</a>
+										</li>
+
+										<li>
+											<a href="#">Something else here</a>
+										</li>
+
+										<li class="divider"></li>
+
+										<li>
+											<a href="#">Separated link</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+							<td>
+								<pre class="prettyprint linenums">&lt;div class="btn-group"&gt;
+	&lt;button class="btn btn-app btn-pink btn-xs"&gt;
+		&lt;i class="ace-icon fa fa-share bigger-175"&gt;&lt;/i&gt;
+		Share
+	&lt;/button&gt;
+
+	&lt;button data-toggle="dropdown" class="btn btn-app btn-pink btn-xs dropdown-toggle"&gt;
+		&lt;span class="bigger-110 ace-icon fa fa-caret-down icon-only"&gt;&lt;/span&gt;
+	&lt;/button&gt;
+
+	&lt;ul class="dropdown-menu dropdown-pink"&gt;
+		&lt;li&gt;
+			&lt;a href="#"&gt;Action&lt;/a&gt;
+		&lt;/li&gt;
+
+		&lt;li&gt;
+			&lt;a href="#"&gt;Another action&lt;/a&gt;
+		&lt;/li&gt;
+
+		&lt;li&gt;
+			&lt;a href="#"&gt;Something else here&lt;/a&gt;
+		&lt;/li&gt;
+
+		&lt;li class="divider"&gt;&lt;/li&gt;
+
+		&lt;li&gt;
+			&lt;a href="#"&gt;Separated link&lt;/a&gt;
+		&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/div&gt;
 								</pre>
 							</td>
 						</tr>
 					</table>
-					<button class="btn btn-app btn-light btn-xs">
-						<i class="ace-icon fa fa-print bigger-160"></i>
-						Print
-					</button>
-
-					<a href="#" class="btn btn-app btn-yellow btn-xs">
-						<i class="ace-icon fa fa-shopping-cart bigger-160"></i>
-						Shop
-					</a>
-
-					<div class="btn-group">
-						<button class="btn btn-app btn-pink btn-xs">
-							<i class="ace-icon fa fa-share bigger-175"></i>
-							Share
-						</button>
-
-						<button data-toggle="dropdown" class="btn btn-app btn-pink btn-xs dropdown-toggle">
-							<span class="bigger-110 ace-icon fa fa-caret-down icon-only"></span>
-						</button>
-
-						<ul class="dropdown-menu dropdown-pink">
-							<li>
-								<a href="#">Action</a>
-							</li>
-
-							<li>
-								<a href="#">Another action</a>
-							</li>
-
-							<li>
-								<a href="#">Something else here</a>
-							</li>
-
-							<li class="divider"></li>
-
-							<li>
-								<a href="#">Separated link</a>
-							</li>
-						</ul>
-					</div><!-- /.btn-group -->
 					
 				</div>
 			</div>

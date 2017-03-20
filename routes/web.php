@@ -502,6 +502,9 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/uielement/jqueryui', function () {
         return View::make('ace.jqueryui.index');
     });
+    Route::get('/tables/simple', function () {
+        return View::make('ace.simple.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 
