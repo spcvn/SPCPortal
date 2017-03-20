@@ -213,6 +213,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses' => 'UsersController@disableTwoFactorAuth'
     ]);
 
+    Route::post('user/search-user-by-name', [
+       'as' => 'user.search-user-by-name',
+        'uses' => 'UsersController@searchUserByName' 
+    ]);
+
     /**
      * Roles & Permissions
      */
@@ -388,7 +393,6 @@ $router->get('install/error', [
     'uses' => 'InstallController@error'
 ]);
 
-
 /* Categories */
 Route::get('category', [
     'as' => 'category.list',
@@ -426,6 +430,7 @@ Route::delete('category/{category}/delete', [
 ]);
 /* End Categories */
 
+
 /* Topics */
 Route::get('topic', [
     'as' => 'topic.list',
@@ -457,10 +462,16 @@ Route::post('topic', [
     'uses' => 'TopicsController@updatePosition'
 ]);
 
+Route::post('topic/{topic}/memtor', [
+    'as' => 'topic.memtor',
+    'uses' => 'TopicsController@getMemtorsByTopicId'
+]);
+
 Route::delete('topic/{topic}/delete', [
     'as' => 'topic.delete',
     'uses' => 'TopicsController@delete'
 ]);
+
 /* End Topics */
 
 
@@ -492,3 +503,115 @@ Route::group(['prefix' => 'acelayout'], function () {
         return View::make('ace.jqueryui.index');
     });
 });
+/*--END ACE LAYOUT--*/
+
+Route::get('topic/{topic}/document', [
+    'as' => 'topic.document',
+    'uses' => 'TopicsController@document'
+]);
+/* End Topics */
+
+/**
+ * Questions
+ */
+Route::get('question', [
+    'as' => 'question.index',
+    'uses' => 'QuestionsController@index'
+]);
+
+Route::get('question/create', [
+    'as' => 'question.create',
+    'uses' => 'QuestionsController@create'
+]);
+
+Route::post('question/store', [
+    'as' => 'question.store',
+    'uses' => 'QuestionsController@store'
+]);
+
+Route::get('question/{question}/edit', [
+    'as' => 'question.edit',
+    'uses' => 'QuestionsController@edit'
+]);
+
+Route::put('question/{question}/update', [
+    'as' => 'question.update',
+    'uses' => 'QuestionsController@update'
+]);
+
+Route::delete('question/{question}/delete', [
+    'as' => 'question.delete',
+    'uses' => 'QuestionsController@delete'
+]);
+
+
+/**
+ * Answers
+ */
+Route::get('answer', [
+    'as' => 'answer.index',
+    'uses' => 'AnswersController@index'
+]);
+
+Route::get('answer/create', [
+    'as' => 'answer.create',
+    'uses' => 'AnswersController@create'
+]);
+
+Route::post('answer/store', [
+    'as' => 'answer.store',
+    'uses' => 'AnswersController@store'
+]);
+
+Route::get('answer/{answer}/edit', [
+    'as' => 'answer.edit',
+    'uses' => 'AnswersController@edit'
+]);
+
+Route::put('answer/{answer}/update', [
+    'as' => 'answer.update',
+    'uses' => 'AnswersController@update'
+]);
+
+Route::delete('answer/{answer}/delete', [
+    'as' => 'answer.delete',
+    'uses' => 'AnswersController@delete'
+]);
+
+/**
+ * Tags
+ */
+Route::get('tag', [
+    'as' => 'tag.index',
+    'uses' => 'TagsController@index'
+]);
+
+Route::get('tag/create', [
+    'as' => 'tag.create',
+    'uses' => 'TagsController@create'
+]);
+
+Route::post('tag/store', [
+    'as' => 'tag.store',
+    'uses' => 'TagsController@store'
+]);
+
+Route::get('tag/{tag}/edit', [
+    'as' => 'tag.edit',
+    'uses' => 'TagsController@edit'
+]);
+
+Route::put('tag/{tag}/update', [
+    'as' => 'tag.update',
+    'uses' => 'TagsController@update'
+]);
+
+Route::delete('tag/{tag}/delete', [
+    'as' => 'tag.delete',
+    'uses' => 'TagsController@delete'
+]);
+
+Route::get('tag/find', [
+    'as' => 'tag.find',
+    'uses' => 'TagsController@find'
+]);

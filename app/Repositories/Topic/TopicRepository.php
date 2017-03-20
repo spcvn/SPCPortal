@@ -12,7 +12,7 @@ interface TopicRepository
      *
      * @param none
      * @return \Illuminate\Database\Eloquent\Collection
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -26,7 +26,7 @@ interface TopicRepository
      * @param (string) null $search
      * @param (string) null $status
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -39,7 +39,7 @@ interface TopicRepository
      *
      * @param (int) $id
      * @return null|Array
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -59,7 +59,7 @@ interface TopicRepository
      * );
      * Which key of $condition are corresponding with columns of table
      * @return int
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -72,7 +72,7 @@ interface TopicRepository
      * @param (string) $column
      * @param (int) $id
      * @return null|Array
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -84,7 +84,7 @@ interface TopicRepository
      *
      * @param (string) $name
      * @return null|Array
-	 * 
+	 *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -96,7 +96,7 @@ interface TopicRepository
      *
      * @param (array) $data
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -109,7 +109,7 @@ interface TopicRepository
      * @param (int) $id
      * @param (array) $data Data to update
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -121,7 +121,7 @@ interface TopicRepository
      *
      * @param (int) $id
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -141,11 +141,66 @@ interface TopicRepository
      * Key is order, Value is topic ID
      *
      * @return boolean
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.08
      * @version 1.0
      */
     public function updatePosition($data);
+
+    /**
+     * set mentors for topic.
+     *
+     * @param (int) $topicId
+     * @param array $userID
+     * @param boolean $sync | false is created, true is updated
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.07
+     * @version 1.0
+     */
+    public function setMentors($topicId, $userID, $sync);
+
+    /**
+     * set tags for topic.
+     *
+     * @param (int) $topicId
+     * @param array $tagsID
+     * @param boolean $sync | false is created, true is updated
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.14
+     * @version 1.0
+     */
+    public function setTags($topicId, $tagsID, $sync);
+
+    /**
+     * get memtor list by topic id
+     *
+     * @param (int) $id
+     * @return null|Array
+     *
+     * @author Nguyen Chat Hien
+     * @since 2017.03.13
+     * @version 1.0
+     */
+    public function getMemtorsByTopicId($id);
+
+    /**
+     * Alpha ID | Encryption - Decryption ID.
+     *
+     * @param mixed $in
+     * @param boolean $to_num
+     * @param boolean|int $pad_up
+     * @param string|null $pass_key
+     * @return mixed
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.16
+     * @version 1.0
+     */
+    public function alphaID($in, $to_num, $pad_up, $pass_key);
 
 }

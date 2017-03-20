@@ -11,6 +11,16 @@ use SPCVN\Repositories\Permission\EloquentPermission;
 use SPCVN\Repositories\Permission\PermissionRepository;
 use SPCVN\Repositories\Role\EloquentRole;
 use SPCVN\Repositories\Role\RoleRepository;
+use SPCVN\Repositories\Question\EloquentQuestion;
+use SPCVN\Repositories\Question\QuestionRepository;
+use SPCVN\Repositories\Answer\EloquentAnswer;
+use SPCVN\Repositories\Answer\AnswerRepository;
+use SPCVN\Repositories\Tag\EloquentTag;
+use SPCVN\Repositories\Tag\TagRepository;
+use SPCVN\Repositories\QuestionTag\EloquentQuestionTag;
+use SPCVN\Repositories\QuestionTag\QuestionTagRepository;
+use SPCVN\Repositories\QuestionMenter\EloquentQuestionMenter;
+use SPCVN\Repositories\QuestionMenter\QuestionMenterRepository;
 use SPCVN\Repositories\Session\DbSession;
 use SPCVN\Repositories\Session\SessionRepository;
 use SPCVN\Repositories\User\EloquentUser;
@@ -50,9 +60,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(SessionRepository::class, DbSession::class);
         $this->app->singleton(CountryRepository::class, EloquentCountry::class);
 
+        //2017-03-09 Nguyen Hien add
+        $this->app->singleton(QuestionRepository::class, EloquentQuestion::class);
+        $this->app->singleton(QuestionTagRepository::class, EloquentQuestionTag::class);
+        $this->app->singleton(QuestionMenterRepository::class, EloquentQuestionMenter::class);
+        $this->app->singleton(AnswerRepository::class, EloquentAnswer::class);
+        $this->app->singleton(TagRepository::class, EloquentTag::class);
+
         // @huongdi
         $this->app->singleton(CategoryRepository::class, EloquentCategory::class);
         $this->app->singleton(TopicRepository::class, EloquentTopic::class);
+        // end @huongid
 
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

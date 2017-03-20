@@ -10,6 +10,19 @@ return [
     'deleted_role' => 'Deleted role named :name.',
     'updated_role_permissions' => 'Updated role permissions.',
 
+    'new_category' => 'Created new category called :name.',
+    'updated_category' => 'Updated the category named :name.',
+    'deleted_category' => 'Deleted category named :name.',
+
+    'new_topic' => 'Created new topic called ":name".',
+    'updated_topic' => 'Updated the topic named ":name".',
+    'deleted_topic' => 'Deleted topic named ":name".',
+
+    'hashtag_mentor' => 'You get a hashtag on topic called ":name".',
+    'remove_hashtag_mentor' => 'You have been deleted the hashtag in the topic named ":name".',
+    'deleted_topic_hashtag' => 'Topic name ":name" that you have the hashtag was deleted',
+
+
     'logged_in' => 'Logged in.',
     'logged_out' => 'Logged out.',
     'created_account' => 'Created an account.',
