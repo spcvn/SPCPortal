@@ -517,6 +517,9 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/forms/formwz', function () {
         return View::make('ace.formwz.index');
     });
+    Route::get('/forms/wysiwyg', function () {
+        return View::make('ace.wysiwyg.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 

@@ -154,6 +154,14 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
+
+                <li class="{{ Request::is('acelayout/forms/wysiwyg*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/wysiwyg">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Wysiwyg
+                    </a>
+                    <b class="arrow"></b>
+                </li>
             </ul>
         </li>
 
