@@ -16,6 +16,7 @@ class ActivityController extends Controller
     /**
      * @var EloquentActivity
      */
+    
     private $activities;
 
     /**
