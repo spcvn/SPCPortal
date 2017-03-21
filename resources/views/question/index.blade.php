@@ -67,12 +67,14 @@
                 @foreach ($questions as $question)
                     <tr>
                         <td>
+                            {{-- <a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="questions_name_edit" data-type="text" data-pk="{{$question->id}}" data-name="questions_name_edit" data-url="{{route('question.update', $question->id)}}" data-original-title="Enter question name"> --}}
                                 {{ $question->title }}
+                            {{-- </a> --}}
                         </td>
                         <td>
-
+                            {{-- <a href="#" id="topics" data-type="select" data-pk="{{ $question->topic->id }}" data-url="{{route('topic.list')}}" data-title="Select topic name"> --}}
                                 {{ $question->topic->topic_name or 'Not selected' }}
-
+                            {{-- </a> --}}
                         </td>
                         <td>{{ $question->user->present()->nameOrEmail }}</td>
                         <td>
@@ -116,12 +118,35 @@
         $(document).on("mouseup", "#questions_name_edit", function() {
 
             $(this).editable({
-                method: 'PUT',
-                success: function(response, newValue) {
-                    alert(response);
-                    // userModel.set('username', newValue); //update backbone model
+                validate: function (value) {
+                    // var regex = /^[a-zA-Z0-9\-_ \.]+$/;
+                    // if(!regex.test(value)) {
+
+                    //     return "@lang('app.tag_name_invalid')";
+                    // }
+
+                    if ($.trim(value) === '') {
+
+                        return  "@lang('app.tag_name_require')";
+
+                    } else if($.trim(value).length>255) {
+
+                        return 'Only 100 charateres are allowed';
+                    }
+                },
+                success: function (response) {
+
+                    if(response.status === "EXISTS") {
+
+                        return  "@lang('app.tag_name_exists')";
+                    }
+
+                    toastr.success( "@lang('app.tag_updated')" , "@lang('app.edit_tag')" );
+                },
+                error: function (response) {
+                    return 'remote error';
                 }
-            })
+            });
         });
 
         $(document).on("mouseup", "#topics", function() {

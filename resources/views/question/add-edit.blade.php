@@ -43,6 +43,14 @@
                     {!! Form::select('topic_id', $topics, $edit ? $question->topic_id : '',['class' => 'form-control', 'id' => 'topic-id']) !!}
                 </div>
                 <div class="form-group">
+                    <label for="tag_id">@lang('app.topic_mentor')</label>
+                    @if ($edit)
+                        {!! Form::select('mentor_ids[]', $tags, $tag_createds, ['class' => 'form-control', 'id' => 'mentor_ids', 'multiple' => 'true', 'style' => 'width:100%;']) !!}
+                    @else
+                        <select id="mentor_ids" name="mentor_ids[]" class="form-control" multiple></select>
+                    @endif
+                </div>
+                <div class="form-group">
                     <label for="tag_id">@lang('app.tag_name')</label>
                     @if ($edit)
                         {!! Form::select('tag_ids[]', $tags, $tag_createds, ['class' => 'form-control', 'id' => 'tag_ids', 'multiple' => 'true', 'style' => 'width:100%;']) !!}
@@ -79,7 +87,43 @@
 
     <script type="text/javascript">
 
-        //autocomplete tags
+        var menters = [];
+
+        //get menters by topic id
+        $(document).on("change", "#topic-id", function(e) {
+
+            e.preventDefault();
+
+            var elm = $(this);
+            var topic_id = elm.val();
+            $.ajax({
+                url: "{{ route('frontend.traloituvan.delete') }}",
+                type:"POST",
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf_token"]').attr('content');
+
+                    if (token) {
+                      return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                data: { id : tuvan_id },
+                dataType: 'json',
+                success: function(data) {
+                    $('#remove').modal('hide');
+                    elm.parents(".comment").first().remove();
+                }
+            });
+
+        });
+        var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
+
+         $('#mentor_ids').select2({
+             data: data,
+            placeholder: "Select a state",
+            allowClear: true
+         });
+
+        // autocomplete tags
         $('#tag_ids').select2({
             placeholder: "@lang('app.placeholder_for_tag')",
             tags: "true",

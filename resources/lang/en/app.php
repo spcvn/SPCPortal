@@ -364,6 +364,7 @@ return [
     //Questions
     'add_question' => 'Add Question',
     'topic_name' => 'Topic Name',
+    'topic_mentor' => 'Mentors',
     'roles' => 'Roles',
     'create_new_question' => 'Create New Question',
     'search_for_question' => 'Search for question...',
@@ -401,6 +402,7 @@ return [
     'tag_updated'  =>  'Tag updated successfully.',
     'available_system_tags' => 'available system tags',
     'tag_name_require' => 'The Tag name field is required.',
+    'tag_name_invalid' => 'The Tag name field format is invalid.',
     'tag_name_exists' => 'The Tag name has already been taken.',
     'tag_updated_false'  =>  'Tag updated false.',
     'tag_deleted_successfully'  =>  'Tag deleted successfully.',

@@ -215,7 +215,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('user/search-user-by-name', [
        'as' => 'user.search-user-by-name',
-        'uses' => 'UsersController@searchUserByName' 
+        'uses' => 'UsersController@searchUserByName'
     ]);
 
     /**
@@ -501,7 +501,7 @@ Route::get('question/{question}/edit', [
     'uses' => 'QuestionsController@edit'
 ]);
 
-Route::put('question/{question}/update', [
+Route::any('question/{question}/update', [
     'as' => 'question.update',
     'uses' => 'QuestionsController@update'
 ]);
@@ -535,7 +535,7 @@ Route::get('answer/{answer}/edit', [
     'uses' => 'AnswersController@edit'
 ]);
 
-Route::put('answer/{answer}/update', [
+Route::any('answer/{answer}/update', [
     'as' => 'answer.update',
     'uses' => 'AnswersController@update'
 ]);
@@ -568,7 +568,7 @@ Route::get('tag/{tag}/edit', [
     'uses' => 'TagsController@edit'
 ]);
 
-Route::put('tag/{tag}/update', [
+Route::any('tag/{tag}/update', [
     'as' => 'tag.update',
     'uses' => 'TagsController@update'
 ]);

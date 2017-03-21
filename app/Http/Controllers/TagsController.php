@@ -26,6 +26,7 @@ class TagsController extends Controller
      */
     private $tags;
     private $data=[];
+    const TAG_NAME_EDITABLE='tag_name_editable';
 
     /**
      * TagsController constructor.
@@ -78,6 +79,8 @@ class TagsController extends Controller
 
         $tag=$this->tags->create($request->all());
 
+        $tag["username"]=$tag->user->username;
+
         Output::__outputYes($tag);
     }
 
@@ -89,15 +92,22 @@ class TagsController extends Controller
      */
     public function update(UpdateTagRequest $request)
     {
-        if($this->tags->checkExistsName($request->name, $request->tag_id)) {
+        $tag_name=($request->name==='tag_name_editable')?$request->value:$request->name;
+        $tag_id=($request->tag_id)?$request->tag_id:$request->pk;
+
+        $tag=array();
+
+        if($this->tags->checkExistsName($tag_name, $tag_id)) {
 
             Output::__outputExists();
         }
 
-        if(!$tag=$this->tags->update($request->tag_id, $request->all())) {
+        if(!$tag=$this->tags->update($tag_id, $tag_name)) {
 
             Output::__outputNo();
         }
+
+        $tag["username"]=$tag->user->username;
 
         Output::__outputYes($tag);
     }

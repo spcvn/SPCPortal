@@ -53,7 +53,7 @@ interface TagRepository
      * @param array $data
      * @return Tag
      */
-    public function update($id, array $data);
+    public function update($id, $name);
 
     /**
      * Remove tag from repository.

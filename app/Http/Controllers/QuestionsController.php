@@ -77,8 +77,9 @@ class QuestionsController extends Controller
             DB::beginTransaction();
 
             try {
+
                     //create new question
-                    $question = $this->questions->create($request->all());
+                    $question = $this->questions->create(array_map('trim', $request->all()));
 
                     $tag_ids = ($request->tag_ids)?$request->tag_ids:'';
 
@@ -153,6 +154,7 @@ class QuestionsController extends Controller
             DB::beginTransaction();
 
             try {
+
                     //update question
                     $question = $this->questions->update($question->id, $request->all());
 
