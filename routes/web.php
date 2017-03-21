@@ -481,6 +481,11 @@ Route::get('topic/{topic}/document', [
     'as' => 'topic.document',
     'uses' => 'TopicsController@document'
 ]);
+
+Route::get('topic/check-exists', [
+    'as' => 'topic.check-exists',
+    'uses' => 'TopicsController@checkExistsName'
+]);
 /* End Topics */
 
 /**

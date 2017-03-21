@@ -203,4 +203,21 @@ interface TopicRepository
      */
     public function alphaID($in, $to_num, $pad_up, $pass_key);
 
+    /**
+     * check exists topic by name.
+     *
+     * @param array $data
+     * $data => [
+     *      category_id,
+     *      parent_id,
+     *      name
+     * ]
+     * @return boolse
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.20
+     * @version 1.0
+     */
+    public function checkExistsName($data);
+
 }

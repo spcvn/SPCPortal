@@ -97,6 +97,12 @@ class TopicsController extends Controller
             $request->request->add(['picture' => $dir .'/'. $filename]);   
         }
 
+        if ($request->input('mentors')) {
+            $request->request->add(['public' => false]);   
+        } else {
+            $request->request->add(['public' => true]);
+        }
+
         // save topic
         $topic = $this->topic->create($request->input());
 
@@ -190,6 +196,12 @@ class TopicsController extends Controller
             if ($topic->picture) {
                 @unlink($path .'/'. $topic->picture);
             }
+        }
+
+        if ($request->input('mentors')) {
+            $request->request->add(['public' => false]);   
+        } else {
+            $request->request->add(['public' => true]);
         }
 
         // save topic
@@ -302,5 +314,19 @@ class TopicsController extends Controller
         }
 
         return true;
+    }
+
+    public function checkExistsName(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json(['status' => false, 'message' => trans('app.something_wrong')]);
+        }
+
+        $result = $this->topic->checkExistsName($request->all());
+        if ($result) {
+            return response()->json(['status' => false, 'message' => trans('app.name_exists')]);
+        }
+
+        return response()->json(['status' => true, 'message' => '']);
     }
 }

@@ -257,5 +257,38 @@ class EloquentTopic implements TopicRepository
 
         return $out;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkExistsName($data)
+    {
+        if (isset($data['topic_name']) && empty($data['topic_name'])) {
+            return false;
+        }
+
+        $query = Topic::query();
+        $query->select('id', 'topic_name');
+        $query->where('del_flag', false);
+
+        if (isset($data['topic_id']) && $data['topic_id']) {
+            $query->where('id', '<>', $data['topic_id']);
+        }        
+
+        if (isset($data['category_id']) && $data['category_id']) {
+            $query->where('category_id', $data['category_id']);
+        }
+
+        $name = trim($data['topic_name']);
+        $query->where('topic_name', $name);
+
+        $results = $query->get()->toArray();
+
+        if ($results) {
+            return true;
+        }
+
+        return false;
+    }
 }
 
