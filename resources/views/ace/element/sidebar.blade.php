@@ -111,6 +111,14 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
+
+                <li class="{{ Request::is('acelayout/tables/tabletbl*') ? 'active' : ''  }}">
+                    <a href="/acelayout/tables/tabletbl">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Custom table
+                    </a>
+                    <b class="arrow"></b>
+                </li>
             </ul>
         </li>
 

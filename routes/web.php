@@ -505,6 +505,9 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/tables/simple', function () {
         return View::make('ace.simple.index');
     });
+    Route::get('/tables/tabletbl', function () {
+        return View::make('ace.tabletbl.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 
