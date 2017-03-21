@@ -146,6 +146,14 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
+
+                <li class="{{ Request::is('acelayout/forms/formwz*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/formwz">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Wizard & Validation
+                    </a>
+                    <b class="arrow"></b>
+                </li>
             </ul>
         </li>
 

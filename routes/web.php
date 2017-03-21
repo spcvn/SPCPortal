@@ -514,6 +514,9 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/forms/formele2', function () {
         return View::make('ace.formele2.index');
     });
+    Route::get('/forms/formwz', function () {
+        return View::make('ace.formwz.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 
