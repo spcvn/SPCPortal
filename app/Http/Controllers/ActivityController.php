@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class ActivityController extends Controller
 {
     /**
-     * @var EloquentActivity123
+     * @var EloquentActivity1
      */
 
     private $activities;
