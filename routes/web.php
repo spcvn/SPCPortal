@@ -520,6 +520,12 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/forms/wysiwyg', function () {
         return View::make('ace.wysiwyg.index');
     });
+    Route::get('/forms/dropzone', function () {
+        return View::make('ace.dropzone.index');
+    });
+    Route::get('/widgets', function () {
+        return View::make('ace.widgets.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 

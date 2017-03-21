@@ -124,7 +124,7 @@
 
         <li class="{{ Request::is('acelayout/forms*') ? 'active open' : ''  }}">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-list"></i>
+                <i class="menu-icon fa fa-pencil-square-o"></i>
                 <span class="menu-text">Forms</span>
                 <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -162,7 +162,23 @@
                     </a>
                     <b class="arrow"></b>
                 </li>
+
+                <li class="{{ Request::is('acelayout/forms/dropzone*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/dropzone">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Dropzone file upload
+                    </a>
+                    <b class="arrow"></b>
+                </li>
             </ul>
+        </li>
+
+        <li class="{{ Request::is('acelayout/widgets*') ? 'active' : ''  }}">
+            <a href="/acelayout/widgets">
+                <i class="menu-icon fa fa-list-alt"></i>
+                <span class="menu-text">Widgets</span>
+            </a>
+            <b class="arrow"></b>
         </li>
 
         @permission('users.manage')
