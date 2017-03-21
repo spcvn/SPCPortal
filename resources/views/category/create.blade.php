@@ -7,12 +7,22 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                @lang('app.add_category')
+                @if ($edit)
+                    @lang('app.edit_category')
+                @else
+                    @lang('app.add_category')
+                @endif
                 <div class="pull-right">
                     <ol class="breadcrumb">
                         <li><a href="{{ route('dashboard') }}">@lang('app.home')</a></li>
                         <li><a href="{{ route('category.list') }}">@lang('app.category')</a></li>
-                        <li class="active">@lang('app.create')</li>
+                        <li class="active">
+                            @if ($edit)
+                                @lang('app.edit_category')
+                            @else
+                                @lang('app.add_category')
+                            @endif
+                        </li>
                     </ol>
                 </div>
 
@@ -36,10 +46,12 @@
                         <h3 class="panel-title">@lang('app.add_category')</h3>
                     </div>
                     <div class="panel-body">
+                        @if (count($categories) > 1)
                         <div class="form-group">
                             <label for="name">@lang('app.parent_name')</label>
                             {!! Form::select('parent_id', $categories, $edit ? $category->parent_id : '', ['class' => 'form-control']) !!}
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="name" class="required">@lang('app.name')</label>
                             <input type="text" class="form-control" id="name" placeholder="(@lang('app.name'))" name="name" value="{{ $edit ? $category->name : '' }}">
