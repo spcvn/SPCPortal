@@ -97,12 +97,6 @@ class TopicsController extends Controller
             $request->request->add(['picture' => $dir .'/'. $filename]);   
         }
 
-        if ($request->input('mentors')) {
-            $request->request->add(['public' => false]);   
-        } else {
-            $request->request->add(['public' => true]);
-        }
-
         // save topic
         $topic = $this->topic->create($request->input());
 
@@ -196,12 +190,6 @@ class TopicsController extends Controller
             if ($topic->picture) {
                 @unlink($path .'/'. $topic->picture);
             }
-        }
-
-        if ($request->input('mentors')) {
-            $request->request->add(['public' => false]);   
-        } else {
-            $request->request->add(['public' => true]);
         }
 
         // save topic

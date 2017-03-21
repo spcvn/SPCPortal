@@ -82,6 +82,21 @@
                     <div class="panel-body">
                         
                         <div class="form-group">
+                            <label for="name">@lang('app.public')</label>
+                            <br>
+                            <input type="hidden" name="public" value="0">
+                            <input type="checkbox" name="public" class="switch" value="1" data-on-text="@lang('app.yes')" data-off-text="@lang('app.no')" 
+                                @if ($edit && $topic->public)
+                                    {{ 'checked' }}
+                                @else
+                                    @if ($edit === false)
+                                        {{'checked'}}
+                                    @endif
+                                @endif
+                            >
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="name">@lang('app.mentors')</label>
                             {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control mentors select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
                         </div>

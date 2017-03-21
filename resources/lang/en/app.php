@@ -203,6 +203,7 @@ return [
     'topic_picture'     =>  'Topic picture',
     'topic_options'     =>  'Options',
     'public'            =>  'Public',
+    'private'           =>  'Private',
     'mentors'           =>  'Mentors',
     'documents'         =>  'Documents',
     'delete_topic'      =>  'Delete topic',

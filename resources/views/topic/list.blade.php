@@ -57,9 +57,9 @@
                 <!--<th style="width: 2%;">@lang('app.sort_category')</th>-->
                 <th style="width: 10%;" class="text-center">@lang('app.topic_picture')</th>
                 <th style="width: 30%;">@lang('app.topic_name')</th>
-                <th style="width: 15%;">@lang('app.mentors')</th>
                 <th style="width: 15%;">@lang('app.tag')</th>
                 <th style="width: 15%;">@lang('app.created_by')</th>
+                <th style="width: 15%; text-align: center;">@lang('app.status')</th>
                 <th style="width: 15%;" class="text-center">@lang('app.action')</th>
                 </thead>
             <tbody>
@@ -80,17 +80,21 @@
                             </a>
                         </td>
                         <td><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
-                        <td class="mentors">
-                            @foreach ($topic->users as $user)
-                            <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #8080ff; color: #fff;">{{$user->full_name}}</span>
-                            @endforeach
-                        </td>
                         <td class="tags">
                             @foreach ($topic->tags as $tag)
                             <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #0080ff; color: #fff;">{{$tag->name}}</span>
                             @endforeach
                         </td>
                         <td><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->user->first_name }} {{ $topic->user->last_name }}</a></td>
+                        
+                        <td style="text-align: center;">
+                            @if ($topic->public)
+                            <i class="fa fa-circle" title="@lang('app.public')" data-toggle="tooltip" data-placement="top" style="color: #328EFE;" aria-hidden="true"></i>
+                            @else
+                            <i class="fa fa-circle-o" title="@lang('app.private')" data-toggle="tooltip" data-placement="top" style="color: #328EFE;" aria-hidden="true"></i>
+                            @endif
+                        </td>
+
                         <td class="text-center">
                         @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
                             <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
