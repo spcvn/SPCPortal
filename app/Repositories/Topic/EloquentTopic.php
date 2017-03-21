@@ -290,5 +290,37 @@ class EloquentTopic implements TopicRepository
 
         return false;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listsTopicByUser($userID, $flag = false)
+    {
+        // get topic from topic mentors
+        $user = User::find($userID);
+        $topicIDs = [];
+
+        foreach ($user->topics as $topic) {
+            $topicIDs[$topic->id] = $topic->topic_name;
+        }
+
+        // get topic from topics table
+        $topics = Topic::query();
+        $topics->where('public', true);
+        $topics->where('del_flag', false);
+        if ($flag) {
+            $topics->where(function ($q) use ($userID) {
+                $q->where('user_id', $userID);
+                $q->orWhere('user_id', 1);
+            });  
+        }
+
+        $results = $topics->get();
+        foreach ($results as $result) {
+            $topicIDs[$result->id] = $result->topic_name;
+        }
+
+        return $topicIDs;
+    }
 }
 
