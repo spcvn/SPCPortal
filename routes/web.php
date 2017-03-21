@@ -428,6 +428,11 @@ Route::delete('category/{category}/delete', [
     'as' => 'category.delete',
     'uses' => 'CategoryController@delete'
 ]);
+
+Route::get('category/{category}/check-exists', [
+    'as' => 'category.check-exists',
+    'uses' => 'CategoryController@checkExists'
+]);
 /* End Categories */
 
 
