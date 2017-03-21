@@ -81,7 +81,7 @@
                         </td>
                         <td><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
                         <td class="tags">
-                            @foreach ($topic->tags as $tag)
+                            @foreach ($topic->topics_tags as $tag)
                             <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #0080ff; color: #fff;">{{$tag->name}}</span>
                             @endforeach
                         </td>

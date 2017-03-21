@@ -29,7 +29,7 @@ class EloquentTopic implements TopicRepository
      */
     public function paginate($perPage = 30, $search = null)
     {
-        $query = Topic::with(['tags', 'user', 'users'])
+        $query = Topic::with(['topics_tags', 'user', 'topics_mentors'])
                     ->where('topics.del_flag', false);
 
         if ($search) {
@@ -101,9 +101,9 @@ class EloquentTopic implements TopicRepository
     public function update($id, $data = array())
     {
         $oldMentors = [];
-        $topic = Topic::with('users')->find($id);
+        $topic = Topic::with('topics_mentors')->find($id);
 
-        foreach ($topic->users as $user) {
+        foreach ($topic->topics_mentors as $user) {
             $oldMentors[] = $user->id;
         }
 
@@ -121,7 +121,7 @@ class EloquentTopic implements TopicRepository
         $oldMentors = [];
     	$topic = $this->find($id);
 
-        foreach ($topic->users as $user) {
+        foreach ($topic->topics_mentors as $user) {
             $oldMentors[] = $user->id;
         }
 
@@ -163,7 +163,7 @@ class EloquentTopic implements TopicRepository
             $data = $userID;
         }
 
-        return $this->find($topicID)->users()->sync($data, $sync);
+        return $this->find($topicID)->topics_mentors()->sync($data, $sync);
     }
 
     /**
@@ -176,7 +176,7 @@ class EloquentTopic implements TopicRepository
             $data = $tagsID;
         }
 
-        return $this->find($topicID)->tags()->sync($data, $sync);
+        return $this->find($topicID)->topics_tags()->sync($data, $sync);
     }
 
     /**
