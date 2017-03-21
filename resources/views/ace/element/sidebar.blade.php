@@ -112,10 +112,37 @@
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/tables/tabletbl*') ? 'active' : ''  }}">
-                    <a href="/acelayout/tables/tabletbl">
+                <li class="{{ Request::is('acelayout/tables/tablecus*') ? 'active' : ''  }}">
+                    <a href="/acelayout/tables/tablecus">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Custom table
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        <li class="{{ Request::is('acelayout/forms*') ? 'active open' : ''  }}">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-list"></i>
+                <span class="menu-text">Forms</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="{{ Request::is('acelayout/forms/formele1*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/formele1">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Form element 1
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/forms/formele2*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/formele2">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Form element 2
                     </a>
                     <b class="arrow"></b>
                 </li>

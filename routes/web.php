@@ -505,8 +505,14 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/tables/simple', function () {
         return View::make('ace.simple.index');
     });
-    Route::get('/tables/tabletbl', function () {
-        return View::make('ace.tabletbl.index');
+    Route::get('/tables/tablecus', function () {
+        return View::make('ace.tablecus.index');
+    });
+    Route::get('/forms/formele1', function () {
+        return View::make('ace.formele1.index');
+    });
+    Route::get('/forms/formele2', function () {
+        return View::make('ace.formele2.index');
     });
 });
 /*--END ACE LAYOUT--*/
