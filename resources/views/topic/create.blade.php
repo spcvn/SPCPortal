@@ -109,14 +109,32 @@
                         <div class="form-group">
                             <label for="picture">@lang('app.documents')</label>
 
+                            @if ($edit && count($documents) > 0)
+                            <div class="list-document-update">
 
-                            @if ($edit && count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
-                                <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
-                                   title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
-                                   data-toggle="modal" data-target="#documentModal">
-                                    <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                                </button>
+                                <ul class="list-document" style="list-style: none; clear: both;">
+                                    @foreach ($documents as $key => $document)
+                                        @php
+                                            $files      = @explode('/', $document);
+                                            $fileName   = array_pop($files);
+                                            $other      = array_pop($listIcon);
+                                            if (isset($listIcon[$documentExtention[$key]])) {
+                                                $src = $listIcon[$documentExtention[$key]];
+                                            } else {
+                                                $src = $other;
+                                            }
+                                        @endphp
+                                        <li class="item" style="float: left; margin: 5px;">
+                                            <img title="{{ $fileName }}" data-toggle="tooltip" data-placement="top" style=" height: 50px; width: 50px;" class="" src="{{ $src }}">
+                                        </li>   
+                                    @endforeach
+                                    </ul>
+
+                                <div class="clear" style="clear: both; margin-bottom: 10px;"></div>
+                            </div> 
                             @endif
+
+
 
 
 
