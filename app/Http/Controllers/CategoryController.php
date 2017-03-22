@@ -45,9 +45,9 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->category->paginate();
+        $categories = $this->category->paginate(30, $request->input('search'));
         return view('category.list', compact('categories'));
     }
 
@@ -56,13 +56,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
         $edit       = false;
         $categories = $this->category->makeCategoryMultiLevel();
         $user       = Auth::user();
 
-        return view('category.create', compact('categories', 'edit', 'user'));
+        return view('category.create', compact('category', 'categories', 'edit', 'user'));
     }
 
     /**
@@ -149,6 +149,20 @@ class CategoryController extends Controller
                 return response()->json(['message' => trans('app.category_updated_false')]);
             }
         } 
+    }
+
+    public function checkExists(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json(['status' => false, 'message' => trans('app.something_wrong')]);
+        }
+
+        $result = $this->category->checkExists($request->all());
+        if ($result) {
+            return response()->json(['status' => false, 'message' => trans('app.name_exists')]);
+        }
+
+        return response()->json(['status' => true, 'message' => '']);
     }
 
 }

@@ -6,6 +6,7 @@ use SPCVN\Http\Requests\Request;
 
 class UpdateCategoryRequest extends Request
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,7 +17,7 @@ class UpdateCategoryRequest extends Request
         $category = $this->route('category');
 
         return [
-            'name' => 'required|unique:categories,name,' . $category->id
+            'name' => 'required|max:100,' . $category->id
         ];
     }
 }

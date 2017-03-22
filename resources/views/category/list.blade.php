@@ -28,6 +28,25 @@
                 @lang('app.add_category')
             </a>
         </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-4">
+            <form method="GET" action="" accept-charset="UTF-8" id="users-form">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" name="search"
+                           value="{{ Input::get('search') }}" placeholder="@lang('app.search_for_action')">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" id="search-activities-btn">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        @if (Input::has('search') && Input::get('search') != '')
+                            <a href="{{ route('category.list') }}" class="btn btn-danger" type="button">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        @endif
+                    </span>
+                </div>
+            </form>
+        </div>
     </div>
 
 

@@ -80,6 +80,19 @@ interface TopicRepository
     public function lists($column = 'name', $key = 'id');
 
     /**
+     * Get list topic by user ID.
+     *
+     * @param int $userID
+     * @param boolean $flag | get topic follow member created | default is false
+     * @return null|array
+     *
+     * @author Dinh Van Huong
+     * @since 2017.03.21
+     * @version 1.0
+     */
+    public function listsTopicByUser($userID, $flag);
+
+    /**
      * Find topic by name.
      *
      * @param (string) $name
@@ -202,5 +215,22 @@ interface TopicRepository
      * @version 1.0
      */
     public function alphaID($in, $to_num, $pad_up, $pass_key);
+
+    /**
+     * check exists topic by name.
+     *
+     * @param array $data
+     * $data => [
+     *      category_id,
+     *      parent_id,
+     *      name
+     * ]
+     * @return boolse
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.20
+     * @version 1.0
+     */
+    public function checkExistsName($data);
 
 }

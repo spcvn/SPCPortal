@@ -65,6 +65,11 @@ class TopicsController extends Controller
         $user_login_id = Auth::id();
         $tags       = [];
 
+        // redirect to category screen if the category does not exist
+        if (count($categories) <= 1) { // first item is default
+            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+        }
+
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'tags'));
     }
 
@@ -140,15 +145,30 @@ class TopicsController extends Controller
         $user_login_id  = Auth::id();
         
         $tagsSelected = $userSelected = [];
-        foreach ($topic->users as $mentor) {
+        foreach ($topic->topics_mentors as $mentor) {
             $userSelected[] = $mentor->id;
         }
 
-        foreach ($topic->tags as $tag) {
+        foreach ($topic->topics_tags as $tag) {
             $tagsSelected[] = $tag->id;
         }
 
-        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected'));
+        // redirect to category screen if the category does not exist
+        if (count($categories) <= 1) { // first item is default
+            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+        }
+
+        // load document
+        $dir        = $this->topic->alphaID($topic->id, false, NUMBER_CHARACTER_RANDOM);
+        $documents  = Storage::files('/upload/documents/' . $dir);
+        $documentExtention = [];
+        foreach ($documents as $key => $document) {
+            $documentExtention[$key] = $this->get_file_extension($document);
+        }
+        
+        $listIcon = $this->listIcon();
+
+        return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected', 'documents', 'documentExtention', 'listIcon'));
     }
 
     /**
@@ -233,6 +253,13 @@ class TopicsController extends Controller
             $documentExtention[$key] = $this->get_file_extension($document);
         }
 
+        $listIcon = $this->listIcon();
+
+        return view('topic.document', compact('documents', 'documentExtention', 'listIcon'));
+    }
+
+    private function listIcon()
+    {
         $pdfImg = 'http://cdn1.iconfinder.com/data/icons/CrystalClear/128x128/mimetypes/pdf.png';
         $docImg = 'http://cdn2.iconfinder.com/data/icons/sleekxp/Microsoft%20Office%202007%20Word.png';
         $pptImg = 'http://cdn2.iconfinder.com/data/icons/sleekxp/Microsoft%20Office%202007%20PowerPoint.png';
@@ -243,7 +270,7 @@ class TopicsController extends Controller
         $htmlImg = 'http://cdn1.iconfinder.com/data/icons/nuove/128x128/mimetypes/html.png';
         $fileImg = 'http://cdn3.iconfinder.com/data/icons/musthave/128/New.png';
 
-        $listIcon = [
+        return [
             'pdf' => $pdfImg,
             'doc' => $docImg,
             'docx' => $docImg,
@@ -260,8 +287,6 @@ class TopicsController extends Controller
             'html' => $htmlImg,
             'file' => $fileImg
         ];
-
-        return view('topic.document', compact('documents', 'documentExtention', 'listIcon'));
     }
 
     private function get_file_extension($f) {
@@ -292,5 +317,19 @@ class TopicsController extends Controller
         }
 
         return true;
+    }
+
+    public function checkExistsName(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json(['status' => false, 'message' => trans('app.something_wrong')]);
+        }
+
+        $result = $this->topic->checkExistsName($request->all());
+        if ($result) {
+            return response()->json(['status' => false, 'message' => trans('app.name_exists')]);
+        }
+
+        return response()->json(['status' => true, 'message' => '']);
     }
 }
