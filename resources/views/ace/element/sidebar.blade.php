@@ -222,26 +222,61 @@
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/forms/formwz*') ? 'active' : ''  }}">
-                    <a href="/acelayout/forms/formwz">
+                <li class="{{ Request::is('acelayout/morepages/pricing*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/pricing">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Wizard & Validation
+                        Pricing table
                     </a>
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/forms/wysiwyg*') ? 'active' : ''  }}">
-                    <a href="/acelayout/forms/wysiwyg">
+                <li class="{{ Request::is('acelayout/morepages/invoice*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/invoice">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Wysiwyg
+                        Invoice
                     </a>
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/forms/dropzone*') ? 'active' : ''  }}">
-                    <a href="/acelayout/forms/dropzone">
+                <li class="{{ Request::is('acelayout/morepages/timeline*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/timeline">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Dropzone file upload
+                        Timeline
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/morepages/search*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/search">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Search results
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        <li class="{{ Request::is('acelayout/other*') ? 'active open' : ''  }}">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-tag"></i>
+                <span class="menu-text">Other pages</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="{{ Request::is('acelayout/other/faq*') ? 'active' : ''  }}">
+                    <a href="/acelayout/other/faq">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        FAQ
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/other/404*') ? 'active' : ''  }}">
+                    <a href="/acelayout/other/404">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Error 404
                     </a>
                     <b class="arrow"></b>
                 </li>

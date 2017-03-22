@@ -543,6 +543,24 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/morepages/inbox', function () {
         return View::make('ace.inbox.index');
     });
+    Route::get('/morepages/pricing', function () {
+        return View::make('ace.pricing.index');
+    });
+    Route::get('/morepages/invoice', function () {
+        return View::make('ace.invoice.index');
+    });
+    Route::get('/morepages/timeline', function () {
+        return View::make('ace.timeline.index');
+    });
+    Route::get('/morepages/search', function () {
+        return View::make('ace.search.index');
+    });
+    Route::get('/other/faq', function () {
+        return View::make('ace.faq.index');
+    });
+    Route::get('/other/404', function () {
+        return View::make('ace.404.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 
