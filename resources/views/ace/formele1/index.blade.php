@@ -1319,10 +1319,6 @@
 	{{ HTML::script('spcvn/ace/js/jquery.maskedinput.min.js') }}
 	{{ HTML::script('spcvn/ace/js/bootstrap-tag.min.js') }}
 
-	<!-- ace scripts -->
-	{{ HTML::script('spcvn/ace/js/ace-elements.min.js') }}
-	{{ HTML::script('spcvn/ace/js/ace.min.js') }}
-
 	<script type="text/javascript">
 		jQuery(function($) {
 			$('#id-disable-check').on('click', function() {

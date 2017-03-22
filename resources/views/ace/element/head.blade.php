@@ -12,6 +12,7 @@
 {{ HTML::style('spcvn/ace/css/style.custom.css') }}
 {{ HTML::style('spcvn/ace/css/bootstrap.min.css') }}
 {{ HTML::style('spcvn/ace/css/ace-skins.min.css') }}
+{{ HTML::style('spcvn/ace/css/fullcalendar.min.css') }}
 {{ HTML::style('spcvn/ace/css/fonts.googleapis.com.css') }}
 {{ HTML::style('spcvn/ace/css/bootstrap-duallistbox.min.css') }}
 {{ HTML::style('spcvn/ace/css/bootstrap-multiselect.min.css') }}

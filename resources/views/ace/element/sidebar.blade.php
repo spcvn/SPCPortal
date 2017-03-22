@@ -181,6 +181,14 @@
             <b class="arrow"></b>
         </li>
 
+        <li class="{{ Request::is('acelayout/calendar*') ? 'active' : ''  }}">
+            <a href="/acelayout/calendar">
+                <i class="menu-icon fa fa-calendar"></i>
+                <span class="menu-text">Calendar</span>
+            </a>
+            <b class="arrow"></b>
+        </li>
+
         @permission('users.manage')
             <li class="{{ Request::is('user*') ? 'active' : ''  }}">
                 <a href="{{ route('user.list') }}">
