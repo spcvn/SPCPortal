@@ -529,6 +529,9 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/calendar', function () {
         return View::make('ace.calendar.index');
     });
+    Route::get('/gallery', function () {
+        return View::make('ace.gallery.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 

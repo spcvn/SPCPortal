@@ -7,9 +7,11 @@
 <meta name="description" content="overview &amp; stats" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
+
 {{ HTML::style('spcvn/ace/css/ace-rtl.min.css') }}
 {{ HTML::style('spcvn/ace/css/select2.min.css') }}
 {{ HTML::style('spcvn/ace/css/style.custom.css') }}
+{{ HTML::style('spcvn/ace/css/colorbox.min.css') }}
 {{ HTML::style('spcvn/ace/css/bootstrap.min.css') }}
 {{ HTML::style('spcvn/ace/css/ace-skins.min.css') }}
 {{ HTML::style('spcvn/ace/css/fullcalendar.min.css') }}

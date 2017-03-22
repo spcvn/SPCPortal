@@ -189,6 +189,14 @@
             <b class="arrow"></b>
         </li>
 
+        <li class="{{ Request::is('acelayout/gallery*') ? 'active' : ''  }}">
+            <a href="/acelayout/gallery">
+                <i class="menu-icon fa fa-picture-o"></i>
+                <span class="menu-text">Gallery</span>
+            </a>
+            <b class="arrow"></b>
+        </li>
+
         @permission('users.manage')
             <li class="{{ Request::is('user*') ? 'active' : ''  }}">
                 <a href="{{ route('user.list') }}">
