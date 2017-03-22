@@ -197,6 +197,57 @@
             <b class="arrow"></b>
         </li>
 
+        <li class="{{ Request::is('acelayout/morepages*') ? 'active open' : ''  }}">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-tag"></i>
+                <span class="menu-text">More pages</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="{{ Request::is('acelayout/morepages/profile*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/profile">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        User profile
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/morepages/inbox*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/inbox">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Inbox
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/forms/formwz*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/formwz">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Wizard & Validation
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/forms/wysiwyg*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/wysiwyg">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Wysiwyg
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/forms/dropzone*') ? 'active' : ''  }}">
+                    <a href="/acelayout/forms/dropzone">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Dropzone file upload
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
         @permission('users.manage')
             <li class="{{ Request::is('user*') ? 'active' : ''  }}">
                 <a href="{{ route('user.list') }}">

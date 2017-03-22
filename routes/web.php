@@ -532,6 +532,12 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/gallery', function () {
         return View::make('ace.gallery.index');
     });
+    Route::get('/morepages/profile', function () {
+        return View::make('ace.profile.index');
+    });
+    Route::get('/morepages/inbox', function () {
+        return View::make('ace.inbox.index');
+    });
 });
 /*--END ACE LAYOUT--*/
 
