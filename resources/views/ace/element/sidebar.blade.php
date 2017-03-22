@@ -258,7 +258,7 @@
 
         <li class="{{ Request::is('acelayout/other*') ? 'active open' : ''  }}">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon fa fa-tag"></i>
+                <i class="menu-icon fa fa-file-o"></i>
                 <span class="menu-text">Other pages</span>
                 <b class="arrow fa fa-angle-down"></b>
             </a>

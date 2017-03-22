@@ -18,7 +18,9 @@
 		<div class="col-xs-12">
 			<form class="form-inline text-right">
 				<div class="form-group" style="margin-bottom:15px">
-					<select id="value-filter" onchange="myFunction(this)" class="form-control">
+					<select id="value-filter" class="form-control">
+						<option value="">Select</option>
+						<option value="diamond">Diamond</option>
 						<option value="vip">Vip</option>
 						<option value="gold">Gold</option>
 						<option value="normal">Normal</option>
@@ -46,7 +48,6 @@
 						<th class="hidden-480">Clicks</th>
 						<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>Update</th>
 						<th class="hidden-480">Status</th>
-						<th></th>
 					</tr>
 				</thead>
 
@@ -112,15 +113,15 @@
 
 	<script>
 		var data_sample = [
-			{col1: 'data-col1', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', col5: 'data-col5'},
-			{col1: 'data-col1', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', col5: 'data-col5'},
-			{col1: 'data-col1', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', col5: 'data-col5'},
-			{col1: 'data-col1', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', col5: 'data-col5'},
-			{col1: 'data-col1', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', col5: 'data-col5'},
-			{col1: 'data-col1', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', col5: 'data-col5'}
+			{col1: 'a', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', status: 'diamond'},
+			{col1: 'b', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', status: 'gold'},
+			{col1: 'c', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', status: 'vip'},
+			{col1: 'd', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', status: 'normal'},
+			{col1: 'e', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', status: 'gold'},
+			{col1: 'f', col2: 'data-col2', col3: 'data-col3', col4: 'data-col4', status: 'normal'}
 		];
 
-		function drawTable(data){
+		function drawTable(data, __filter = null){
 			var table = $('#simple-table tbody');
 			$(table).find('tr').remove();
 			for (var i = 0; i < data.length; i++) {
@@ -130,10 +131,21 @@
 				__cell += '<td>' + data[i]['col2'] + '</td>';
 				__cell += '<td>' + data[i]['col3'] + '</td>';
 				__cell += '<td>' + data[i]['col4'] + '</td>';
-				__cell += '<td>' + data[i]['col5'] + '</td>';
-				$(__cell).appendTo(table.find('tr').last());
+				__cell += '<td>' + data[i]['status'] + '</td>';
+
+				if(__filter && (data[i]['status'] == __filter))
+					$(__cell).appendTo(table.find('tr').last());
+				else if(!__filter)
+					$(__cell).appendTo(table.find('tr').last());
 			}
 		}
 		drawTable(data_sample);
+
+		$('select#value-filter').change(function(event) {
+			drawTable(data_sample, $(this).val());
+		});
 	</script>
+
+	{{-- I can't create paging with jquery if don't load all of data / You can use 'php' to create paging --}}
+	{{-- Because the data don't load all, Search proccess can't use jquery --}}
 @stop
