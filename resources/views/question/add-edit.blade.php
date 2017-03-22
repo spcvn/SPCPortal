@@ -87,41 +87,50 @@
 
     <script type="text/javascript">
 
-        var menters = [];
+        var topic_id = '';
+        setMenterData(topic_id);
 
         //get menters by topic id
         $(document).on("change", "#topic-id", function(e) {
 
+            $("#mentor_ids").html("")
+
             e.preventDefault();
 
             var elm = $(this);
-            var topic_id = elm.val();
-            $.ajax({
-                url: "{{ route('frontend.traloituvan.delete') }}",
-                type:"POST",
-                beforeSend: function (xhr) {
-                    var token = $('meta[name="csrf_token"]').attr('content');
+            topic_id = elm.val();
+            setMenterData(topic_id);
+        });
 
-                    if (token) {
-                      return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                    }
-                },
-                data: { id : tuvan_id },
-                dataType: 'json',
-                success: function(data) {
-                    $('#remove').modal('hide');
-                    elm.parents(".comment").first().remove();
+        function setMenterData(topic_id) {
+
+            $('#mentor_ids').select2({
+
+                placeholder: "@lang('app.placeholder_for_mentor')",
+                tags: "false",
+                allowClear: true,
+                tokenSeparators: [',', ' '],
+                ajax: {
+                    url: "{{ route('topic.mentor') }}",
+                    dataType: "json",
+                    type:"POST",
+                    beforeSend: function (xhr) {
+                        var token = $('meta[name="csrf_token"]').attr('content');
+
+                        if (token) {
+                          return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                        }
+                    },
+                    data: { topic_id : topic_id },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
                 }
             });
-
-        });
-        var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
-
-         $('#mentor_ids').select2({
-             data: data,
-            placeholder: "Select a state",
-            allowClear: true
-         });
+        }
 
         // autocomplete tags
         $('#tag_ids').select2({

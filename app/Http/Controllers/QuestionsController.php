@@ -196,6 +196,18 @@ class QuestionsController extends Controller
     }
 
     /**
+     * Displays question information page.
+     *
+     * @param User $user
+     * @param ActivityRepository $activities
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function answer()
+    {
+
+    }
+
+    /**
      * Remove specified question from system.
      *
      * @param Question $question

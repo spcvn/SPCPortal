@@ -47,7 +47,7 @@
                 </div>
             </form>
         </div>
-        
+
     </div>
 
 
@@ -81,12 +81,12 @@
                         </td>
                         <td><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
                         <td class="mentors">
-                            @foreach ($topic->users as $user)
+                            @foreach ($topic->topic_mentors as $user)
                             <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #8080ff; color: #fff;">{{$user->full_name}}</span>
                             @endforeach
                         </td>
                         <td class="tags">
-                            @foreach ($topic->tags as $tag)
+                            @foreach ($topic->topic_tags as $tag)
                             <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #0080ff; color: #fff;">{{$tag->name}}</span>
                             @endforeach
                         </td>

@@ -55,37 +55,49 @@
 
     <div class="table-responsive" id="users-table-wrapper">
         <table class="table">
-            <thead>
+            {{-- <thead>
                 <th>@lang('app.name')</th>
                 <th>@lang('app.topic_name')</th>
                 <th>@lang('app.created_by')</th>
                 <th>@lang('app.tag')</th>
                 <th class="text-center">@lang('app.action')</th>
-            </thead>
+            </thead> --}}
             <tbody>
             @if (count($questions))
                 @foreach ($questions as $question)
-                    <tr>
-                        <td>
-                            {{-- <a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="questions_name_edit" data-type="text" data-pk="{{$question->id}}" data-name="questions_name_edit" data-url="{{route('question.update', $question->id)}}" data-original-title="Enter question name"> --}}
-                                {{ $question->title }}
-                            {{-- </a> --}}
+                    <tr class="question-list">
+                        <td class="text-center" style="min-width: 165px;max-width: 200px;text-align: center;">
+                            <div class="votes">
+                                <div class="mini-counts"><span title="10 votes">10</span></div>
+                                <div>votes</div>
+                            </div>
+                            <div class="status unanswered">
+                                <div class="mini-counts"><span title="9 answers">9</span></div>
+                                <div>answers</div>
+                            </div>
+                            <div class="views">
+                                <div class="mini-counts"><span title="{{ $question->views }} view">{{ $question->views }}</span></div>
+                                <div>views</div>
+                            </div>
                         </td>
                         <td>
-                            {{-- <a href="#" id="topics" data-type="select" data-pk="{{ $question->topic->id }}" data-url="{{route('topic.list')}}" data-title="Select topic name"> --}}
-                                {{ $question->topic->topic_name or 'Not selected' }}
-                            {{-- </a> --}}
+                            <a class="question-answer" href="{{route('question.answer', $question->id)}}" title="{{ $question->title }}">{{ $question->title }}</a>
+                            </br>
+                            <span class="question-tags">
+                                @foreach ($question->question_tag as $tag)
+                                    <span class="label label-info">{{$tag->name}}</span>
+                                @endforeach
+                            </span>
+                            <span class="question-created-by">asked {{ $question->created_at->diffForHumans() }} by <a href="" >{{ $question->user->present()->nameOrEmail }}</a></span>
                         </td>
-                        <td>{{ $question->user->present()->nameOrEmail }}</td>
-                        <td>
-                            @foreach ($question->question_tag as $tag)
-                                <span class="label label-success">{{$tag->name}}</span>
-                            @endforeach
-                        </td>
-                        <td class="text-center">
+                        <td class="tools">
                             <a href="{{ route('question.edit', $question->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_question')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a href="{{ route('question.answer', $question->id) }}" class="btn btn-success btn-circle"
+                               title="@lang('app.answer_question')" data-toggle="tooltip" data-placement="top">
+                                <i class="glyphicon glyphicon-eye-open"></i>
                             </a>
                             <a href="{{ route('question.delete', $question->id) }}" class="btn btn-danger btn-circle"
                                title="@lang('app.delete_question')"
@@ -109,6 +121,78 @@
         </table>
         {!! $questions->render() !!}
     </div>
+
+    <style type="text/css">
+        .tools {
+            position: absolute;
+            right: 45px;
+            transition: all 0.5s;
+            display: none;
+        }
+
+        tr.question-list:hover .tools {
+            display: block;
+        }
+
+        .question-tags {
+            width: 100%;
+        }
+
+        .question-created-by {
+            width: auto;
+            font-size: 12px;
+            color: #9199a1;
+            float: right;
+        }
+
+        .votes, .status, .views {
+            padding: 8px 5px;
+            line-height: 1;
+        }
+
+        .mini-counts {
+            font-size: 17px;
+            font-weight: 300;
+            color: #6a737c;
+            margin-bottom: 4px;
+        }
+
+        .votes {
+            display: inline-block;
+            height: 38px;
+            min-width: 38px;
+            margin: 0 6px 0 0;
+            font-size: 11px;
+            color: #848d95;
+            padding: 5px 5px 6px 5px;
+            float: left;
+        }
+
+        .status {
+            display: inline-block;
+            margin: 0 6px 0 0;
+            min-width: 44px;
+            height: auto;
+            font-size: 11px;
+            padding: 5px 5px 6px 5px;
+            float: left;
+        }
+
+        .views {
+            display: inline-block;
+            height: 38px;
+            min-width: 40px;
+            margin: 0 7px 0 0;
+            font-size: 11px;
+            color: #848d95;
+            padding: 5px 5px 6px 5px;
+            float: left;
+        }
+
+        .question-answer {
+            font-size: 16px;
+        }
+    </style>
 
 @stop
 

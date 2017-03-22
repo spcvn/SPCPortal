@@ -462,9 +462,9 @@ Route::post('topic', [
     'uses' => 'TopicsController@updatePosition'
 ]);
 
-Route::post('topic/{topic}/memtor', [
-    'as' => 'topic.memtor',
-    'uses' => 'TopicsController@getMemtorsByTopicId'
+Route::post('topic/mentor', [
+    'as' => 'topic.mentor',
+    'uses' => 'TopicsController@getMentorsByTopicId'
 ]);
 
 Route::delete('topic/{topic}/delete', [
@@ -510,6 +510,11 @@ Route::delete('question/{question}/delete', [
     'as' => 'question.delete',
     'uses' => 'QuestionsController@delete'
 ]);
+
+Route::get('question/{question}/answer', [
+        'as' => 'question.answer',
+        'uses' => 'QuestionsController@answer'
+    ]);
 
 
 /**

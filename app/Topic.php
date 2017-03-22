@@ -27,12 +27,12 @@ class Topic extends Model
 		return $this->belongsTo(User::class, 'user_id');
 	}
 
-    public function users()
+    public function topic_mentors()
 	{
 		return $this->belongsToMany(User::class, 'topics_mentors', 'topic_id', 'user_id');
 	}
 
-	public function tags()
+	public function topic_tags()
 	{
 		return $this->belongsToMany(Tag::class, 'topics_tags', 'topic_id', 'tag_id');
 	}
