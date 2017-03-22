@@ -13,5 +13,8 @@ class Category extends Model
 
     protected $fillable = ['parent_id', 'user_id', 'name', 'description', 'position', 'del_flag', 'created', 'modified'];
 
-
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = trim($value) ? trim($value) : '';
+    }
 }

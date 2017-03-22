@@ -160,4 +160,22 @@ interface CategoryRepository
      */
     public function makeCategoryMultiLevel($category_id);
 
+
+    /**
+     * check exists category by name.
+     *
+     * @param array $data
+     * $data => [
+     *      category_id,
+     *      parent_id,
+     *      name
+     * ]
+     * @return boolse
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.20
+     * @version 1.0
+     */
+    public function checkExists($data);
+
 }

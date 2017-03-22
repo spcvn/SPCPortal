@@ -203,6 +203,7 @@ return [
     'topic_picture'     =>  'Topic picture',
     'topic_options'     =>  'Options',
     'public'            =>  'Public',
+    'private'           =>  'Private',
     'mentors'           =>  'Mentors',
     'documents'         =>  'Documents',
     'delete_topic'      =>  'Delete topic',
@@ -417,5 +418,7 @@ return [
     'category_deleted'  =>  'Category deleted successfully.',
     'sort_category'     =>  'Sort',
     'parent_name'       =>  'Parent category',
+    'name_exists'       =>  'The name has already been taken.',
+    'something_wrong'   =>  'Whoops, looks like something went wrong.',
     'select_one'        =>  'Select one --',
 ];

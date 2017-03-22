@@ -428,6 +428,11 @@ Route::delete('category/{category}/delete', [
     'as' => 'category.delete',
     'uses' => 'CategoryController@delete'
 ]);
+
+Route::get('category/{category}/check-exists', [
+    'as' => 'category.check-exists',
+    'uses' => 'CategoryController@checkExists'
+]);
 /* End Categories */
 
 
@@ -475,6 +480,11 @@ Route::delete('topic/{topic}/delete', [
 Route::get('topic/{topic}/document', [
     'as' => 'topic.document',
     'uses' => 'TopicsController@document'
+]);
+
+Route::get('topic/check-exists', [
+    'as' => 'topic.check-exists',
+    'uses' => 'TopicsController@checkExistsName'
 ]);
 /* End Topics */
 

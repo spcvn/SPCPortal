@@ -33,9 +33,9 @@
     @include('partials.messages')
 
     @if ($edit)
-        {!! Form::open(['route' => ['category.edit', $category->id], 'method' => 'PUT', 'id' => 'category-form']) !!}
+        {!! Form::open(['route' => ['category.edit', $category->id], 'method' => 'PUT', 'id' => 'category-form', 'onsubmit' => 'return check_validation();']) !!}
     @else
-        {!! Form::open(['route' => 'category.create', 'files' => true, 'id' => 'category-form']) !!}
+        {!! Form::open(['route' => 'category.create', 'files' => true, 'id' => 'category-form', 'onsubmit' => 'return check_validation();']) !!}
     @endif
     <div class="add-new" id="add-new">
         <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{$user->id}}">
@@ -48,11 +48,11 @@
                     <div class="panel-body">
                         @if (count($categories) > 1)
                         <div class="form-group">
-                            <label for="name">@lang('app.parent_name')</label>
+                            <label for="parent_id">@lang('app.parent_name')</label>
                             {!! Form::select('parent_id', $categories, $edit ? $category->parent_id : '', ['class' => 'form-control']) !!}
                         </div>
                         @endif
-                        <div class="form-group">
+                        <div class="form-group" id="name-require">
                             <label for="name" class="required">@lang('app.name')</label>
                             <input type="text" class="form-control" id="name" placeholder="(@lang('app.name'))" name="name" value="{{ $edit ? $category->name : '' }}">
                         </div>
@@ -82,4 +82,65 @@
     @else
         {!! JsValidator::formRequest('SPCVN\Http\Requests\Category\CreateCategoryRequest', '#category-form') !!}
     @endif
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $('input[name=name], textarea').on('blur', function(){
+                $(this).val($.trim($(this).val()));
+            });
+        });
+
+        // check validation form
+        function check_validation() {
+            var name        = $.trim($('input[name=name]').val());
+            var parent_id   = $.trim($('select[name=parent_id]').val());
+            var category_id = {{ $edit ? $category->id : 0 }};
+
+            var myData = {
+                category_id: category_id,
+                parent_id: parent_id,
+                name: name
+            };
+
+            return checkExistsName(myData);
+        }
+
+        function checkExistsName(myData) 
+        {
+            var ok = false;
+            $.ajax({
+                url: "{{ route('category.check-exists', $edit ? $category->id : 0) }}",
+                method: "GET",
+                dataType: 'json',
+                data: myData,
+                cache: false,
+                async: false,
+                success: function (data) {
+                    if (data.status === false) {
+
+                        $('#name-require').removeClass('form-group has-success');
+                        $("span[id=name-error]").each(function(){
+                            $(this).remove();  
+                        });
+
+                        setTimeout(function(){
+                            $('#name-require').addClass('form-group has-error');
+                            $('#name-require').append('<span id="name-error" class="help-block error-help-block">'+ data.message +'</span>'); 
+                        }, 100);
+                        
+                        ok = false;
+                    } else {
+                        $('#name-require').removeClass('has-error');
+                        $("#name-error").html('');
+                        ok = true;
+                    }
+                }
+            });
+
+            return ok;
+        }
+
+        
+    </script>
 @stop
