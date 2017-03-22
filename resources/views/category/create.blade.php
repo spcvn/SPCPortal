@@ -60,6 +60,14 @@
                             <label for="description">@lang('app.description')</label>
                             <textarea name="description" id="description" class="form-control">{{ $edit ? $category->description : '' }}</textarea>
                         </div>
+
+                        <div class="form-group">
+                            <label for="back">@lang('app.back_to_this_page')</label>
+                            <br>
+                            <input type="hidden" name="back" value="0">
+                            <input type="checkbox" {{ 'checked' }} name="back" class="switch" value="1" data-on-text="@lang('app.yes')" data-off-text="@lang('app.no')" >
+                        </div>
+                        
                     </div>
                     <div class="panel-footer">
                         <button type="submit" class="btn btn-primary">
@@ -83,8 +91,10 @@
         {!! JsValidator::formRequest('SPCVN\Http\Requests\Category\CreateCategoryRequest', '#category-form') !!}
     @endif
 
-    <script type="text/javascript">
+    {!! HTML::script('assets/plugins/bootstrap-switch/bootstrap-switch.min.js') !!}
 
+    <script type="text/javascript">
+        $(".switch").bootstrapSwitch({size: 'small'});
         $(document).ready(function(){
             $('input[name=name], textarea').on('blur', function(){
                 $(this).val($.trim($(this).val()));
@@ -143,4 +153,8 @@
 
         
     </script>
+@stop
+
+@section('styles')
+    {!! HTML::style('assets/plugins/bootstrap-switch/bootstrap-switch.css') !!}
 @stop

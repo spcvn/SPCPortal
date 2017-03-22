@@ -91,6 +91,12 @@ class CategoryController extends Controller
     public function update(Category $category, UpdateCategoryRequest $request)
     {
         $this->category->update($category->id, $request->all());
+
+        // back to edit page
+        if ($request->input('back')) {
+            return redirect()->route('category.edit', $category->id)->withSuccess(trans('app.category_updated'));
+        }
+
         return redirect()->route('category.list')->withSuccess(trans('app.category_updated'));
     }
 
@@ -104,6 +110,12 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {        
         $this->category->create($request->all());
+
+        // back to edit page
+        if ($request->input('back')) {
+            return redirect()->route('category.create')->withSuccess(trans('app.category_created'));
+        }
+
         return redirect()->route('category.list')->withSuccess(trans('app.category_created'));
     }
 
