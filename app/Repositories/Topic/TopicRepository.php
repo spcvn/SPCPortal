@@ -83,14 +83,13 @@ interface TopicRepository
      * Get list topic by user ID.
      *
      * @param int $userID
-     * @param boolean $flag | get topic follow member created | default is false
-     * @return null|array
+     * @return array
      *
      * @author Dinh Van Huong
      * @since 2017.03.21
      * @version 1.0
      */
-    public function listsTopicByUser($userID, $flag);
+    public function listsTopicByUser($userID);
 
     /**
      * Find topic by name.
