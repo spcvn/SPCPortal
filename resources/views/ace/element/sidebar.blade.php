@@ -104,14 +104,6 @@
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/tables/jqgrid*') ? 'active' : ''  }}">
-                    <a href="/acelayout/tables/jqgrid">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        jqGrid plugin
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-
                 <li class="{{ Request::is('acelayout/tables/tablecus*') ? 'active' : ''  }}">
                     <a href="/acelayout/tables/tablecus">
                         <i class="menu-icon fa fa-caret-right"></i>
@@ -222,119 +214,66 @@
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/forms/formwz*') ? 'active' : ''  }}">
-                    <a href="/acelayout/forms/formwz">
+                <li class="{{ Request::is('acelayout/morepages/pricing*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/pricing">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Wizard & Validation
+                        Pricing table
                     </a>
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/forms/wysiwyg*') ? 'active' : ''  }}">
-                    <a href="/acelayout/forms/wysiwyg">
+                <li class="{{ Request::is('acelayout/morepages/invoice*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/invoice">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Wysiwyg
+                        Invoice
                     </a>
                     <b class="arrow"></b>
                 </li>
 
-                <li class="{{ Request::is('acelayout/forms/dropzone*') ? 'active' : ''  }}">
-                    <a href="/acelayout/forms/dropzone">
+                <li class="{{ Request::is('acelayout/morepages/timeline*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/timeline">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Dropzone file upload
+                        Timeline
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="{{ Request::is('acelayout/morepages/search*') ? 'active' : ''  }}">
+                    <a href="/acelayout/morepages/search">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Search results
                     </a>
                     <b class="arrow"></b>
                 </li>
             </ul>
         </li>
 
-        @permission('users.manage')
-            <li class="{{ Request::is('user*') ? 'active' : ''  }}">
-                <a href="{{ route('user.list') }}">
-                    <i class="menu-icon fa fa-users"></i>
-                    <span class="menu-text">@lang('app.users')</span>
-                </a>
-            </li>
-        @endpermission
+        <li class="{{ Request::is('acelayout/other*') ? 'active open' : ''  }}">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-file-o"></i>
+                <span class="menu-text">Other pages</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
 
-        @permission('users.activity')
-            <li class="{{ Request::is('activity*') ? 'active' : ''  }}">
-                <a href="{{ route('activity.index') }}">
-                    <i class="menu-icon fa fa-list-alt"></i>
-                    <span class="menu-text">@lang('app.activity_log')</span>
-                </a>
-            </li>
-        @endpermission
+            <ul class="submenu">
+                <li class="{{ Request::is('acelayout/other/faq*') ? 'active' : ''  }}">
+                    <a href="/acelayout/other/faq">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        FAQ
+                    </a>
+                    <b class="arrow"></b>
+                </li>
 
-        @permission(['roles.manage', 'permissions.manage'])
-            <li class="{{ Request::is('role*') || Request::is('permission*') ? 'active open' : ''  }}">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-user"></i>
-                    <span class="menu-text">@lang('app.roles_and_permissions')</span>
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-                <b class="arrow"></b>
-                <ul class="submenu">
-                    @permission('roles.manage')
-                        <li class="{{ Request::is('role*') ? 'active' : ''  }}">
-                            <a href="{{ route('role.index') }}">
-								<i class="menu-icon fa fa-caret-right"></i>
-                                @lang('app.roles')
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    @endpermission
-                    @permission('permissions.manage')
-                        <li class="{{ Request::is('permission*') ? 'active' : ''  }}">
-                            <a href="{{ route('permission.index') }}">
-								<i class="menu-icon fa fa-caret-right"></i>
-                            	@lang('app.permissions')
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    @endpermission
-                </ul>
-            </li>
-        @endpermission
-
-        @permission(['settings.general', 'settings.auth', 'settings.notifications'])
-            <li class="{{ Request::is('settings*') ? 'active open' : ''  }}">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-gear"></i>
-                    <span class="menu-text">@lang('app.settings')</span>
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-                <ul class="submenu">
-                    @permission('settings.general')
-                        <li class="{{ Request::is('settings') ? 'active' : ''  }}">
-                            <a href="{{ route('settings.general') }}">
-                            	<i class="menu-icon fa fa-caret-right"></i>
-                                @lang('app.general')
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    @endpermission
-                    @permission('settings.auth')
-                        <li class="{{ Request::is('settings/auth*') ? 'active' : ''  }}">
-                            <a href="{{ route('settings.auth') }}">
-                            	<i class="menu-icon fa fa-caret-right"></i>
-                                @lang('app.auth_and_registration')
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    @endpermission
-                    @permission('settings.notifications')
-                        <li class="{{ Request::is('settings/notifications*') ? 'active' : ''  }}">
-                            <a href="{{ route('settings.notifications') }}">
-                            	<i class="menu-icon fa fa-caret-right"></i>
-                                @lang('app.notifications')
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    @endpermission
-                </ul>
-            </li>
-        @endpermission
+                <li class="{{ Request::is('acelayout/other/404*') ? 'active' : ''  }}">
+                    <a href="/acelayout/other/404">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Error 404
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
 	</ul><!-- /.nav-list -->
 
 	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
