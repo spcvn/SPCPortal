@@ -111,6 +111,6 @@ class User extends Authenticatable implements TwoFactorAuthenticatableContract
 
     public function questions()
     {
-        return $this->belongsToMany(Country::class, 'country_id');
+        return $this->belongsToMany(Question::class, 'questions_mentors','user_id', 'question_id');
     }
 }

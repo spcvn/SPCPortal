@@ -4,12 +4,14 @@ namespace SPCVN\Repositories\Question;
 
 use DB;
 use SPCVN\Tag;
+use SPCVN\User;
 use SPCVN\Question;
 use SPCVN\QuestionTag;
 use SPCVN\QuestionMenter;
 use SPCVN\Events\Question\Created;
 use SPCVN\Events\Question\Deleted;
 use SPCVN\Events\Question\Updated;
+use Illuminate\Pagination\Paginator;
 use SPCVN\Repositories\Tag\TagRepository;
 use SPCVN\Support\Authorization\CacheFlusherTrait;
 
@@ -38,11 +40,11 @@ class EloquentQuestion implements QuestionRepository
     /**
      * {@inheritdoc}
      */
-    public function paginateQuestions($perPage = 10, $search = null)
+    public function paginateQuestions($user_id, $perPage = 10, $search = null)
     {
         $query = Question::with('topic', 'user', 'question_tag');
 
-        return $this->paginateAndFilterResults($perPage, $search, $query);
+        return $this->paginateAndFilterResults($user_id, $perPage, $search, $query);
     }
 
     /**
@@ -51,19 +53,9 @@ class EloquentQuestion implements QuestionRepository
      * @param $query
      * @return mixed
      */
-    private function paginateAndFilterResults($perPage, $search, $query)
+    private function paginateAndFilterResults($user_id, $perPage, $search, $query)
     {
-        if ($search) {
-            $query->where('title', 'LIKE', "%$search%");
-        }
-
-        $result = $query->where('del_flg', '=', 0)
-            ->orderBy('created_at', 'DESC')
-            ->paginate($perPage);
-
-        if ($search) {
-            $result->appends(['search' => $search]);
-        }
+        $result = $this->getQuestionListByUser($user_id, $perPage, $search, $query);
 
         return $result;
     }
@@ -73,7 +65,7 @@ class EloquentQuestion implements QuestionRepository
      */
     public function lists($column = 'title', $key = 'id')
     {
-        return Question::where('del_flg', 0)->pluck($column, $key);
+        return Question::where('del_flg', false)->pluck($column, $key);
     }
 
     /**
@@ -135,11 +127,25 @@ class EloquentQuestion implements QuestionRepository
     /**
      * {@inheritdoc}
      */
+    public function setQuestionMenter($question_id, $mentor_id, $flg='false')
+    {
+        $data = [];
+        if (is_array($mentor_id) && !empty($mentor_id[0])) {
+
+            $data = $mentor_id;
+        }
+
+        return $this->find($question_id)->question_mentor()->sync($data, $flg);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function delete($id)
     {
         $question = $this->find($id);
 
-        $question->del_flg = 1;
+        $question->del_flg = true;
 
         event(new Updated($question));
 
@@ -201,12 +207,51 @@ class EloquentQuestion implements QuestionRepository
     {
         $res=true;
         if(Tag::where('name', '=', $name)
-            ->where('del_flg', '=', '0')
+            ->where('del_flg', '=', false)
             ->count() > 0) {
 
             $res=false;
         }
 
         return $res;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function getQuestionListByUser($user_id, $perPage, $search, $query)
+    {
+        $question_list=[];
+
+        if ($search) {
+            $query->where('title', 'LIKE', "%$search%");
+        }
+
+        // get question from questions table
+        $results = $query->where('public', true)
+                ->where('del_flg', false)
+                ->where('user_id', $user_id)
+                ->orderBy('created_at', 'DESC');
+
+        if ($search) $results->appends(['search' => $search]);
+
+        foreach ($results->get() as $result) {
+
+            $question_list[] = $result;
+        }
+
+        // get question id from questions mentors
+        $user = User::find($user_id);
+        $questions=$user->questions;
+
+        foreach ($questions as $question) {
+
+            $question_list[] = $question;
+        }
+
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($question_list, count($question_list), $perPage);
+        $paginator->setPath(route('question.index'));
+
+        return $paginator;
     }
 }

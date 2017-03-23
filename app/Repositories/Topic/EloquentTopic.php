@@ -2,6 +2,7 @@
 
 namespace SPCVN\Repositories\Topic;
 
+use SPCVN\Repositories\User\UserRepository;
 use SPCVN\Events\Topic\Created;
 use SPCVN\Events\Topic\Deleted;
 use SPCVN\Events\Topic\Updated;
@@ -9,9 +10,8 @@ use SPCVN\Topic;
 use SPCVN\User;
 use Carbon\Carbon;
 use DB;
-//use Illuminate\Database\SQLiteConnection;
-//use SPCVN\Support\Authorization\CacheFlusherTrait;
 
+define('USER_STATUS', 'Active' );
 class EloquentTopic implements TopicRepository
 {
     //use CacheFlusherTrait;
@@ -182,14 +182,30 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function getMemtorsByTopicId($id)
+    public function getMemtorsByTopicId($id, UserRepository $userRepository)
     {
         $memtors = [];
-        $topic = Topic::find($id);
 
-        foreach ($topic->topic_mentors as $user)
-        {
-            $memtors[] = ['id' => $user->id, 'text' => $user->username];
+        if(!empty($id)) {
+
+            $topic = Topic::find($id);
+
+            foreach ($topic->topics_mentors as $menter) {
+
+                //check user has been activated
+                if($menter->status !== USER_STATUS) continue;
+
+                $memtors[] = ['id' => $menter->id, 'text' => $menter->username];
+            }
+
+        } else {
+
+            $users = $userRepository->getUserByStatus(USER_STATUS)->pluck('full_name', 'id')->toArray();
+
+            foreach ($users as $key => $user) {
+
+                $memtors[] = ['id' => $key, 'text' => $user];
+            }
         }
 
         return $memtors;
@@ -279,7 +295,7 @@ class EloquentTopic implements TopicRepository
 
         if (isset($data['topic_id']) && $data['topic_id']) {
             $query->where('id', '<>', $data['topic_id']);
-        }        
+        }
 
         if (isset($data['category_id']) && $data['category_id']) {
             $query->where('category_id', $data['category_id']);
@@ -300,7 +316,7 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function listsTopicByUser($userID, $flag = false)
+    public function listsTopicByUser($userID)
     {
         // get topic from topic mentors
         $user = User::find($userID);
@@ -314,12 +330,10 @@ class EloquentTopic implements TopicRepository
         $topics = Topic::query();
         $topics->where('public', true);
         $topics->where('del_flag', false);
-        if ($flag) {
-            $topics->where(function ($q) use ($userID) {
-                $q->where('user_id', $userID);
-                $q->orWhere('user_id', 1);
-            });  
-        }
+        $topics->where(function ($q) use ($userID) {
+            $q->where('user_id', $userID);
+            $q->orWhere('user_id', 1);
+        });
 
         $results = $topics->get();
         foreach ($results as $result) {

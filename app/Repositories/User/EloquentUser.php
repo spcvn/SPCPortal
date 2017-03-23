@@ -172,6 +172,14 @@ class EloquentUser implements UserRepository
     /**
      * {@inheritdoc}
      */
+    public function getUserByStatus($status)
+    {
+        return User::where('status', $status)->get();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function latest($count = 20)
     {
         return User::orderBy('created_at', 'DESC')
@@ -280,20 +288,20 @@ class EloquentUser implements UserRepository
      */
     public function searchUserByName($q = null)
     {
-        $query = User::query();        
+        $query = User::query();
         $query->where(function ($qr) use ($q) {
             $qr->where('first_name', "like", "%{$q}%");
             $qr->orWhere('last_name', "like", "%{$q}%");
         });
 
         $result = $query->get()->pluck('full_name', 'id')->toArray();
-        
+
         $res = [];
         foreach ($result as $key => $val) {
             $res[] = ['id' => $key, 'text' => $val];
         }
 
         return $res;
-        
+
     }
 }

@@ -165,7 +165,7 @@ class TopicsController extends Controller
         foreach ($documents as $key => $document) {
             $documentExtention[$key] = $this->get_file_extension($document);
         }
-        
+
         $listIcon = $this->listIcon();
 
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected', 'documents', 'documentExtention', 'listIcon'));
@@ -237,11 +237,11 @@ class TopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getMentorsByTopicId(Request $request)
+    public function getMentorsByTopicId(Request $request, UserRepository $userRepository)
     {
         $id=$request->topic_id;
 
-        $memtors = $this->topic->getMemtorsByTopicId($id);
+        $memtors = $this->topic->getMemtorsByTopicId($id, $userRepository);
 
         return response()->json($memtors);
     }

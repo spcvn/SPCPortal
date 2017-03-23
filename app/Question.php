@@ -29,4 +29,9 @@ class Question extends Model
     {
         return $this->belongsToMany(Tag::class, 'questions_tags', 'question_id', 'tag_id');
     }
+
+    public function question_mentor()
+    {
+        return $this->belongsToMany(User::class, 'questions_mentors', 'question_id', 'user_id');
+    }
 }

@@ -20,7 +20,7 @@ interface QuestionRepository
      * @param string $key
      * @return mixed
      */
-    public function paginateQuestions($perPage = 20, $search = null);
+    public function paginateQuestions($user_id, $perPage = 20, $search = null);
 
     /**
      * Lists all system questions into $key => $column value pairs.
@@ -72,6 +72,15 @@ interface QuestionRepository
      * @return QuestionTags
      */
     public function setQuestionTag($question_id, $tag_id, $flg='false');
+
+    /**
+     * Update Question tag.
+     *
+     * @param $question_id Question Id
+     * @param $mentor_id Menter Id
+     * @return QuestionMenters
+     */
+    public function setQuestionMenter($question_id, $mentor_id, $flg='false');
 
     /**
      * Remove question from repository.

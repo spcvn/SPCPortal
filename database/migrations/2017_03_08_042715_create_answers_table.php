@@ -19,7 +19,7 @@ class CreateAnswersTable extends Migration
             $table->unsignedInteger('question_id')->default(0);
             $table->unsignedInteger('user_id')->default(0);
             $table->text('comment');
-            $table->tinyInteger('del_flg');
+            $table->tinyInteger('del_flg')->default(0);
             $table->timestamps();
         });
 

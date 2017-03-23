@@ -19,8 +19,8 @@ class CreateTagsTable extends Migration
             $table->unsignedInteger('user_id')->default(0);
             $table->string('name', 100);
             $table->integer('position');
-            $table->unsignedInteger('public')->default(0);
-            $table->tinyInteger('del_flg');
+            $table->unsignedInteger('public')->default(1);
+            $table->tinyInteger('del_flg')->default(0);
             $table->timestamps();
         });
 

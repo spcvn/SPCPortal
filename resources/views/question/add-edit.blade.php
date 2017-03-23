@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label for="tag_id">@lang('app.topic_mentor')</label>
                     @if ($edit)
-                        {!! Form::select('mentor_ids[]', $tags, $tag_createds, ['class' => 'form-control', 'id' => 'mentor_ids', 'multiple' => 'true', 'style' => 'width:100%;']) !!}
+                        {!! Form::select('mentor_ids[]', $mentors, $mentor_createds, ['class' => 'form-control', 'id' => 'mentor_ids', 'multiple' => 'true', 'style' => 'width:100%;']) !!}
                     @else
                         <select id="mentor_ids" name="mentor_ids[]" class="form-control" multiple></select>
                     @endif
@@ -87,7 +87,15 @@
 
     <script type="text/javascript">
 
-        var topic_id = '';
+        var topic_id = "";
+
+        //set value topic_id_created when edit page
+        if(typeof(topic_id_created) === "undefined" && topic_id_created !== '') {
+
+            var topic_id_created="{{$topic_id_created}}";
+            topic_id=topic_id_created;
+        }
+
         setMenterData(topic_id);
 
         //get menters by topic id
@@ -118,7 +126,7 @@
                         var token = $('meta[name="csrf_token"]').attr('content');
 
                         if (token) {
-                          return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                         }
                     },
                     data: { topic_id : topic_id },
@@ -141,6 +149,13 @@
             ajax: {
                 url: "{{ route('tag.find') }}",
                 dataType: "json",
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf_token"]').attr('content');
+
+                    if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
                 data: function (params) {
                     return {
                         q: $.trim(params.term)
