@@ -84,8 +84,7 @@ interface TopicRepository
      * Get list topic by user ID.
      *
      * @param int $userID
-     * @param boolean $flag | get topic follow member created | default is false
-     * @return null|array
+     * @return array
      *
      * @author Dinh Van Huong
      * @since 2017.03.21

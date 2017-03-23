@@ -213,6 +213,7 @@ return [
     'topic_deleted'             =>  'Topic deleted successfully.',
     'are_you_sure_delete_topic' => 'Are you sure that you want to delete this topic?',
     'please_create_category_first'  =>  'First, You must create a category',
+    'back_to_this_page' =>  'Back to this page after submit form',
 
     // Users
     'add_user' => 'Add User',

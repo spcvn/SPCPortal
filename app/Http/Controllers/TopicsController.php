@@ -115,6 +115,11 @@ class TopicsController extends Controller
             $this->uploadDocument($topic->id, $request);
         }
 
+        // redirect to add new topic
+        if ($request->input('back')) {
+            return redirect()->route('topic.create')->withSuccess(trans('app.topic_created'));
+        }
+
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
     }
@@ -213,6 +218,11 @@ class TopicsController extends Controller
         // upload document
         if ($request->hasFile('document')) {
             $this->uploadDocument($topic->id, $request);
+        }
+
+        // back to edit page
+        if ($request->input('back')) {
+            return redirect()->route('topic.edit', $topic->id)->withSuccess(trans('app.topic_updated'));
         }
 
         // redirect to list topic

@@ -10,8 +10,11 @@ use SPCVN\Topic;
 use SPCVN\User;
 use Carbon\Carbon;
 use DB;
+use Auth;
 
+define('ADMINISTRATOR', 1);
 define('USER_STATUS', 'Active' );
+
 class EloquentTopic implements TopicRepository
 {
     //use CacheFlusherTrait;
@@ -316,24 +319,31 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function listsTopicByUser($userID)
+    public function listsTopicByUser($userID = 0)
     {
+        if (empty($userID)) {
+            return array();
+        }
+
         // get topic from topic mentors
         $user = User::find($userID);
+        $role = $user->roles->first()->id;
         $topicIDs = [];
-
-        foreach ($user->topics as $topic) {
-            $topicIDs[$topic->id] = $topic->topic_name;
-        }
 
         // get topic from topics table
         $topics = Topic::query();
-        $topics->where('public', true);
         $topics->where('del_flag', false);
+
+        if ($role != ADMINISTRATOR) {
+
+            foreach ($user->topics as $topic) {
+                $topicIDs[$topic->id] = $topic->topic_name;
+            }
+
         $topics->where(function ($q) use ($userID) {
-            $q->where('user_id', $userID);
-            $q->orWhere('user_id', 1);
-        });
+                $q->where('public', true);
+                $q->orWhere('user_id', $userID);
+            });
 
         $results = $topics->get();
         foreach ($results as $result) {

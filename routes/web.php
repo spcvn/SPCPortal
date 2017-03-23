@@ -477,6 +477,93 @@ Route::delete('topic/{topic}/delete', [
     'uses' => 'TopicsController@delete'
 ]);
 
+/* End Topics */
+
+
+/*--ACE LAYOUT--*/
+// Route::get('/acelayout', function(){
+//     return View::make('ace.index');
+// });
+
+Route::group(['prefix' => 'acelayout'], function () {
+    Route::get('/', function () {
+        return View::make('ace.dashboard.index');
+    });
+    Route::get('/uielement/typography', function () {
+        return View::make('ace.typography.index');
+    });
+    Route::get('/uielement/elements', function () {
+        return View::make('ace.elements.index');
+    });
+    Route::get('/uielement/buttonico', function () {
+        return View::make('ace.buttonico.index');
+    });
+    Route::get('/uielement/contentslide', function () {
+        return View::make('ace.contentslide.index');
+    });
+    Route::get('/uielement/treeview', function () {
+        return View::make('ace.treeview.index');
+    });
+    Route::get('/uielement/jqueryui', function () {
+        return View::make('ace.jqueryui.index');
+    });
+    Route::get('/tables/simple', function () {
+        return View::make('ace.simple.index');
+    });
+    Route::get('/tables/tablecus', function () {
+        return View::make('ace.tablecus.index');
+    });
+    Route::get('/forms/formele1', function () {
+        return View::make('ace.formele1.index');
+    });
+    Route::get('/forms/formele2', function () {
+        return View::make('ace.formele2.index');
+    });
+    Route::get('/forms/formwz', function () {
+        return View::make('ace.formwz.index');
+    });
+    Route::get('/forms/wysiwyg', function () {
+        return View::make('ace.wysiwyg.index');
+    });
+    Route::get('/forms/dropzone', function () {
+        return View::make('ace.dropzone.index');
+    });
+    Route::get('/widgets', function () {
+        return View::make('ace.widgets.index');
+    });
+    Route::get('/calendar', function () {
+        return View::make('ace.calendar.index');
+    });
+    Route::get('/gallery', function () {
+        return View::make('ace.gallery.index');
+    });
+    Route::get('/morepages/profile', function () {
+        return View::make('ace.profile.index');
+    });
+    Route::get('/morepages/inbox', function () {
+        return View::make('ace.inbox.index');
+    });
+    Route::get('/morepages/pricing', function () {
+        return View::make('ace.pricing.index');
+    });
+    Route::get('/morepages/invoice', function () {
+        return View::make('ace.invoice.index');
+    });
+    Route::get('/morepages/timeline', function () {
+        return View::make('ace.timeline.index');
+    });
+    Route::get('/morepages/search', function () {
+        return View::make('ace.search.index');
+    });
+    Route::get('/other/faq', function () {
+        return View::make('ace.faq.index');
+    });
+    Route::get('/other/404', function () {
+        return View::make('ace.404.index');
+    });
+});
+/*--END ACE LAYOUT--*/
+
 Route::get('topic/{topic}/document', [
     'as' => 'topic.document',
     'uses' => 'TopicsController@document'
