@@ -144,6 +144,20 @@
 		$('select#value-filter').change(function(event) {
 			drawTable(data_sample, $(this).val());
 		});
+
+		function sortTable(table, order) {
+			var asc = order === 'asc', tbody = table.find('tbody');
+
+			tbody.find('tr').sort(function(a, b) {
+				if (asc) {
+					return $('td:first', a).text().localeCompare($('td:first', b).text());
+				} else {
+					return $('td:first', b).text().localeCompare($('td:first', a).text());
+				}
+			}).appendTo(tbody);
+		}
+
+		sortTable($('#simple-table'), 'desc');
 	</script>
 
 	{{-- I can't create paging with jquery if don't load all of data / You can use 'php' to create paging --}}

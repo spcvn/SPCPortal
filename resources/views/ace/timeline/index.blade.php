@@ -39,7 +39,7 @@
 
 			<div id="timeline-1">
 				<div class="row">
-					<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+					<div class="col-xs-12 col-sm-12 {{-- col-sm-offset-1 --}}">
 						<div class="timeline-container">
 							<div class="timeline-label">
 								<span class="label label-primary arrowed-in-right label-lg">
@@ -85,10 +85,61 @@
 												accusamus terry richardson ad squid &hellip;
 												<div class="space-6"></div>
 
+												<div class="timeline-items timeline-cus">
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Anim pariatur cliche reprehenderit, enim eiusmod accusamus terry richardson ad squid.
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
 												<div class="widget-toolbox clearfix">
 													<div class="pull-left">
 														<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
-														<a href="#" class="bigger-110">Click to read &hellip;</a>
+														<a href="javascript:void(0)" class="bigger-110 timeline-readmore">Show answers</a>
 													</div>
 
 													<div class="pull-right action-buttons">
@@ -104,24 +155,6 @@
 															<i class="ace-icon fa fa-times red bigger-125"></i>
 														</a>
 													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="timeline-item clearfix">
-									<div class="timeline-info">
-										<i class="timeline-indicator ace-icon fa fa-cutlery btn btn-success no-hover"></i>
-									</div>
-
-									<div class="widget-box transparent">
-										<div class="widget-body">
-											<div class="widget-main">
-												Going to cafe for lunch
-												<div class="pull-right">
-													<i class="ace-icon fa fa-clock-o bigger-110"></i>
-													12:30
 												</div>
 											</div>
 										</div>
@@ -158,7 +191,62 @@
 												Designed a new logo for our website. Would appreciate feedback.
 												<div class="space-6"></div>
 
+												<div class="timeline-items timeline-cus">
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Anim pariatur cliche reprehenderit, enim eiusmod accusamus terry richardson ad squid.
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
 												<div class="widget-toolbox clearfix">
+													<div class="pull-left">
+														<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
+														<a href="javascript:void(0)" class="bigger-110 timeline-readmore">Show answers</a>
+													</div>
 													<div class="pull-right action-buttons">
 														<div class="space-4"></div>
 
@@ -182,17 +270,6 @@
 									</div>
 								</div>
 
-								<div class="timeline-item clearfix">
-									<div class="timeline-info">
-										<i class="timeline-indicator ace-icon fa fa-flask btn btn-default no-hover"></i>
-									</div>
-
-									<div class="widget-box transparent">
-										<div class="widget-body">
-											<div class="widget-main"> Took the final exam. Phew! </div>
-										</div>
-									</div>
-								</div>
 							</div><!-- /.timeline-items -->
 						</div><!-- /.timeline-container -->
 
@@ -597,6 +674,19 @@
 				$('[id*="timeline-"]').addClass('hide');
 				$('#timeline-'+which).removeClass('hide');
 			});
+		});
+
+		$('a.timeline-readmore').click(function(event) {
+			$(this).closest('.widget-toolbox').prev('.timeline-cus').slideDown('slow');
+			$(this).html('See all answers');
+			$(this).prev().css('transform', 'rotate(-90deg)').addClass('less');
+		});
+		$('a.timeline-readmore').prev().click(function(event) {
+			if ($(this).hasClass('less')) {
+				$(this).closest('.widget-toolbox').prev('.timeline-cus').slideUp('slow');
+				$(this).next().html('Show answers');
+				$(this).css('transform', 'rotate(0deg)').removeClass('less');
+			}
 		});
 	</script>
 @stop

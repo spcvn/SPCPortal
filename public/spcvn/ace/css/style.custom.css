@@ -1,1 +1,18 @@
 table.align-top tr td{vertical-align:top}
+.timeline-item .widget-toolbox i{cursor:pointer;}
+.timeline-cus{display:none;margin-top:30px}
+.timeline-cus .timeline-info img{max-width:25px}
+.timeline-cus .timeline-info .label{font-size:10px;padding:.3em .4em .2em;}
+.timeline-cus .timeline-item .transparent.widget-box{border-left:none;background-color:transparent;}
+.timeline-cus .timeline-item{border-bottom:}
+.timeline-cus hr{
+	clear: both;
+    margin: 10px 0px;
+    height: 0;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
+    background-image: -moz-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
+    background-image: -ms-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
+    background-image: -o-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0));
+}
