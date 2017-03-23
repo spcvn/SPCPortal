@@ -433,6 +433,11 @@ Route::get('category/{category}/check-exists', [
     'as' => 'category.check-exists',
     'uses' => 'CategoryController@checkExists'
 ]);
+
+Route::put('category/update-category', [
+    'as' => 'category.update-category',
+    'uses' => 'CategoryController@ajaxUpdate' 
+]);
 /* End Categories */
 
 
