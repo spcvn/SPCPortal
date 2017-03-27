@@ -1,0 +1,23 @@
+.contain-mana-files{
+	padding:20px 5px
+}
+.contain-mana-files ul.files-list{
+	list-style:none;
+}
+.contain-mana-files ul.files-list li.file-item{
+	float:left;
+	text-align:center;
+	width:100px;
+	height:80px;
+	border:none;
+}
+.contain-mana-files ul.files-list li.file-item .file-icon span{
+	font-size:30px
+}
+.option-dir{margin-top:2px}
+.files-search{margin-top:-1px}
+.add-new-f{
+	font-size: 20px;
+	vertical-align:middle;
+	cursor:pointer;
+}
