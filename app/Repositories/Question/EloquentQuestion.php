@@ -254,4 +254,27 @@ class EloquentQuestion implements QuestionRepository
 
         return $paginator;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function detail($id)
+    {
+        $res=[];
+        $question = Question::with('user', 'answer')->find($id);
+        $res["question"] = $question;
+
+        foreach ($question->answer as $key => $answer) {
+
+            if($answer->parent_id === 0) {
+
+                $res["answers"][$answer->id]['answer'] = $answer;
+            } else {
+
+                $res["answers"][$answer->parent_id]['sub'][] = $answer;
+            }
+        }
+
+        return $res;
+    }
 }

@@ -19,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Class TagsController
  * @package SPCVN\Http\Controllers
  */
+
+define('TAG_NAME_EDITABLE','tag_name_editable');
 class TagsController extends Controller
 {
     /**
@@ -26,7 +28,7 @@ class TagsController extends Controller
      */
     private $tags;
     private $data=[];
-    const TAG_NAME_EDITABLE='tag_name_editable';
+
 
     /**
      * TagsController constructor.
@@ -34,7 +36,7 @@ class TagsController extends Controller
      */
     public function __construct(TagRepository $tags)
     {
-        // $this->middleware('permission:tags.manage');
+        $this->middleware('permission:tags.manage');
         $this->tags = $tags;
     }
 
@@ -92,7 +94,7 @@ class TagsController extends Controller
      */
     public function update(UpdateTagRequest $request)
     {
-        $tag_name=($request->name==='tag_name_editable')?$request->value:$request->name;
+        $tag_name=($request->name===TAG_NAME_EDITABLE)?$request->value:$request->name;
         $tag_id=($request->tag_id)?$request->tag_id:$request->pk;
 
         $tag=array();

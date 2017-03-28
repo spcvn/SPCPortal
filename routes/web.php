@@ -608,9 +608,9 @@ Route::delete('question/{question}/delete', [
     'uses' => 'QuestionsController@delete'
 ]);
 
-Route::get('question/{question}/answer', [
-        'as' => 'question.answer',
-        'uses' => 'QuestionsController@answer'
+Route::get('question/{question}/detail', [
+        'as' => 'question.detail',
+        'uses' => 'QuestionsController@detail'
     ]);
 
 
@@ -645,6 +645,14 @@ Route::any('answer/{answer}/update', [
 Route::delete('answer/{answer}/delete', [
     'as' => 'answer.delete',
     'uses' => 'AnswersController@delete'
+]);
+
+/**
+ * Likes
+ */
+Route::get('like/vote', [
+    'as' => 'like.vote',
+    'uses' => 'LikesController@vote'
 ]);
 
 /**

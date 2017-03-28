@@ -123,4 +123,12 @@ interface QuestionRepository
      * @return boolean
      */
     public function checkTagExists($tag_name);
+
+    /**
+     * get question information.
+     *
+     * @param $id
+     * @return boolean
+     */
+    public function detail($id);
 }

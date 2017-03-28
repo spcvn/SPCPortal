@@ -57,7 +57,7 @@
 
                         <div class="form-group">
                             <label for="picture">@lang('app.topic_picture')</label>
-                            
+
                             @if ($edit && $topic->picture)
                                 <br/>
                                 <img class="form-control" style=" height: auto;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
@@ -72,7 +72,7 @@
                             <textarea name="description" id="description" rows="5" class="form-control">{{ $edit ? $topic->description : '' }}</textarea>
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="panel panel-default">
@@ -80,12 +80,12 @@
                         <h3 class="panel-title">@lang('app.topic_options')</h3>
                     </div>
                     <div class="panel-body">
-                        
+
                         <div class="form-group">
                             <label for="name">@lang('app.public')</label>
                             <br>
                             <input type="hidden" name="public" value="0">
-                            <input type="checkbox" name="public" class="switch" value="1" data-on-text="@lang('app.yes')" data-off-text="@lang('app.no')" 
+                            <input type="checkbox" name="public" class="switch" value="1" data-on-text="@lang('app.yes')" data-off-text="@lang('app.no')"
                                 @if ($edit && $topic->public)
                                     {{ 'checked' }}
                                 @else
@@ -95,7 +95,7 @@
                                 @endif
                             >
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="name">@lang('app.mentors')</label>
                             {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control mentors select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
@@ -126,12 +126,12 @@
                                         @endphp
                                         <li class="item" style="float: left; margin: 5px;">
                                             <img title="{{ $fileName }}" data-toggle="tooltip" data-placement="top" style=" height: 50px; width: 50px;" class="" src="{{ $src }}">
-                                        </li>   
+                                        </li>
                                     @endforeach
                                     </ul>
 
                                 <div class="clear" style="clear: both; margin-bottom: 10px;"></div>
-                            </div> 
+                            </div>
                             @endif
 
                             {!! Form::file('document[]', ['id' => 'document', 'class' => 'form-control', 'multiple' => 'true']) !!}
@@ -151,7 +151,7 @@
                             @lang('app.save')
                         </button>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
 
@@ -187,7 +187,7 @@
                   return {
                     q: params.term
                   };
-                },                
+                },
                 processResults: function (data) {
                   return {
                     results: data
@@ -208,7 +208,7 @@
                   return {
                     q: params.term
                   };
-                },                
+                },
                 processResults: function (data) {
                   return {
                     results: data
@@ -263,14 +263,14 @@
 
                         $('#name-require').removeClass('form-group has-success');
                         $("span[id=name-error]").each(function(){
-                            $(this).remove();  
+                            $(this).remove();
                         });
 
                         setTimeout(function(){
                             $('#name-require').addClass('form-group has-error');
-                            $('#name-require').append('<span id="name-error" class="help-block error-help-block">'+ data.message +'</span>'); 
+                            $('#name-require').append('<span id="name-error" class="help-block error-help-block">'+ data.message +'</span>');
                         }, 100);
-                        
+
                         ok = false;
                     } else {
                         $('#name-require').removeClass('has-error');

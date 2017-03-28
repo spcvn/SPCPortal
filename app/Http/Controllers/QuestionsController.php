@@ -40,7 +40,7 @@ class QuestionsController extends Controller
      */
     public function __construct(QuestionRepository $questions)
     {
-        // $this->middleware('permission:questions.manage');
+        $this->middleware('permission:questions.manage');
         $this->questions = $questions;
     }
 
@@ -147,7 +147,7 @@ class QuestionsController extends Controller
 
             foreach ($questions_tags as $key => $tag) {
 
-                $tag_createds[] = $tag->id;
+                    $tag_createds[] = $tag->id;
             }
 
             //question menters
@@ -156,7 +156,7 @@ class QuestionsController extends Controller
 
             foreach ($questions_mentors as $key => $mentor) {
 
-                $mentor_createds[] = $mentor->id;
+                    $mentor_createds[] = $mentor->id;
             }
 
             $topics = $this->parseTopics(Auth::user()->id, $topicRepository);
@@ -231,9 +231,13 @@ class QuestionsController extends Controller
      * @param ActivityRepository $activities
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function answer()
+    public function detail(Question $question)
     {
+            $question = $this->questions->detail($question->id);
 
+            // dd($question["answers"]);
+
+            return view('question.detail', compact('question'));
     }
 
     /**

@@ -339,6 +339,7 @@ class EloquentTopic implements TopicRepository
             foreach ($user->topics as $topic) {
                 $topicIDs[$topic->id] = $topic->topic_name;
             }
+        }
 
         $topics->where(function ($q) use ($userID) {
                 $q->where('public', true);

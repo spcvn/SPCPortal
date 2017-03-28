@@ -72,7 +72,7 @@
                                 <div>votes</div>
                             </div>
                             <div class="status unanswered">
-                                <div class="mini-counts"><span title="9 answers">9</span></div>
+                                <div class="mini-counts"><span title="9 answers">{{count($question->answer)}}</span></div>
                                 <div>answers</div>
                             </div>
                             <div class="views">
@@ -81,7 +81,7 @@
                             </div>
                         </td>
                         <td>
-                            <a class="question-answer" href="{{route('question.answer', $question->id)}}" title="{{ $question->title }}">{{ $question->title }}</a>
+                            <a class="question-answer" href="{{route('question.detail', $question->id)}}" title="{{ $question->title }}">{{ $question->title }}</a>
                             </br>
                             <span class="question-tags">
                                 @foreach ($question->question_tag as $tag)
@@ -94,10 +94,6 @@
                             <a href="{{ route('question.edit', $question->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_question')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
-                            </a>
-                            <a href="{{ route('question.answer', $question->id) }}" class="btn btn-success btn-circle"
-                               title="@lang('app.answer_question')" data-toggle="tooltip" data-placement="top">
-                                <i class="glyphicon glyphicon-eye-open"></i>
                             </a>
                             <a href="{{ route('question.delete', $question->id) }}" class="btn btn-danger btn-circle"
                                title="@lang('app.delete_question')"

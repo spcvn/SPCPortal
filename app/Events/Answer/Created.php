@@ -1,5 +1,5 @@
 <?php
 
-namespace SPCVN\Events\Role;
+namespace SPCVN\Events\Answer;
 
-class Created extends RoleEvent {}
+class Created extends AnswerEvent {}
