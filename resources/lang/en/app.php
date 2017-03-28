@@ -214,6 +214,12 @@ return [
     'are_you_sure_delete_topic' => 'Are you sure that you want to delete this topic?',
     'please_create_category_first'  =>  'First, You must create a category',
     'back_to_this_page' =>  'Back to this page after submit form',
+    'votes'             =>  'Votes',
+    'comments'          =>  'Comments',
+    'save_comment'      =>  'Save comment',
+    'close'             =>  'Close',
+    'voted'             =>  'Sorry, You have already voted',
+    'votes_success'     =>  'Vote successfully',
 
     // Users
     'add_user' => 'Add User',

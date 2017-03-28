@@ -433,6 +433,11 @@ Route::get('category/{category}/check-exists', [
     'as' => 'category.check-exists',
     'uses' => 'CategoryController@checkExists'
 ]);
+
+Route::put('category/update-category', [
+    'as' => 'category.update-category',
+    'uses' => 'CategoryController@ajaxUpdate' 
+]);
 /* End Categories */
 
 
@@ -475,6 +480,16 @@ Route::post('topic/mentor', [
 Route::delete('topic/{topic}/delete', [
     'as' => 'topic.delete',
     'uses' => 'TopicsController@delete'
+]);
+
+Route::get('topic/{topic}/detail', [
+    'as' => 'topic.detail',
+    'uses' => 'TopicsController@detail'
+]);
+
+Route::post('topic/votes', [
+    'as' => 'topic.votes',
+    'uses' => 'TopicsController@votes'
 ]);
 
 /* End Topics */
@@ -537,6 +552,14 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/gallery', function () {
         return View::make('ace.gallery.index');
     });
+
+
+    Route::get('/files', function () {
+        return View::make('ace.files.index');
+    });
+    Route::post('/files', 'FilesController@index');
+    
+
     Route::get('/morepages/profile', function () {
         return View::make('ace.profile.index');
     });

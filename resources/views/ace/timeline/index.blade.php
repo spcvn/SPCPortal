@@ -42,8 +42,22 @@
 					<div class="col-xs-12 col-sm-12 {{-- col-sm-offset-1 --}}">
 						<div class="timeline-container">
 							<div class="timeline-label">
-								<span class="label label-primary arrowed-in-right label-lg">
-									<b>Today</b>
+								<span class="topic-status st-private">
+									<span class="fa fa-users fa-fw"></span>
+									<ul class="member-private">
+										<li>
+											{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}Sang Huynh
+										</li>
+										<li>
+											{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}Son Nguyen
+										</li>
+										<li>
+											{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}Hien Nguyen
+										</li>
+									</ul>
+								</span>
+								<span class="topic-title">
+									The day you went away - You are not alone
 								</span>
 							</div>
 
@@ -66,15 +80,13 @@
 												16:22
 											</span>
 
-											<span class="widget-toolbar">
-												<a href="#" data-action="reload">
-													<i class="ace-icon fa fa-refresh"></i>
-												</a>
-
-												<a href="#" data-action="collapse">
-													<i class="ace-icon fa fa-chevron-up"></i>
-												</a>
-											</span>
+											<div class="rating inline widget-toolbar">
+												<i data-alt="1" class="star-on-png" title="bad"></i>
+												<i data-alt="2" class="star-on-png" title="poor"></i>
+												<i data-alt="3" class="star-half-png" title="regular"></i>
+												<i data-alt="4" class="star-off-png" title="good"></i>
+												<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+											</div>
 										</div>
 
 										<div class="widget-body">
@@ -88,6 +100,7 @@
 												<div class="timeline-items timeline-cus">
 													<div class="timeline-item clearfix">
 														<div class="timeline-info">
+															<span class="fa fa-fw fa-check correct-answer"></span>
 															{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
 															<span class="label label-sm">16:22</span>
 														</div>
@@ -97,22 +110,12 @@
 																<div class="widget-main">
 																	Anim pariatur cliche reprehenderit, enim eiusmod accusamus terry richardson ad squid.
 																</div>
-															</div>
-														</div>
-													</div>
-
-													<hr>
-
-													<div class="timeline-item clearfix">
-														<div class="timeline-info">
-															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
-															<span class="label label-sm">16:22</span>
-														</div>
-
-														<div class="widget-box transparent">
-															<div class="widget-body">
-																<div class="widget-main">
-																	Designed a new logo for our website. Would appreciate feedback.
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-off-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
 																</div>
 															</div>
 														</div>
@@ -130,6 +133,37 @@
 															<div class="widget-body">
 																<div class="widget-main">
 																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-on-png" title="regular"></i>
+																	<i data-alt="4" class="star-half-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-half-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
 																</div>
 															</div>
 														</div>
@@ -163,37 +197,43 @@
 
 								<div class="timeline-item clearfix">
 									<div class="timeline-info">
-										<i class="timeline-indicator ace-icon fa fa-star btn btn-warning no-hover green"></i>
+										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+										<span class="label label-info label-sm">16:22</span>
 									</div>
 
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-small">
-											<h5 class="widget-title smaller">New logo</h5>
+											<h5 class="widget-title smaller">
+												<a href="#" class="blue">Susan</a>
+												<span class="grey">reviewed a product</span>
+											</h5>
 
 											<span class="widget-toolbar no-border">
 												<i class="ace-icon fa fa-clock-o bigger-110"></i>
-												9:15
+												16:22
 											</span>
 
-											<span class="widget-toolbar">
-												<a href="#" data-action="reload">
-													<i class="ace-icon fa fa-refresh"></i>
-												</a>
-
-												<a href="#" data-action="collapse">
-													<i class="ace-icon fa fa-chevron-up"></i>
-												</a>
-											</span>
+											<div class="rating inline widget-toolbar">
+												<i data-alt="1" class="star-on-png" title="bad"></i>
+												<i data-alt="2" class="star-on-png" title="poor"></i>
+												<i data-alt="3" class="star-half-png" title="regular"></i>
+												<i data-alt="4" class="star-off-png" title="good"></i>
+												<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+											</div>
 										</div>
 
 										<div class="widget-body">
 											<div class="widget-main">
-												Designed a new logo for our website. Would appreciate feedback.
+												Anim pariatur cliche reprehenderit, enim eiusmod
+												<span class="red">high life</span>
+
+												accusamus terry richardson ad squid &hellip;
 												<div class="space-6"></div>
 
 												<div class="timeline-items timeline-cus">
 													<div class="timeline-item clearfix">
 														<div class="timeline-info">
+															<span class="fa fa-fw fa-check correct-answer"></span>
 															{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
 															<span class="label label-sm">16:22</span>
 														</div>
@@ -203,22 +243,12 @@
 																<div class="widget-main">
 																	Anim pariatur cliche reprehenderit, enim eiusmod accusamus terry richardson ad squid.
 																</div>
-															</div>
-														</div>
-													</div>
-
-													<hr>
-
-													<div class="timeline-item clearfix">
-														<div class="timeline-info">
-															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
-															<span class="label label-sm">16:22</span>
-														</div>
-
-														<div class="widget-box transparent">
-															<div class="widget-body">
-																<div class="widget-main">
-																	Designed a new logo for our website. Would appreciate feedback.
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-off-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
 																</div>
 															</div>
 														</div>
@@ -236,6 +266,37 @@
 															<div class="widget-body">
 																<div class="widget-main">
 																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-on-png" title="regular"></i>
+																	<i data-alt="4" class="star-half-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-half-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
 																</div>
 															</div>
 														</div>
@@ -247,22 +308,165 @@
 														<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
 														<a href="javascript:void(0)" class="bigger-110 timeline-readmore">Show answers</a>
 													</div>
+
 													<div class="pull-right action-buttons">
-														<div class="space-4"></div>
+														<a href="#">
+															<i class="ace-icon fa fa-check green bigger-130"></i>
+														</a>
 
-														<div>
-															<a href="#">
-																<i class="ace-icon fa fa-heart red bigger-125"></i>
-															</a>
+														<a href="#">
+															<i class="ace-icon fa fa-pencil blue bigger-125"></i>
+														</a>
 
-															<a href="#">
-																<i class="ace-icon fa fa-facebook blue bigger-125"></i>
-															</a>
+														<a href="#">
+															<i class="ace-icon fa fa-times red bigger-125"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div><!-- /.timeline-items -->
+						</div><!-- /.timeline-container -->
 
-															<a href="#">
-																<i class="ace-icon fa fa-reply light-green bigger-130"></i>
-															</a>
+						<div class="timeline-container">
+							<div class="timeline-label">
+								<span class="topic-status">
+									<span class="fa fa-globe fa-fw"></span>
+								</span>
+								<span class="topic-title">
+									The day you went away - You are not alone
+								</span>
+							</div>
+
+							<div class="timeline-items">
+								<div class="timeline-item clearfix">
+									<div class="timeline-info">
+										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+										<span class="label label-info label-sm">16:22</span>
+									</div>
+
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-small">
+											<h5 class="widget-title smaller">
+												<a href="#" class="blue">Susan</a>
+												<span class="grey">reviewed a product</span>
+											</h5>
+
+											<span class="widget-toolbar no-border">
+												<i class="ace-icon fa fa-clock-o bigger-110"></i>
+												16:22
+											</span>
+
+											<div class="rating inline widget-toolbar">
+												<i data-alt="1" class="star-on-png" title="bad"></i>
+												<i data-alt="2" class="star-on-png" title="poor"></i>
+												<i data-alt="3" class="star-half-png" title="regular"></i>
+												<i data-alt="4" class="star-off-png" title="good"></i>
+												<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												Anim pariatur cliche reprehenderit, enim eiusmod
+												<span class="red">high life</span>
+
+												accusamus terry richardson ad squid &hellip;
+												<div class="space-6"></div>
+
+												<div class="timeline-items timeline-cus">
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															<span class="fa fa-fw fa-check correct-answer"></span>
+															{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
 														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Anim pariatur cliche reprehenderit, enim eiusmod accusamus terry richardson ad squid.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-off-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-on-png" title="regular"></i>
+																	<i data-alt="4" class="star-half-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-half-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="widget-toolbox clearfix">
+													<div class="pull-left">
+														<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
+														<a href="javascript:void(0)" class="bigger-110 timeline-readmore">Show answers</a>
+													</div>
+
+													<div class="pull-right action-buttons">
+														<a href="#">
+															<i class="ace-icon fa fa-check green bigger-130"></i>
+														</a>
+
+														<a href="#">
+															<i class="ace-icon fa fa-pencil blue bigger-125"></i>
+														</a>
+
+														<a href="#">
+															<i class="ace-icon fa fa-times red bigger-125"></i>
+														</a>
 													</div>
 												</div>
 											</div>
@@ -270,6 +474,138 @@
 									</div>
 								</div>
 
+								<div class="timeline-item clearfix">
+									<div class="timeline-info">
+										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+										<span class="label label-info label-sm">16:22</span>
+									</div>
+
+									<div class="widget-box transparent">
+										<div class="widget-header widget-header-small">
+											<h5 class="widget-title smaller">
+												<a href="#" class="blue">Susan</a>
+												<span class="grey">reviewed a product</span>
+											</h5>
+
+											<span class="widget-toolbar no-border">
+												<i class="ace-icon fa fa-clock-o bigger-110"></i>
+												16:22
+											</span>
+
+											<div class="rating inline widget-toolbar">
+												<i data-alt="1" class="star-on-png" title="bad"></i>
+												<i data-alt="2" class="star-on-png" title="poor"></i>
+												<i data-alt="3" class="star-half-png" title="regular"></i>
+												<i data-alt="4" class="star-off-png" title="good"></i>
+												<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+											</div>
+										</div>
+
+										<div class="widget-body">
+											<div class="widget-main">
+												Anim pariatur cliche reprehenderit, enim eiusmod
+												<span class="red">high life</span>
+
+												accusamus terry richardson ad squid &hellip;
+												<div class="space-6"></div>
+
+												<div class="timeline-items timeline-cus">
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															<span class="fa fa-fw fa-check correct-answer"></span>
+															{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Anim pariatur cliche reprehenderit, enim eiusmod accusamus terry richardson ad squid.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-off-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-on-png" title="regular"></i>
+																	<i data-alt="4" class="star-half-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<hr>
+
+													<div class="timeline-item clearfix">
+														<div class="timeline-info">
+															{{ HTML::image('spcvn/ace/images/avatars/avatar2.png', "Susan't Avatar") }}
+															<span class="label label-sm">16:22</span>
+														</div>
+
+														<div class="widget-box transparent">
+															<div class="widget-body">
+																<div class="widget-main">
+																	Designed a new logo for our website. Would appreciate feedback.
+																</div>
+																<div class="rating inline rating-answers">
+																	<i data-alt="1" class="star-on-png" title="bad"></i>
+																	<i data-alt="2" class="star-on-png" title="poor"></i>
+																	<i data-alt="3" class="star-half-png" title="regular"></i>
+																	<i data-alt="4" class="star-off-png" title="good"></i>
+																	<i data-alt="5" class="star-off-png" title="gorgeous"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="widget-toolbox clearfix">
+													<div class="pull-left">
+														<i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
+														<a href="javascript:void(0)" class="bigger-110 timeline-readmore">Show answers</a>
+													</div>
+
+													<div class="pull-right action-buttons">
+														<a href="#">
+															<i class="ace-icon fa fa-check green bigger-130"></i>
+														</a>
+
+														<a href="#">
+															<i class="ace-icon fa fa-pencil blue bigger-125"></i>
+														</a>
+
+														<a href="#">
+															<i class="ace-icon fa fa-times red bigger-125"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div><!-- /.timeline-items -->
 						</div><!-- /.timeline-container -->
 
@@ -687,6 +1023,23 @@
 				$(this).next().html('Show answers');
 				$(this).css('transform', 'rotate(0deg)').removeClass('less');
 			}
+		});
+
+		$(window).click(function() {
+			$('.st-private').children('ul').slideUp('300');
+			$('.st-private').removeClass('less');
+		});
+
+		$('.st-private').click(function(event) {
+			if($(this).hasClass('less')){
+				$(this).children('ul').slideUp('300');
+				$(this).removeClass('less');
+			}
+			else{
+				$(this).children('ul').slideDown('300');
+				$(this).addClass('less');
+			}
+			event.stopPropagation();
 		});
 	</script>
 @stop

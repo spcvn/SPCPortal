@@ -19,7 +19,7 @@
 {{ HTML::style('spcvn/ace/css/bootstrap-duallistbox.min.css') }}
 {{ HTML::style('spcvn/ace/css/bootstrap-multiselect.min.css') }}
 {{ HTML::style('spcvn/ace/css/ace.min.css', array('class' => 'ace-main-stylesheet', 'id' => 'main-ace-style')) }}
-{{ HTML::style('spcvn/ace/font-awesome/4.5.0/css/font-awesome.min.css') }}
+{{ HTML::style('spcvn/ace/font-awesome/css/font-awesome.min.css') }}
 
 {{ HTML::script('spcvn/ace/js/ace-extra.min.js') }}
 {{ HTML::script('spcvn/ace/js/jquery-2.1.4.min.js') }}

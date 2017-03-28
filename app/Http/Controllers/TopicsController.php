@@ -6,11 +6,13 @@ namespace SPCVN\Http\Controllers;
 use SPCVN\Repositories\User\UserRepository;
 use SPCVN\Repositories\Topic\TopicRepository;
 use SPCVN\Repositories\Category\CategoryRepository;
+use SPCVN\Repositories\Vote\VoteRepository;
 use SPCVN\Http\Requests\Topic\CreateTopicRequest;
 use SPCVN\Http\Requests\Topic\UpdateTopicRequest;
 use SPCVN\Topic;
 use SPCVN\User;
 use SPCVN\Tag;
+use SPCVN\Vote;
 use Auth;
 use Authy;
 use Illuminate\Support\Facades\Storage;
@@ -130,9 +132,10 @@ class TopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function detail(Topic $topic)
     {
-        //
+        $listIcon = $this->listIcon();
+        return view('topic.detail', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected', 'documents', 'documentExtention', 'listIcon'));
     }
 
     /**
@@ -343,5 +346,47 @@ class TopicsController extends Controller
         }
 
         return response()->json(['status' => true, 'message' => '']);
+    }
+
+    public function votes(Request $request, VoteRepository $votesRepo)
+    {
+        // check ajax request
+        if (!$request->ajax()) {
+            return response()->json(['status' => false, 'message' => trans('app.something_wrong')]);
+        }
+
+        // check existed data
+        if ($votesRepo->checkExists($request->all())) {
+            return response()->json(['status' => false, 'message' => trans('app.voted')]);   
+        }
+
+        // insert to DB
+        if ($votesRepo->create($request->all())) {
+
+            // update average vote for topic by id
+            $votes      = $votesRepo->getVotesByTopicID($request->object_id);
+            $average    = $sumVotes = 0;
+            $numVotes   = count($votes);
+
+            foreach ($votes as $vote) {
+                $sumVotes += $vote->point;
+            }
+
+            $average    = ($sumVotes/$numVotes);
+            $topic      = Topic::find($request->object_id);
+            $topic->update(array('votes' => $average));
+
+            return response()->json([
+                'status' => true, 
+                'message' => trans('app.votes_success'), 
+                'item' => [
+                    'object_id' =>  $request->object_id,
+                    'average' => $average
+                ]
+            ]);
+        }
+
+        // default: return false
+        return response()->json(['status' => false, 'message' => trans('app.something_wrong')]);
     }
 }

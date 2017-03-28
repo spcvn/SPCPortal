@@ -31,6 +31,9 @@ use SPCVN\Repositories\Category\CategoryRepository;
 use SPCVN\Repositories\Topic\EloquentTopic;
 use SPCVN\Repositories\Topic\TopicRepository;
 
+use SPCVN\Repositories\Vote\EloquentVote;
+use SPCVN\Repositories\Vote\VoteRepository;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -70,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
         // @huongdi
         $this->app->singleton(CategoryRepository::class, EloquentCategory::class);
         $this->app->singleton(TopicRepository::class, EloquentTopic::class);
+        $this->app->singleton(VoteRepository::class, EloquentVote::class);
         // end @huongid
 
         if ($this->app->environment('local')) {

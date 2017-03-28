@@ -189,6 +189,14 @@
             <b class="arrow"></b>
         </li>
 
+        <li class="{{ Request::is('acelayout/files*') ? 'active' : ''  }}">
+            <a href="/acelayout/files">
+                <i class="menu-icon fa fa-files-o"></i>
+                <span class="menu-text">File manager</span>
+            </a>
+            <b class="arrow"></b>
+        </li>
+
         <li class="{{ Request::is('acelayout/morepages*') ? 'active open' : ''  }}">
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon fa fa-tag"></i>
