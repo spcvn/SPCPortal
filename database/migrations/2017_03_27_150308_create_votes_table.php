@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAnswersTable extends Migration
+class CreateVotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class CreateAnswersTable extends Migration
      */
     public function up()
     {
-       Schema::create('answers', function(Blueprint $table)
-        {
+        Schema::create('votes', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('question_id')->default(0);
-            $table->unsignedInteger('parent_id')->default(0);
             $table->unsignedInteger('user_id')->default(0);
-            $table->text('comment');
-            $table->tinyInteger('del_flg')->default(0);
-            $table->timestamps();
+            $table->enum('type', ['topic', 'question', 'answer']);
+            $table->integer('object_id');
+            $table->float('point', 5, 1);
+            $table->text('comments')->nullable();
+            $table->datetime('created')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->datetime('modified');
         });
 
-       Schema::table('answers', function(Blueprint $table) {
+        Schema::table('votes', function(Blueprint $table) {
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
@@ -39,10 +39,10 @@ class CreateAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::table('answers', function(Blueprint $table) {
-            $table->dropForeign('answers_user_id_foreign');
+        Schema::table('votes', function(Blueprint $table) {
+            $table->dropForeign('votes_user_id_foreign');
         });
 
-        Schema::drop('answers');
+        Schema::drop('votes');
     }
 }

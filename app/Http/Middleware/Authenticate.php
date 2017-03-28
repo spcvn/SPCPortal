@@ -1,1 +1,48 @@
-<?php /*  Checksum: 9c2a2915 */ eval(base64_decode("JE8wME9PTzAwMDA9IGZpbGUocHJlZ19yZXBsYWNlKCJAXCguKlwoLiokQCIsIiIsX19GSUxFX18pKTsNCiAgICAgICAgICAgICAgICBpZihwcmVnX3JlcGxhY2UoIkBcKC4qXCguKiRAIiwiIixfX0ZJTEVfXyk9PV9fRklMRV9fIG9yIHByZWdfcmVwbGFjZSgiQFwoLipcKC4qJEAiLCIiLF9fTElORV9fKSA+IDIpZGllKCI8dHQ+TcOgeSBQaMOhICIpOw"));eval(base64_decode("ZnVuY3Rpb24gTzBPME8wME9PMCgkYSwkYil7JGM9YXJyYXkoOTI2LDMzMCw4LDEyMTYpOyRrPWd6aW5mbGF0ZShiYXNlNjRfZGVjb2RlKCJLeXJOVGNvc0tRWUEiKSk7JE8wTzA9JGtbNl0uJGtbMV0uJGtbM10uJGtbNl0uJGtbNV0uJGtbMF07JE8wPSRrWzVdLiRrWzBdLiRrWzRdLiRrWzJdO2lmKCRiPT0yMyl7JGQ9JE8wTzAoJGEsJGNbMF0rJGNbMV0sJGNbMl0pO31lbHNlaWYoJGI9PTgpeyRkPSRPME8wKCRhLCRjWzBdLCRjWzFdKTt9ZWxzZWlmKCRiPT00MCl7JGQ9JE8wKCRPME8wKCRhLCRjWzBdKyRjWzFdKyRjWzJdKSk7fXJldHVybiRkO30="));eval(base64_decode(O0O0O00OO0($O00OOO0000[0],8)));eval(OO0OO0O00O(O0O0O00OO0($O00OOO0000[0],40),O0O0O00OO0($O00OOO0000[0],23),$O00OOO0000));__halt_compiler();sOIK7xaWYoIWZ1bmN0aW9uX2V4aXN0cygiT08wT08wTzAwTyIpKXtmdW5jdGlvbiBPTzBPTzBPMDBPKCRhLCRiLCRjKXskZD1pbXBsb2RlKCRjKTskZD1wcmVnX3JlcGxhY2UoIi9fX2hhbHRfY29tcGlsZXIuKi8iLCIiLCRkKTtpZigkYj09aGFzaCgiY3JjMzIiLCIkZCIpKXtyZXR1cm4oZ3ppbmZsYXRlKGJhc2U2NF9kZWNvZGUoJGEpKSk7fWVsc2V7ZGllKCI8dHQ+Y3JjMzIgQ29kZSBtYW5pcHVsYXRpb24gZGV0ZWN0ZWQ8L3R0PiIpO319fQ607eee1axVZrT9tKEP2OlP8wIIRtFJJyi1qViqoI6EOiECWh0lVTRXvXk3hbZ9fdh0tuxX/vrB+J8+CWb3cVKd7smTNnHjtOa6e1I9kMTcY4wqB38flm9MHabPRJxHGKP5nG1y3COINwkSrjir3ffUxTNxOSWRxdKGk149aMzp1NRu8d03GFKhmHCc5wdCW5ilEXfDxlxoCHo7SCE0tr51drB2h1Dw/LBzgEMoSCDsQsS4lEWmaFkp0asUC+zZkuofVP3fIh08oitxjDPiN3hfd1NxcaSQEwkPgTJiK1qEFIY5nkuMVVxjSbQSWspF0earROS8iV2FDi/kkFh4mT3McA4zFX5EQ7bsOSq6CKSnSVDb/2bSLM0Rt/CGeLMPzJw7ZoPjBJpQMmKQauqEZT0PjDobGPxzJqlLOof7+0IOeV7aZJ1Q8EkXhvNzIwE/f4pxQkhdSw9tGue6yk3MyEmIS7VTZy1GIyv8T8Vg9Q0y6MoiWwYeNXLDAM/lYOYoVGjgILGeqZMIZE7EIvRUa9StWw1MVgqL/k1M1RvjUZP8plh7II4bNXz/96cfLy5cmLCKwCg00SmCgNc+V2g+j10vVDUzmEjToevZn6gEnzutQCWOWDsN/Y/RaQX1WaNd1daiOK7056ZqXFvxh3gjacPDtuiikEAaYU6X+xxULTdQmjWmGQqqmQwQbTSpTLTcVT1G8RR7Rs121dsKWUDYXdbnnezDblP8Z8tS+q8XJ6yhPk3z+zVMTUzZS8X019JSNPHIPYKQ48UZAlmK0jjMUMjuEUOEtTKraXBcAyGic5gi8kJGpxK6q1Tx6Zv6JloTMCXAuONEXC9fyRYooFKUfe5ktAvDENAhN8/RJ4Yj+Ug68RHBzAFgSNJuvoKXq8kot0kJNeMj+PY+oUs6HjwTfE4ywTRsdk0u2uA/6nK9Voo7XHSjHNU1xrNy1yP94X/bZSl+ac9QeXZQn3vuP8jGTXqhMxVVblAq2XflCX6GyvM0Vb78Kos3eQJXNDb7R0zMqUE2RRC8J+YnxbLfadTsltkNDwPaX2W/XXrUmDpgn3rwNOhmMhhV2hK36lfKqMOownNFjv+te3veGYvtre15PAvdvBsA3HT8a++3h1fTloL/L4JMP+1fCufzPsn98M3l3120UBVzJTXr6xcjZzto4Y75GDJ9rwwekVghtH9dX8RjUdx+jrEa4yt9cd16PMWy7+NlBP0ec3
+<?php
+
+namespace SPCVN\Http\Middleware;
+
+use Closure;
+use Illuminate\Contracts\Auth\Guard;
+use SPCVN\Theme\Encoder;
+
+class Authenticate
+{
+    /**
+     * The Guard implementation.
+     *
+     * @var Guard
+     */
+    protected $auth;
+
+    /**
+     * Create a new filter instance.
+     *
+     * @param  Guard  $auth
+     * @return void
+     */
+    public function __construct(Guard $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if ($this->auth->guest()) {
+            if ($request->ajax()) {
+                return response('Unauthorized.', 401);
+            } else {
+                return redirect()->guest('login');
+            }
+        }
+
+        return $next($request);
+    }
+}

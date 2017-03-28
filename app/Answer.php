@@ -14,5 +14,15 @@ class Answer extends Model
      */
     protected $table = 'answers';
 
-    protected $fillable = ['facebook', 'twitter', 'google_plus', 'dribbble', 'linked_in', 'skype'];
+    protected $fillable = ['question_id', 'parent_id', 'user_id', 'comment', 'del_flg'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class, 'question_id');
+    }
 }

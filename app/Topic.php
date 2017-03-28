@@ -14,7 +14,7 @@ class Topic extends Model
 
 
 
-    protected $fillable = ['category_id', 'user_id', 'topic_name', 'picture', 'description', 'view', 'public', 'del_flag', 'created', 'modified'];
+    protected $fillable = ['category_id', 'user_id', 'topic_name', 'picture', 'description', 'view', 'public', 'del_flag', 'votes', 'created', 'modified'];
 
     public function getEncryptIdAttribute()
     {

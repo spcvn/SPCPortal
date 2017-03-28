@@ -43,6 +43,14 @@
                     {!! Form::select('topic_id', $topics, $edit ? $question->topic_id : '',['class' => 'form-control', 'id' => 'topic-id']) !!}
                 </div>
                 <div class="form-group">
+                    <label for="tag_id">@lang('app.topic_mentor')</label>
+                    @if ($edit)
+                        {!! Form::select('mentor_ids[]', $mentors, $mentor_createds, ['class' => 'form-control', 'id' => 'mentor_ids', 'multiple' => 'true', 'style' => 'width:100%;']) !!}
+                    @else
+                        <select id="mentor_ids" name="mentor_ids[]" class="form-control" multiple></select>
+                    @endif
+                </div>
+                <div class="form-group">
                     <label for="tag_id">@lang('app.tag_name')</label>
                     @if ($edit)
                         {!! Form::select('tag_ids[]', $tags, $tag_createds, ['class' => 'form-control', 'id' => 'tag_ids', 'multiple' => 'true', 'style' => 'width:100%;']) !!}
@@ -79,7 +87,60 @@
 
     <script type="text/javascript">
 
-        //autocomplete tags
+        var topic_id = "";
+
+        //set value topic_id_created when edit page
+        if(typeof(topic_id_created) === "undefined" && topic_id_created !== '') {
+
+            var topic_id_created="{{$topic_id_created}}";
+            topic_id=topic_id_created;
+        }
+
+        setMenterData(topic_id);
+
+        //get menters by topic id
+        $(document).on("change", "#topic-id", function(e) {
+
+            $("#mentor_ids").html("")
+
+            e.preventDefault();
+
+            var elm = $(this);
+            topic_id = elm.val();
+            setMenterData(topic_id);
+        });
+
+        function setMenterData(topic_id) {
+
+            $('#mentor_ids').select2({
+
+                placeholder: "@lang('app.placeholder_for_mentor')",
+                tags: "false",
+                allowClear: true,
+                tokenSeparators: [',', ' '],
+                ajax: {
+                    url: "{{ route('topic.mentor') }}",
+                    dataType: "json",
+                    type:"POST",
+                    beforeSend: function (xhr) {
+                        var token = $('meta[name="csrf_token"]').attr('content');
+
+                        if (token) {
+                            return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                        }
+                    },
+                    data: { topic_id : topic_id },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
+
+        // autocomplete tags
         $('#tag_ids').select2({
             placeholder: "@lang('app.placeholder_for_tag')",
             tags: "true",
@@ -88,6 +149,13 @@
             ajax: {
                 url: "{{ route('tag.find') }}",
                 dataType: "json",
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf_token"]').attr('content');
+
+                    if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
                 data: function (params) {
                     return {
                         q: $.trim(params.term)

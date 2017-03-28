@@ -54,18 +54,18 @@
     <div class="table-responsive" id="tags-table-wrapper">
         <table class="table">
             <thead>
-                <th>ID</th>
+                <th>No.</th>
                 <th>@lang('app.name')</th>
                 <th>@lang('app.created_by')</th>
                 <th class="text-center">@lang('app.action')</th>
             </thead>
             <tbody id="tag-list" name="tag-list">
             @if (count($tags))
-                @foreach ($tags as $tag)
+                @foreach ($tags as $key => $tag)
                     <tr id="tag{{$tag->id}}">
-                        <td>{{ $tag->id }}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td>
-                            <a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="tag_name_edit" data-type="text" data-pk="{{$tag->id}}" data-name="tag_name_edit" data-url="/{{$tag->id}}/update" data-original-title="Enter tag name">
+                            <a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="tag_name_edit" data-type="text" data-pk="{{$tag->id}}" data-name="tag_name_editable" data-url="{{route('tag.update', $tag->id)}}" data-original-title="Enter tag name">
                                 {{ $tag->name }}
                             </a>
                         </td>
@@ -109,7 +109,7 @@
                 <form id="frmTag" name="frmTag" class="form-horizontal" data-toggle="validator">
                     {!! Form::hidden('user_id', Auth::user()->present()->id) !!}
                         <label class="control-label" for="title">@lang('app.name')</label>
-                        <input type="text" name="name" class="form-control required" id="tag_name" placeholder="@lang('app.tag_name')" value=""/>
+                        <input type="text" name="name" class="form-control required" id="tag_name" placeholder="@lang('app.tag_name')" maxlength="100" value=""/>
                         <p class="error"></p>
                     </form>
                 </div>
@@ -135,25 +135,51 @@
         $(document).on("mouseup", "#tag_name_edit", function() {
 
             $(this).editable({
-                method: 'PUT',
-                success: function(response, newValue) {
-                    alert(response);
-                    // userModel.set('username', newValue); //update backbone model
+                validate: function (value) {
+                    var regex = /^[a-zA-Z0-9\-_ \.]+$/;
+                    if(!regex.test(value)) {
+
+                        return "@lang('app.tag_name_invalid')";
+                    }
+
+                    if ($.trim(value) === '') {
+
+                        return  "@lang('app.tag_name_require')";
+                    } else if($.trim(value).length>100) {
+
+                        return 'Only 100 charateres are allowed';
+                    }
+                },
+                success: function (response) {
+
+                    if(response.status != undefined &&  response.status === "EXISTS") {
+
+                        return  "@lang('app.tag_name_exists')";
+                    }
+
+                    toastr.success( "@lang('app.tag_updated')" , "@lang('app.edit_tag')" );
+                },
+                error: function (response) {
+                    return 'remote error';
                 }
-            })
+            });
+        })
+
+        //Prevent users from submitting a form by hitting Enter
+        $("#frmTag").keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
         });
 
-
-        // $(document).one("click", ".editable-submit", function() {
-
-        //     // alert('aaaaaaaaaaaa');
-        // });
-
-        //edit table
-        // $('#tag_name_edit').editable();
-
+        var keyNum=0;
         //display modal form for tag editing
         $(document).on('click', '.open-modal', function() {
+
+            var tr_selected = $(this).parents("tr").first();
+            var indexNum = tr_selected.find("td").first().html();
+            keyNum = indexNum;
 
             $('#tag_name').css("border", "1px solid #ccc");
             $('.text-danger').remove();
@@ -184,33 +210,24 @@
             $('#tagModel').modal('show');
         });
 
-        //delete tag and remove it from list
-        // $('.delete-task').click(function(){
-        //     var task_id = $(this).val();
-
-        //     $.ajax({
-
-        //         type: "DELETE",
-        //         url: url + '/' + task_id,
-        //         success: function (data) {
-        //             console.log(data);
-
-        //             $("#task" + task_id).remove();
-        //         },
-        //         error: function (data) {
-        //             console.log('Error:', data);
-        //         }
-        //     });
-        // });
-
-
         //create new task / update existing task
         $(document).on('click','#btn-save-tag', function (e) {
+
             if($('#tag_name').val().trim()=="") {
 
                 $('.text-danger').remove();
                 $('#tag_name').css("border", "1px solid #a94442");
                 $('#tag_name').after("<span class='text-danger' style='padding:3px 2px;float:left;'>"+"@lang('app.tag_name_require')"+"</span>");
+
+                return false;
+            }
+
+            var regex = /^[0-9a-zA-Z]*$/;
+            if(!regex.test($('#tag_name').val())) {
+
+                $('.text-danger').remove();
+                $('#tag_name').css("border", "1px solid #a94442");
+                $('#tag_name').after("<span class='text-danger' style='padding:3px 2px;float:left;'>"+"@lang('app.tag_name_invalid')"+"</span>");
 
                 return false;
             }
@@ -261,7 +278,7 @@
                             return false;
                     }
 
-                    var task = '<tr id="tag' + data.id + '"><td>' + data.id + '</td><td>' + data.name + '</td>';
+                    var task = '<tr id="tag' + data.id + '"><td>' + keyNum + '</td><td>' + '<a href="javascript:void(0)" class="grid-editable-name editable editable-click" id="tag_name_edit" data-type="text" data-pk="' + data.id + '" data-name="tag_name" data-url="" data-original-title="Enter tag name">' + data.name + '</a>' + '</td><td>' + data.user.username + '</td>';
                     task += '<td class="text-center"><button class="btn btn-primary btn-circle open-modal" title="' + data.name + '" value="' + data.id + '"><i class="glyphicon glyphicon-edit"></i></button>';
                     task += ' <a href="/tag/' + data.id + '/delete" class="btn btn-danger btn-circle" data-toggle="tooltip" data-placement="top" data-method="DELETE" data-confirm-title="@lang('app.please_confirm')" data-confirm-text="@lang('app.are_you_sure_delete_tag')" data-confirm-delete="@lang('app.yes_delete_it')" data-original-title="Delete tag"><i class="glyphicon glyphicon-trash"></i></a></td></tr>';
 

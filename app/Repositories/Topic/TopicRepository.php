@@ -3,6 +3,7 @@
 namespace SPCVN\Repositories\Topic;
 
 use Carbon\Carbon;
+use SPCVN\Repositories\User\UserRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 
 interface TopicRepository
@@ -167,7 +168,7 @@ interface TopicRepository
      * @param array $userID
      * @param boolean $sync | false is created, true is updated
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.07
      * @version 1.0
@@ -181,7 +182,7 @@ interface TopicRepository
      * @param array $tagsID
      * @param boolean $sync | false is created, true is updated
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.14
      * @version 1.0
@@ -192,13 +193,14 @@ interface TopicRepository
      * get memtor list by topic id
      *
      * @param (int) $id
+     * @param UserRepository $userRepository
      * @return null|Array
      *
      * @author Nguyen Chat Hien
      * @since 2017.03.13
      * @version 1.0
      */
-    public function getMemtorsByTopicId($id);
+    public function getMemtorsByTopicId($id, UserRepository $userRepository);
 
     /**
      * Alpha ID | Encryption - Decryption ID.
@@ -208,7 +210,7 @@ interface TopicRepository
      * @param boolean|int $pad_up
      * @param string|null $pass_key
      * @return mixed
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.16
      * @version 1.0
@@ -225,7 +227,7 @@ interface TopicRepository
      *      name
      * ]
      * @return boolse
-     * 
+     *
      * @author Dinh Van Huong
      * @since 2017.03.20
      * @version 1.0

@@ -172,6 +172,14 @@ class EloquentUser implements UserRepository
     /**
      * {@inheritdoc}
      */
+    public function getUserByStatus($status)
+    {
+        return User::where('status', $status)->get();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function latest($count = 20)
     {
         return User::orderBy('created_at', 'DESC')
@@ -288,13 +296,13 @@ class EloquentUser implements UserRepository
         });
 
         $result = $query->get();
-        
+
         $res = [];
         foreach ($result as $key => $val) {
             $res[] = ['id' => $val->id, 'text' => $val->full_name . ' ('. $val->email .')'];
         }
 
         return $res;
-        
+
     }
 }

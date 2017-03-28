@@ -2,6 +2,7 @@
 
 namespace SPCVN\Repositories\Topic;
 
+use SPCVN\Repositories\User\UserRepository;
 use SPCVN\Events\Topic\Created;
 use SPCVN\Events\Topic\Deleted;
 use SPCVN\Events\Topic\Updated;
@@ -10,10 +11,9 @@ use SPCVN\User;
 use Carbon\Carbon;
 use DB;
 use Auth;
-//use Illuminate\Database\SQLiteConnection;
-//use SPCVN\Support\Authorization\CacheFlusherTrait;
 
 define('ADMINISTRATOR', 1);
+define('USER_STATUS', 'Active' );
 
 class EloquentTopic implements TopicRepository
 {
@@ -185,9 +185,31 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function getMemtorsByTopicId($id)
+    public function getMemtorsByTopicId($id, UserRepository $userRepository)
     {
-        $memtors = $this->find($id);
+        $memtors = [];
+
+        if(!empty($id)) {
+
+            $topic = Topic::find($id);
+
+            foreach ($topic->topics_mentors as $menter) {
+
+                //check user has been activated
+                if($menter->status !== USER_STATUS) continue;
+
+                $memtors[] = ['id' => $menter->id, 'text' => $menter->username];
+            }
+
+        } else {
+
+            $users = $userRepository->getUserByStatus(USER_STATUS)->pluck('full_name', 'id')->toArray();
+
+            foreach ($users as $key => $user) {
+
+                $memtors[] = ['id' => $key, 'text' => $user];
+            }
+        }
 
         return $memtors;
     }
@@ -276,7 +298,7 @@ class EloquentTopic implements TopicRepository
 
         if (isset($data['topic_id']) && $data['topic_id']) {
             $query->where('id', '<>', $data['topic_id']);
-        }        
+        }
 
         if (isset($data['category_id']) && $data['category_id']) {
             $query->where('category_id', $data['category_id']);
@@ -317,12 +339,12 @@ class EloquentTopic implements TopicRepository
             foreach ($user->topics as $topic) {
                 $topicIDs[$topic->id] = $topic->topic_name;
             }
+        }
 
-            $topics->where(function ($q) use ($userID) {
+        $topics->where(function ($q) use ($userID) {
                 $q->where('public', true);
                 $q->orWhere('user_id', $userID);
             });
-        }
 
         $results = $topics->get();
         foreach ($results as $result) {
