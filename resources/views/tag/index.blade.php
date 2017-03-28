@@ -85,10 +85,6 @@
                         </td>
                     </tr>
                 @endforeach
-            @else
-                <tr>
-                    <td colspan="4"><em>@lang('app.no_records_found')</em></td>
-                </tr>
             @endif
             </tbody>
         </table>
@@ -96,38 +92,12 @@
 
     {!! $tags->render() !!}
 
-    <!-- Modal (Pop up when detail button clicked) -->
-    <div class="modal fade" id="tagModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">@lang('app.title_create_tag')</h4>
-                </div>
-                <div class="modal-body">
-                <form id="frmTag" name="frmTag" class="form-horizontal" data-toggle="validator">
-                    {!! Form::hidden('user_id', Auth::user()->present()->id) !!}
-                        <label class="control-label" for="title">@lang('app.name')</label>
-                        <input type="text" name="name" class="form-control required" id="tag_name" placeholder="@lang('app.tag_name')" maxlength="100" value=""/>
-                        <p class="error"></p>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="btn-save-tag" class="btn crud-submit btn-success">
-                        <i class="fa fa-save"></i>
-                        @lang('app.create_tag')
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="hidden" id="tag_id" name="tag_id" value="0">
-                </div>
-
-            </div>
-        </div>
-    </div>
+    @include('tag.partials.add-edit')
 
 @stop
+
 @section('scripts')
+
     <script type="text/javascript">
 
         var url = "{{ route('tag.index') }}";
@@ -136,11 +106,11 @@
 
             $(this).editable({
                 validate: function (value) {
-                    var regex = /^[a-zA-Z0-9\-_ \.]+$/;
-                    if(!regex.test(value)) {
+                    // var regex = /^[a-zA-Z0-9\-_ \.]+$/;
+                    // if(!regex.test(value)) {
 
-                        return "@lang('app.tag_name_invalid')";
-                    }
+                    //     return "@lang('app.tag_name_invalid')";
+                    // }
 
                     if ($.trim(value) === '') {
 
@@ -213,6 +183,8 @@
         //create new task / update existing task
         $(document).on('click','#btn-save-tag', function (e) {
 
+            e.preventDefault();
+
             if($('#tag_name').val().trim()=="") {
 
                 $('.text-danger').remove();
@@ -222,23 +194,15 @@
                 return false;
             }
 
-            var regex = /^[0-9a-zA-Z]*$/;
-            if(!regex.test($('#tag_name').val())) {
+            // var regex = /^[0-9a-zA-Z]*$/;
+            // if(!regex.test($('#tag_name').val())) {
 
-                $('.text-danger').remove();
-                $('#tag_name').css("border", "1px solid #a94442");
-                $('#tag_name').after("<span class='text-danger' style='padding:3px 2px;float:left;'>"+"@lang('app.tag_name_invalid')"+"</span>");
+            //     $('.text-danger').remove();
+            //     $('#tag_name').css("border", "1px solid #a94442");
+            //     $('#tag_name').after("<span class='text-danger' style='padding:3px 2px;float:left;'>"+"@lang('app.tag_name_invalid')"+"</span>");
 
-                return false;
-            }
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                }
-            })
-
-            e.preventDefault();
+            //     return false;
+            // }
 
             var state = $('#btn-save-tag').val();
 
@@ -255,8 +219,16 @@
 
             if (state == "update"){
 
+                var rowCount = $('#tags-table-wrapper tr').length;
+
                 type = "PUT";
                 tag_url = url + '/' + tag_id +'/update';
+            }
+
+            if (state == "add"){
+
+                var rowCount = $('#tags-table-wrapper tr').length;
+                keyNum = rowCount;
             }
 
             $.ajax({
@@ -266,6 +238,8 @@
                 data: formData,
                 dataType: 'json',
                 success: function (data) {
+
+                    console.log(data);
 
                     $('#tag_name').css("border", "1px solid #ccc");
                     $('.text-danger').remove();
