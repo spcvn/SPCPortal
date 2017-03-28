@@ -14,7 +14,7 @@ class CreateQuestionRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|unique:questions,title|digits_between:6,255',
+            'title' => 'required|unique:questions,title',
         ];
     }
 }
