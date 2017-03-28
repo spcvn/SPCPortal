@@ -50,23 +50,23 @@
         
     </div>
 
-
     <div class="table-responsive topic-table" id="users-table-wrapper">
         <table class="table" width="100%" cellpadding="0" cellspacing="0" border="0">
             <thead>
                 <!--<th style="width: 2%;">@lang('app.sort_category')</th>-->
                 <th style="width: 10%;" class="text-center">@lang('app.topic_picture')</th>
                 <th style="width: 30%;">@lang('app.topic_name')</th>
-                <th style="width: 15%;">@lang('app.tag')</th>
-                <th style="width: 15%;">@lang('app.created_by')</th>
-                <th style="width: 15%; text-align: center;">@lang('app.status')</th>
+                <th>@lang('app.tag')</th>
+                <th>@lang('app.created_by')</th>
+                <th style="text-align: center;">@lang('app.status')</th>
+                <th style="width: 15%; text-align: center;">@lang('app.votes')</th>
                 <th style="width: 15%;" class="text-center">@lang('app.action')</th>
                 </thead>
             <tbody>
             @if (count($topics))
                 @foreach ($topics as $topic)
                     <tr id="cat-{{$topic->id}}">
-                        <td style="text-align: center;">
+                        <td style="text-align: center; vertical-align: middle;">
                             <a href="{{ route('topic.edit', $topic->id) }}">
                                 @php
                                     if ($topic->picture) {
@@ -76,18 +76,18 @@
                                     }
                                 @endphp
 
-                                <img style="max-width: 100px; max-height: 100px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
+                                <img style="max-width: 70px; max-height: 70px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
                             </a>
                         </td>
-                        <td><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
-                        <td class="tags">
+                        <td style="vertical-align: middle;"><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
+                        <td class="tags" style="vertical-align: middle;">
                             @foreach ($topic->topics_tags as $tag)
                             <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #0080ff; color: #fff;">{{$tag->name}}</span>
                             @endforeach
                         </td>
-                        <td><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->user->first_name }} {{ $topic->user->last_name }}</a></td>
+                        <td style="vertical-align: middle;"><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->user->first_name }} {{ $topic->user->last_name }}</a></td>
                         
-                        <td style="text-align: center;">
+                        <td style="text-align: center; vertical-align: middle;">
                             @if ($topic->public)
                             <i class="fa fa-circle" title="@lang('app.public')" data-toggle="tooltip" data-placement="top" style="color: #328EFE;" aria-hidden="true"></i>
                             @else
@@ -95,7 +95,13 @@
                             @endif
                         </td>
 
-                        <td class="text-center">
+                        <td style="text-align: center; vertical-align: middle;">
+                            <div class="topic-rating">
+                                <input id="rating-{{ $topic->id }}" data-readonly="{{ ($topic->user_id == Auth::id() ? 'true' : 'false') }}" data-id="{{ $topic->id }}" data-size="xs" data-show-clear="false" data-show-caption="false" name="input-{{ $topic->id }}" value="{{ $topic->votes }}" class="rating topic-rating-item rating-loading">
+                            </div>
+                        </td>
+
+                        <td class="text-center" style="vertical-align: middle;">
                         @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
                             <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
                                title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
@@ -134,12 +140,48 @@
 
     </div>
 
-    <!-- Modal -->
+    <!-- Modal files document -->
     @include('topic.partials.modal')
+
+    <!-- Modal (Pop up when click vote for topic) -->
+    <div class="modal fade" id="votesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">@lang('app.votes')</h4>
+                </div>
+                <div class="modal-body">
+                <form id="frmTag" name="frmTag" class="form-horizontal" data-toggle="validator">
+                    {!! Form::hidden('user_id', Auth::user()->present()->id) !!}
+                    <input type="hidden" id="topic_id" name="topic_id" value="0">
+                    <input type="hidden" id="point" name="point" value="0">
+                    <label class="control-label required" for="comments">@lang('app.comments')</label>
+                    <textarea name="comments" id="comments" rows="5" class="form-control"></textarea>
+                    <p class="error"></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-save-comment" class="btn crud-submit btn-success">
+                        <i class="fa fa-save"></i>
+                        @lang('app.save_comment')
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@lang('app.close')</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 @stop
 
+@section('styles')
+    {!! HTML::style('assets/css/star-rating.css') !!}
+@stop
+
 @section('scripts')
+    {!! HTML::script('assets/js/star-rating.js') !!}
     <script>
         $(document).ready(function(){
             // load document to bootstrap modal
@@ -154,6 +196,83 @@
                     $('#documentModal').modal('show');
                 }, 500);
             });
+
+
+            // rating
+            @foreach ($topics as $topic)
+                $("#rating-{{ $topic->id }}").rating({
+                    hoverOnClear: false,
+                    hoverChangeCaption: false,
+                    stars: 5
+                });
+            @endforeach
+
+            // get rating value
+            $('.topic-rating-item').rating().on("rating.change", function(event, value, caption) {
+                var topicID = $(this).data('id');
+                $('#votesModal #point').val(value);
+                $('#votesModal #topic_id').val(topicID);
+                $('#votesModal').modal('show');
+            });
+
+            $('#votesModal').on('hidden.bs.modal', function (e) {
+                var topicID = $('#topic_id').val();
+                $(this).find("input,textarea,select").val('').end()
+                .find("input[type=checkbox], input[type=radio]").prop("checked", "").end();
+
+                // reset rating
+                $("#rating-"+ topicID).rating('reset').val();
+            });
+
+            // update rating to DB
+            $('#btn-save-comment').on('click', function(){
+                var topicID = $.trim($('#topic_id').val());
+                var comment = $.trim($('#comments').val());
+                var point   = parseFloat($.trim($('#point').val()));
+                var myData = {
+                    'type'      : 'topic',
+                    'object_id' : topicID,
+                    'user_id'   : {{Auth::id()}},
+                    'point'     : point,
+                    'comments'  : comment
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('topic.votes') }}",
+                    data: myData,
+                    dataType: 'json',
+                    async: true,
+                    success: function (data) {
+
+                        $('#votesModal').trigger("reset");
+                        $('#votesModal').modal('hide');
+
+                        if (data.status == true) {
+
+                            $(document).find('#rating-'+ topicID).attr('value', data.item.average);
+                            // setTimeout(function(){
+                            //     $(document).find('#rating-'+ topicID).rating('update', data.item.average);
+                            //     $(document).find('#rating-'+ topicID).rating('refresh', {disabled: true, showClear: false, showCaption: false});
+                            // }, 500);
+
+                            toastr.success( data.message , "@lang('app.votes')" );
+                        } else {
+                            toastr.error( data.message , "@lang('app.votes')" );
+                        }
+                    }
+                });
+
+                $( document ).ajaxComplete(function( event, request, settings ) {
+                    var data = JSON.parse(request.responseText);
+                    if (data.status == true) {
+                        console.log('log');
+                        $(document).find('#rating-'+ data.item.object_id).rating('update', data.item.average);
+                        $(document).find('#rating-'+ data.item.object_id).rating('refresh', {disabled: true, showClear: false, showCaption: false});
+                    }
+                });
+            });
+
         });
     </script>
 @stop
