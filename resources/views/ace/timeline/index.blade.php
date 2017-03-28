@@ -65,14 +65,13 @@
 								<div class="timeline-item clearfix">
 									<div class="timeline-info">
 										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
-										<span class="label label-info label-sm">16:22</span>
+										<span class="label label-info label-sm">Jack</span>
 									</div>
 
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-small">
 											<h5 class="widget-title smaller">
-												<a href="#" class="blue">Susan</a>
-												<span class="grey">reviewed a product</span>
+												<span class="grey">How to resize images proportionally / How to resize images proportionally / How to resize images proportionally / keeping the aspect ratio?</span>
 											</h5>
 
 											<span class="widget-toolbar no-border">
@@ -91,10 +90,8 @@
 
 										<div class="widget-body">
 											<div class="widget-main">
-												Anim pariatur cliche reprehenderit, enim eiusmod
-												<span class="red">high life</span>
-
-												accusamus terry richardson ad squid &hellip;
+												<p>I have images that will be quite big in dimension and I want to shrink them down with jQuery while keeping the proportions constrained, i.e. the same aspect ratio.</p>
+												<p>Can someone point me to some code, or explain the logic?</p>
 												<div class="space-6"></div>
 
 												<div class="timeline-items timeline-cus">
@@ -198,13 +195,12 @@
 								<div class="timeline-item clearfix">
 									<div class="timeline-info">
 										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
-										<span class="label label-info label-sm">16:22</span>
+										<span class="label label-info label-sm">Kalista</span>
 									</div>
 
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-small">
 											<h5 class="widget-title smaller">
-												<a href="#" class="blue">Susan</a>
 												<span class="grey">reviewed a product</span>
 											</h5>
 
@@ -344,13 +340,12 @@
 								<div class="timeline-item clearfix">
 									<div class="timeline-info">
 										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
-										<span class="label label-info label-sm">16:22</span>
+										<span class="label label-info label-sm">Susan</span>
 									</div>
 
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-small">
 											<h5 class="widget-title smaller">
-												<a href="#" class="blue">Susan</a>
 												<span class="grey">reviewed a product</span>
 											</h5>
 
@@ -477,13 +472,12 @@
 								<div class="timeline-item clearfix">
 									<div class="timeline-info">
 										{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}
-										<span class="label label-info label-sm">16:22</span>
+										<span class="label label-info label-sm">Susan</span>
 									</div>
 
 									<div class="widget-box transparent">
 										<div class="widget-header widget-header-small">
 											<h5 class="widget-title smaller">
-												<a href="#" class="blue">Susan</a>
 												<span class="grey">reviewed a product</span>
 											</h5>
 

@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	var __root = 'http://' + window.location.hostname + ':' + window.location.port;
 	$('.files-list .file-item').each(function(index, el) {
 		var __name = $(this).attr('data-name');
 		var __type = $(this).attr('data-type');
@@ -11,11 +10,6 @@ $(document).ready(function() {
 		}
 		else{
 			switch(__exte){
-				case 'jpg':
-				case 'png':
-				case 'gif':
-					$(__file_ico).html('<img src="' + __root + '/' + __path.split('public/')['1'] + '" height="35">');
-					break;
 				case 'psd':
 					$(__file_ico).html('<span class="fa fa-image pink"></span>');
 					break;
@@ -35,6 +29,7 @@ $(document).ready(function() {
 		}
 	});
 
+	// Filter
 	$('.mana-filter').find('input.ace').change(function(event) {
 		if($('.filter-fol').prop('checked') == true){
 			$('ul.files-list').find('li[data-type="folder"]').show();

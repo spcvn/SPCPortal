@@ -8,7 +8,7 @@ use SPCVN\Support\Enum\UserStatus;
 
 class FilesController extends Controller
 {
-	public function scan($dir){
+	public function scan($dir = null){
 		$files = array();
 		if(file_exists($dir)){
 			foreach(scandir($dir) as $f) {
@@ -20,17 +20,20 @@ class FilesController extends Controller
 						"name" => $f,
 						"type" => "folder",
 						"path" => $dir . $f,
-						"items" => scan($dir . '/' . $f),
-						"exte" => ""
+						"size" => "",
+						"items" => $this->scan($dir . '/' . $f), // Recursively get the contents of the folder
+						"exte" => "",
+						"mtime" => filemtime($dir . '/' . $f)
 					);
 				}
 				else {
 					$files[] = array(
 						"name" => $f,
 						"type" => "file",
-						"path" => $dir . '/' . $f,
-						"size" => filesize($dir . '/' . $f),
-						"exte" => array_key_exists('extension', pathinfo($f)) ? pathinfo($f)['extension'] : ""
+						"path" => $dir . $f,
+						"size" => filesize($dir . '/' . $f), // Gets the size of this file
+						"exte" => array_key_exists('extension', pathinfo($f)) ? pathinfo($f)['extension'] : "",
+						"mtime" => filemtime($dir . '/' . $f)
 					);
 				}
 			}
@@ -38,7 +41,7 @@ class FilesController extends Controller
 		return $files;
 	}
 
-	public function sortFiles($dir){
+	public function sortFiles($dir = null){
 		$arrTmp = $this->scan($dir);
 		$folderTmp = array();
 		$filesTmp = array();
@@ -64,9 +67,11 @@ class FilesController extends Controller
 		return array_merge($folderTmp, $filesTmp);
 	}
 
-	public function index( $dir = null )
+	public function index()
 	{
-		$files = $this->sortFiles($dir);
-        return response()->json($files);
+		$file_dir = public_path() . '/spcvn/ace/files/files/';
+		$files = $this->sortFiles($file_dir);
+		return view('ace.files.index', compact('files'));
 	}
+
 }

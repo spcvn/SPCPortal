@@ -1,66 +1,5 @@
 @extends('ace.index')
 @section('content')
-	<?php
-		$file_dir = public_path() . '/spcvn/ace/files/files/';
-
-		function scan($dir){
-			$files = array();
-			if(file_exists($dir)){
-				foreach(scandir($dir) as $f) {
-					if(!$f || $f[0] == '.') {
-						continue;
-					}
-					if(is_dir($dir . '/' . $f)) {
-						$files[] = array(
-							"name" => $f,
-							"type" => "folder",
-							"path" => $dir . $f,
-							"size" => "",
-							"items" => scan($dir . '/' . $f), // Recursively get the contents of the folder
-							"exte" => "",
-							"mtime" => filemtime($dir . '/' . $f)
-						);
-					}
-					else {
-						$files[] = array(
-							"name" => $f,
-							"type" => "file",
-							"path" => $dir . $f,
-							"size" => filesize($dir . '/' . $f), // Gets the size of this file
-							"exte" => array_key_exists('extension', pathinfo($f)) ? pathinfo($f)['extension'] : "",
-							"mtime" => filemtime($dir . '/' . $f)
-						);
-					}
-				}
-			}
-			return $files;
-		}
-		function sortFiles($dir){
-			$arrTmp = scan($dir);
-			$folderTmp = array();
-			$filesTmp = array();
-			foreach ($arrTmp as $key => $value) {
-				if($value['type'] === 'folder'){
-					array_push($folderTmp, $value);
-				}
-				else{
-					array_push($filesTmp, $value);
-				}
-			}
-			$sortArray = array();
-			foreach($filesTmp as $file){
-			    foreach($file as $key=>$value){ 
-			        if(!isset($sortArray[$key])){ 
-			            $sortArray[$key] = array(); 
-			        } 
-			        $sortArray[$key][] = $value; 
-			    } 
-			}
-			$orderby = "exte";
-			array_multisort($sortArray[$orderby], SORT_ASC, $filesTmp);
-			return array_merge($folderTmp, $filesTmp);
-		}
-	?>
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="page-header">
@@ -91,7 +30,7 @@
 					<div class="widget-toolbar no-border">
 						<label>
 							<select class="form-control files-sort">
-								<option value="data-exte">Default (Extension)</option>
+								<option value="data-exte">Extension</option>
 								<option value="data-type">Type</option>
 								<option value="data-name">Name</option>
 								<option value="data-size">Size</option>
@@ -121,17 +60,32 @@
 				<div class="widget-body">
 					<div class="contain-mana-files">
 						<ul class="files-list ace-thumbnails clearfix">
-							@foreach (sortFiles($file_dir) as $file)
-								<li class="file-item"
-									data-name="{{ $file['name'] }}"
-									data-type="{{ $file['type'] }}"
-									data-exte="{{ $file['exte'] }}"
-									data-path="{{ $file['path'] }}"
-									data-size="{{ $file['size'] }}"
-									data-time="{{ $file['mtime'] }}">
-									<div class="file-icon"></div>
-									<div class="file-info">{{ $file['name'] }}</div>
-								</li>
+							@foreach ($files as $file)
+								@if($file['exte'] == "jpg" || $file['exte'] == "png" || $file['exte'] == "gif")
+									<li class="file-item"
+										data-name="{{ $file['name'] }}"
+										data-type="{{ $file['type'] }}"
+										data-exte="{{ $file['exte'] }}"
+										data-path="{{ $file['path'] }}"
+										data-size="{{ $file['size'] }}"
+										data-time="{{ $file['mtime'] }}">
+										<div class="file-image">
+											{{ HTML::image(explode('public', $file['path'])['1'], $file['name'], array('height' => '35')) }}
+										</div>
+										<div class="file-info">{{ $file['name'] }}</div>
+									</li>
+								@else
+									<li class="file-item"
+										data-name="{{ $file['name'] }}"
+										data-type="{{ $file['type'] }}"
+										data-exte="{{ $file['exte'] }}"
+										data-path="{{ $file['path'] }}"
+										data-size="{{ $file['size'] }}"
+										data-time="{{ $file['mtime'] }}">
+										<div class="file-icon"></div>
+										<div class="file-info">{{ $file['name'] }}</div>
+									</li>
+								@endif
 							@endforeach
 						</ul>
 					</div>
@@ -140,6 +94,8 @@
 
 		</div>
 	</div>
+
 	{{ HTML::style('spcvn/ace/files/css/files.css') }}
 	{{ HTML::script('spcvn/ace/files/js/files.js') }}
+
 @stop
