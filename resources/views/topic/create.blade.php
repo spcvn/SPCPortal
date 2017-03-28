@@ -33,9 +33,9 @@
     @include('partials.messages')
 
     @if ($edit)
-        {!! Form::open(['route' => ['topic.edit', $topic->id], 'method' => 'PUT', 'files' => true, 'id' => 'topic-form']) !!}
+        {!! Form::open(['route' => ['topic.edit', $topic->id], 'method' => 'PUT', 'files' => true, 'id' => 'topic-form', 'onsubmit' => 'return check_validation();']) !!}
     @else
-        {!! Form::open(['route' => 'topic.create', 'files' => true, 'id' => 'topic-form']) !!}
+        {!! Form::open(['route' => 'topic.create', 'files' => true, 'id' => 'topic-form', 'onsubmit' => 'return check_validation();']) !!}
     @endif
     <div class="add-new" id="add-new">
         <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{$user_login_id}}">
@@ -50,7 +50,7 @@
                             <label for="category_id" class="required">@lang('app.category_name')</label>
                             {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['id' => 'category_id', 'class' => 'form-control', 'required' => true]) !!}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="name-require">
                             <label for="name" class="required">@lang('app.topic_name')</label>
                             <input type="text" class="form-control" id="topic_name" placeholder="(@lang('app.topic_name'))" name="topic_name" value="{{ $edit ? $topic->topic_name : '' }}">
                         </div>
@@ -80,6 +80,7 @@
                         <h3 class="panel-title">@lang('app.topic_options')</h3>
                     </div>
                     <div class="panel-body">
+                        
                         <div class="form-group">
                             <label for="name">@lang('app.public')</label>
                             <br>
@@ -94,6 +95,7 @@
                                 @endif
                             >
                         </div>
+                        
                         <div class="form-group">
                             <label for="name">@lang('app.mentors')</label>
                             {!! Form::select('mentors[]', $users, $edit ? $userSelected : '', ['class' => 'form-control mentors select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
@@ -107,18 +109,39 @@
                         <div class="form-group">
                             <label for="picture">@lang('app.documents')</label>
 
+                            @if ($edit && count($documents) > 0)
+                            <div class="list-document-update">
 
-                            @if ($edit && count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
-                                <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
-                                   title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
-                                   data-toggle="modal" data-target="#documentModal">
-                                    <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                                </button>
+                                <ul class="list-document" style="list-style: none; clear: both;">
+                                    @foreach ($documents as $key => $document)
+                                        @php
+                                            $files      = @explode('/', $document);
+                                            $fileName   = array_pop($files);
+                                            $other      = array_pop($listIcon);
+                                            if (isset($listIcon[$documentExtention[$key]])) {
+                                                $src = $listIcon[$documentExtention[$key]];
+                                            } else {
+                                                $src = $other;
+                                            }
+                                        @endphp
+                                        <li class="item" style="float: left; margin: 5px;">
+                                            <img title="{{ $fileName }}" data-toggle="tooltip" data-placement="top" style=" height: 50px; width: 50px;" class="" src="{{ $src }}">
+                                        </li>   
+                                    @endforeach
+                                    </ul>
+
+                                <div class="clear" style="clear: both; margin-bottom: 10px;"></div>
+                            </div> 
                             @endif
 
-
-
                             {!! Form::file('document[]', ['id' => 'document', 'class' => 'form-control', 'multiple' => 'true']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="back">@lang('app.back_to_this_page')</label>
+                            <br>
+                            <input type="hidden" name="back" value="0">
+                            <input type="checkbox" {{ 'checked' }} name="back" class="switch" value="1" data-on-text="@lang('app.yes')" data-off-text="@lang('app.no')" >
                         </div>
 
                     </div>
@@ -207,7 +230,58 @@
                     $('#documentModal').modal('show');
                 }, 500);
             });
+
+            $(document).ready(function(){
+                $('input[name=topic_name], textarea').on('blur', function(){
+                    $(this).val($.trim($(this).val()));
+                });
+            });
         });
+
+        // check validation
+        function check_validation()
+        {
+            var category_id = $('select[id=category_id]').val();
+            var topic_id    = {{ $edit ? $topic->id : 0 }};
+            var topic_name  = $.trim($('input[name=topic_name]').val());
+            var myData = {
+                category_id: category_id,
+                topic_id: topic_id,
+                topic_name: topic_name
+            };
+
+            var ok = false;
+            $.ajax({
+                url: "{{ route('topic.check-exists') }}",
+                method: "GET",
+                dataType: 'json',
+                data: myData,
+                cache: false,
+                async: false,
+                success: function (data) {
+                    if (data.status === false) {
+
+                        $('#name-require').removeClass('form-group has-success');
+                        $("span[id=name-error]").each(function(){
+                            $(this).remove();  
+                        });
+
+                        setTimeout(function(){
+                            $('#name-require').addClass('form-group has-error');
+                            $('#name-require').append('<span id="name-error" class="help-block error-help-block">'+ data.message +'</span>'); 
+                        }, 100);
+                        
+                        ok = false;
+                    } else {
+                        $('#name-require').removeClass('has-error');
+                        $("#name-error").html('');
+                        ok = true;
+                    }
+                }
+            });
+
+            return ok;
+        }
     </script>
 @stop
 

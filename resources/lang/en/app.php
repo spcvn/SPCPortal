@@ -203,6 +203,7 @@ return [
     'topic_picture'     =>  'Topic picture',
     'topic_options'     =>  'Options',
     'public'            =>  'Public',
+    'private'           =>  'Private',
     'mentors'           =>  'Mentors',
     'documents'         =>  'Documents',
     'delete_topic'      =>  'Delete topic',
@@ -211,6 +212,8 @@ return [
     'topic_updated_false'       =>  'Topic updated false.',
     'topic_deleted'             =>  'Topic deleted successfully.',
     'are_you_sure_delete_topic' => 'Are you sure that you want to delete this topic?',
+    'please_create_category_first'  =>  'First, You must create a category',
+    'back_to_this_page' =>  'Back to this page after submit form',
 
     // Users
     'add_user' => 'Add User',
@@ -360,6 +363,7 @@ return [
         'December' => 'December',
     ],
 
+    'avatar_not_changed' => 'Avatar image cannot be updated. Please try again.',
 
     //Questions
     'add_question' => 'Add Question',
@@ -370,9 +374,7 @@ return [
     'edit_question_details' => 'edit question details',
     'question_details' => 'Question details',
     'question_details_big' => 'Question Details',
-    'available_system_questions' => 'available system questions',
     'question_name' => 'Question Name',
-    'created_by' => 'Created by',
     'display_name' => 'Display Name',
     'update_question' => 'Update Question',
     'create_question' => 'Create Question',
@@ -389,21 +391,17 @@ return [
     //Tags
     'tag' => 'Tags',
     'tag_name' => 'Tag Name',
-    'add_tag'      =>  'Add Tag',
-    'title_create_tag' =>  'Create New Tag',
-    'edit_tag'     =>  'Edit Tag',
+    'add_tag'      =>  'Add new',
+    'title_create_tag'      =>  'Create New Tag',
+    'edit_tag'     =>  'Edit tag',
     'update_tag' => 'Update Tag',
     'create_tag' => 'Create Tag',
     'delete_tag'   =>  'Delete tag',
     'search_for_tag' => 'Search for tag...',
-    'placeholder_for_tag' => 'Choose tags...',
     'tag_created'  =>  'Tag created successfully.',
     'tag_updated'  =>  'Tag updated successfully.',
-    'available_system_tags' => 'available system tags',
-    'tag_name_require' => 'The Tag name field is required.',
-    'tag_name_exists' => 'The Tag name has already been taken.',
     'tag_updated_false'  =>  'Tag updated false.',
-    'tag_deleted_successfully'  =>  'Tag deleted successfully.',
+    'tag_deleted'  =>  'Tag deleted successfully.',
     'are_you_sure_delete_tag' => 'Are you sure that you want to delete this tag?',
 
     // Categories management
@@ -417,5 +415,7 @@ return [
     'category_deleted'  =>  'Category deleted successfully.',
     'sort_category'     =>  'Sort',
     'parent_name'       =>  'Parent category',
+    'name_exists'       =>  'The name has already been taken.',
+    'something_wrong'   =>  'Whoops, looks like something went wrong.',
     'select_one'        =>  'Select one --',
 ];

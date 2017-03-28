@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('parent_id')->default(0);
             $table->unsignedInteger('user_id')->default(0);
-            $table->string('name', 250);
+            $table->string('name', 100);
             $table->text('description')->nullable();
             $table->unsignedInteger('del_flag')->default(0);
             $table->unsignedInteger('position')->default(0);

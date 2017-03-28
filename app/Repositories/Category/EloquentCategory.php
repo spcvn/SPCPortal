@@ -188,4 +188,39 @@ class EloquentCategory implements CategoryRepository
 
         return $categories;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkExists($data)
+    {
+        if (isset($data['name']) && empty($data['name'])) {
+            return false;
+        }
+
+        $query = Category::query();
+        $query->select('id', 'name');
+        $query->where('del_flag', false);
+
+
+
+        if (isset($data['category_id']) && $data['category_id']) {
+            $query->where('id', '<>', $data['category_id']);
+        }
+
+        if (isset($data['parent_id']) && $data['parent_id']) {
+            $query->where('parent_id', $data['parent_id']);   
+        }
+
+        $name = trim($data['name']);
+        $query->where('name', $name);
+
+        $results = $query->get()->toArray();
+
+        if ($results) {
+            return true;
+        }
+
+        return false;
+    }
 }

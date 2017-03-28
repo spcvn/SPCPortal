@@ -27,3 +27,41 @@
         </div>
     @endif
 @endif
+
+@if(Session::get('error', false))
+    <?php $data = Session::get('error'); ?>
+    @if (is_array($data))
+        @foreach ($data as $msg)
+            <div class="alert alert-danger alert-notification">
+                <i class="fa fa-check"></i>
+                {{ $msg }}
+                <button type="button" class="close" aria-hidden="true">&times;</button>
+            </div>
+        @endforeach
+    @else
+        <div class="alert alert-danger alert-notification">
+            <i class="fa fa-check"></i>
+            {{ $data }}
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+        </div>
+    @endif
+@endif
+
+@if(Session::get('warning', false))
+    <?php $data = Session::get('warning'); ?>
+    @if (is_array($data))
+        @foreach ($data as $msg)
+            <div class="alert alert-warning alert-notification">
+                <i class="fa fa-check"></i>
+                {{ $msg }}
+                <button type="button" class="close" aria-hidden="true">&times;</button>
+            </div>
+        @endforeach
+    @else
+        <div class="alert alert-warning alert-notification">
+            <i class="fa fa-check"></i>
+            {{ $data }}
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+        </div>
+    @endif
+@endif

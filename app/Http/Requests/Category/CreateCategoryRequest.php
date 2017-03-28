@@ -14,7 +14,7 @@ class CreateCategoryRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|unique:categories,name'
+            'name' => 'required|max:100'
         ];
     }
 }

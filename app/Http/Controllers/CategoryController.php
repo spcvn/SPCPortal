@@ -45,10 +45,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = $this->category->paginate();
-        return view('category.list', compact('categories'));
+        $pagination     = $this->category->paginate(30, $request->input('search'));
+        $categories     = $this->prepareData($pagination);
+        return view('category.list', compact('pagination', 'categories'));
     }
 
     /**
@@ -56,13 +57,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
         $edit       = false;
         $categories = $this->category->makeCategoryMultiLevel();
         $user       = Auth::user();
 
-        return view('category.create', compact('categories', 'edit', 'user'));
+        return view('category.create', compact('category', 'categories', 'edit', 'user'));
     }
 
     /**
@@ -91,6 +92,12 @@ class CategoryController extends Controller
     public function update(Category $category, UpdateCategoryRequest $request)
     {
         $this->category->update($category->id, $request->all());
+
+        // back to edit page
+        if ($request->input('back')) {
+            return redirect()->route('category.edit', $category->id)->withSuccess(trans('app.category_updated'));
+        }
+
         return redirect()->route('category.list')->withSuccess(trans('app.category_updated'));
     }
 
@@ -104,6 +111,12 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {        
         $this->category->create($request->all());
+
+        // back to edit page
+        if ($request->input('back')) {
+            return redirect()->route('category.create')->withSuccess(trans('app.category_created'));
+        }
+
         return redirect()->route('category.list')->withSuccess(trans('app.category_created'));
     }
 
@@ -149,6 +162,68 @@ class CategoryController extends Controller
                 return response()->json(['message' => trans('app.category_updated_false')]);
             }
         } 
+    }
+
+    public function checkExists(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json(['status' => false, 'message' => trans('app.something_wrong')]);
+        }
+
+        $result = $this->category->checkExists($request->all());
+        if ($result) {
+            return response()->json(['status' => false, 'message' => trans('app.name_exists')]);
+        }
+
+        return response()->json(['status' => true, 'message' => '']);
+    }
+
+    public function ajaxUpdate(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json(['status' => false]);
+        }
+
+        $data = $request->input();
+        $category_id = $data['id'];
+        unset($data['id']);
+
+        $catetory = Category::find($category_id);
+        $result = $catetory->update($data);
+
+        if ($result) {
+            return response()->json(['status' => true, 'message' => trans('app.category_updated')]);
+        }
+
+        return response()->json(['status' => false, 'message' => trans('app.name_exists')]);
+    }
+
+    public function prepareData($categories)
+    {
+        $results = [];
+        foreach ($categories as $category) {
+
+            if ($category->parent_id == 0) {
+                $results[$category->id] = $category;
+                $results[$category->id]['sub'] = $this->prepareSubData($category->id, $categories);
+            }
+        }
+
+        return $results;
+    }
+
+    public function prepareSubData($catID, $datas)
+    {
+        $categories = [];
+        foreach ($datas as $data) {
+
+            if ($data->parent_id == $catID) {
+                $categories[$data->id] = $data;
+                $categories[$data->id]['sub'] = $this->prepareSubData($data->id, $datas);
+            }
+        }
+
+        return $categories;
     }
 
 }

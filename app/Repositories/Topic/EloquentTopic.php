@@ -9,8 +9,11 @@ use SPCVN\Topic;
 use SPCVN\User;
 use Carbon\Carbon;
 use DB;
+use Auth;
 //use Illuminate\Database\SQLiteConnection;
 //use SPCVN\Support\Authorization\CacheFlusherTrait;
+
+define('ADMINISTRATOR', 1);
 
 class EloquentTopic implements TopicRepository
 {
@@ -29,7 +32,7 @@ class EloquentTopic implements TopicRepository
      */
     public function paginate($perPage = 30, $search = null)
     {
-        $query = Topic::with(['tags', 'user', 'users'])
+        $query = Topic::with(['topics_tags', 'user', 'topics_mentors'])
                     ->where('topics.del_flag', false);
 
         if ($search) {
@@ -101,9 +104,9 @@ class EloquentTopic implements TopicRepository
     public function update($id, $data = array())
     {
         $oldMentors = [];
-        $topic = Topic::with('users')->find($id);
+        $topic = Topic::with('topics_mentors')->find($id);
 
-        foreach ($topic->users as $user) {
+        foreach ($topic->topics_mentors as $user) {
             $oldMentors[] = $user->id;
         }
 
@@ -121,7 +124,7 @@ class EloquentTopic implements TopicRepository
         $oldMentors = [];
     	$topic = $this->find($id);
 
-        foreach ($topic->users as $user) {
+        foreach ($topic->topics_mentors as $user) {
             $oldMentors[] = $user->id;
         }
 
@@ -163,7 +166,7 @@ class EloquentTopic implements TopicRepository
             $data = $userID;
         }
 
-        return $this->find($topicID)->users()->sync($data, $sync);
+        return $this->find($topicID)->topics_mentors()->sync($data, $sync);
     }
 
     /**
@@ -176,7 +179,7 @@ class EloquentTopic implements TopicRepository
             $data = $tagsID;
         }
 
-        return $this->find($topicID)->tags()->sync($data, $sync);
+        return $this->find($topicID)->topics_tags()->sync($data, $sync);
     }
 
     /**
@@ -256,6 +259,77 @@ class EloquentTopic implements TopicRepository
         }
 
         return $out;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkExistsName($data)
+    {
+        if (isset($data['topic_name']) && empty($data['topic_name'])) {
+            return false;
+        }
+
+        $query = Topic::query();
+        $query->select('id', 'topic_name');
+        $query->where('del_flag', false);
+
+        if (isset($data['topic_id']) && $data['topic_id']) {
+            $query->where('id', '<>', $data['topic_id']);
+        }        
+
+        if (isset($data['category_id']) && $data['category_id']) {
+            $query->where('category_id', $data['category_id']);
+        }
+
+        $name = trim($data['topic_name']);
+        $query->where('topic_name', $name);
+
+        $results = $query->get()->toArray();
+
+        if ($results) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listsTopicByUser($userID = 0)
+    {
+        if (empty($userID)) {
+            return array();
+        }
+
+        // get topic from topic mentors
+        $user = User::find($userID);
+        $role = $user->roles->first()->id;
+        $topicIDs = [];
+
+        // get topic from topics table
+        $topics = Topic::query();
+        $topics->where('del_flag', false);
+
+        if ($role != ADMINISTRATOR) {
+
+            foreach ($user->topics as $topic) {
+                $topicIDs[$topic->id] = $topic->topic_name;
+            }
+
+            $topics->where(function ($q) use ($userID) {
+                $q->where('public', true);
+                $q->orWhere('user_id', $userID);
+            });
+        }
+
+        $results = $topics->get();
+        foreach ($results as $result) {
+            $topicIDs[$result->id] = $result->topic_name;
+        }
+
+        return $topicIDs;
     }
 }
 
