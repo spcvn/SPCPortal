@@ -552,6 +552,14 @@ Route::group(['prefix' => 'acelayout'], function () {
     Route::get('/gallery', function () {
         return View::make('ace.gallery.index');
     });
+
+
+    Route::get('/files', function () {
+        return View::make('ace.files.index');
+    });
+    Route::post('/files', 'FilesController@index');
+    
+
     Route::get('/morepages/profile', function () {
         return View::make('ace.profile.index');
     });
