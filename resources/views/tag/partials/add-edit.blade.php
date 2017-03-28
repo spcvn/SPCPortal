@@ -11,7 +11,7 @@
               <form id="frmTag" name="frmTag" class="form-horizontal" data-toggle="validator">
                   {!! Form::hidden('user_id', Auth::user()->present()->id) !!}
                       <label class="control-label" for="title">@lang('app.name')</label>
-                      <input type="text" name="name" class="form-control required" id="tag_name" placeholder="@lang('app.tag_name')" maxlength="100" value=""/>
+                      <input type="text" name="name" class="form-control required" id="tag_name" placeholder="@lang('app.tag_name')" value=""/>
                       <p class="error"></p>
                   </form>
               </div>

@@ -394,6 +394,7 @@ return [
     'question_created'              => 'Question created successfully.',
     'question_updated'              => 'Question updated successfully.',
     'question_deleted'              => 'Question deleted successfully.',
+    'available_system_questions'    => 'available system questions.',
 
     //Tags
     'tag'                           => 'Tags',
@@ -416,6 +417,7 @@ return [
     'are_you_sure_delete_tag'       => 'Are you sure that you want to delete this tag?',
     'tag_minlength'                 => 'The Tag must be at least 3 characters.',
     'tag_maxlength'                 => 'The Tag may not be greater than 100 characters.',
+    'available_system_tags'         => 'available system tags.',
 
     // Categories management
     'category'          =>  'Category',

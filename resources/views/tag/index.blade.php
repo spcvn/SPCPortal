@@ -97,7 +97,6 @@
 @stop
 
 @section('scripts')
-
     <script type="text/javascript">
 
         var url = "{{ route('tag.index') }}";
@@ -115,9 +114,14 @@
                     if ($.trim(value) === '') {
 
                         return  "@lang('app.tag_name_require')";
+
+                    } else if($.trim(value).length<3) {
+
+                        return "@lang('app.tag_minlength')";
+
                     } else if($.trim(value).length>100) {
 
-                        return 'Only 100 charateres are allowed';
+                        return "@lang('app.tag_maxlength')";
                     }
                 },
                 success: function (response) {
@@ -194,6 +198,24 @@
                 return false;
             }
 
+            if($('#tag_name').val().trim().length < 3) {
+
+                $('.text-danger').remove();
+                $('#tag_name').css("border", "1px solid #a94442");
+                $('#tag_name').after("<span class='text-danger' style='padding:3px 2px;float:left;'>"+"@lang('app.tag_minlength')"+"</span>");
+
+                return false;
+            }
+
+            if($('#tag_name').val().trim().length > 100) {
+
+                $('.text-danger').remove();
+                $('#tag_name').css("border", "1px solid #a94442");
+                $('#tag_name').after("<span class='text-danger' style='padding:3px 2px;float:left;'>"+"@lang('app.tag_maxlength')"+"</span>");
+
+                return false;
+            }
+
             // var regex = /^[0-9a-zA-Z]*$/;
             // if(!regex.test($('#tag_name').val())) {
 
@@ -238,8 +260,6 @@
                 data: formData,
                 dataType: 'json',
                 success: function (data) {
-
-                    console.log(data);
 
                     $('#tag_name').css("border", "1px solid #ccc");
                     $('.text-danger').remove();
