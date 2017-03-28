@@ -55,31 +55,141 @@
             <ol class="sortable">
             @foreach ($categories as $category)
                 <li id="item_{{ $category->id }}" class="level-1" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
-                    <div>{{ $category->name }}</div>
+                    <div class="item">
+                        <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
+                        <div class="cat-name left">
+                        <a>{{ $category->name }}</a>
+                        </div>
+                        <div class="action right">
+                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary btn-circle"
+                               title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a href="{{ route('category.delete', $category->id) }}" class="btn btn-danger btn-circle"
+                               title="@lang('app.delete_category')"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               data-method="DELETE"
+                               data-confirm-title="@lang('app.please_confirm')"
+                               data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                               data-confirm-delete="@lang('app.yes_delete_it')">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
 
                     @if ($category['sub'])
                     <ol>
                     @foreach ($category['sub'] as $categorySub)
                         <li id="item_{{ $categorySub->id }}" class="level-2" data-id="{{ $categorySub->id }}" data-name="{{ $categorySub->name }}">
-                            <div>{{ $categorySub->name }}</div>
+                            <div class="item">
+                                <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
+                                <div class="cat-name left">
+                                <a>{{ $categorySub->name }}</a>
+                                </div>
+                                <div class="action right">
+                                    <a href="{{ route('category.edit', $categorySub->id) }}" class="btn btn-primary btn-circle"
+                                       title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a href="{{ route('category.delete', $categorySub->id) }}" class="btn btn-danger btn-circle"
+                                       title="@lang('app.delete_category')"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       data-method="DELETE"
+                                       data-confirm-title="@lang('app.please_confirm')"
+                                       data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                       data-confirm-delete="@lang('app.yes_delete_it')">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
                             
                             @if ($categorySub['sub'])
                             <ol>
                             @foreach ($categorySub['sub'] as $categorySub2)
                                 <li id="item_{{ $categorySub2->id }}" class="level-3" data-id="{{ $categorySub2->id }}" data-name="{{ $categorySub2->name }}">
-                                    <div>{{ $categorySub2->name }}</div>
+                                    <div class="item">
+                                        <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
+                                        <div class="cat-name left">
+                                        <a>{{ $categorySub2->name }}</a>
+                                        </div>
+                                        <div class="action right">
+                                            <a href="{{ route('category.edit', $categorySub2->id) }}" class="btn btn-primary btn-circle"
+                                               title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+                                            <a href="{{ route('category.delete', $categorySub2->id) }}" class="btn btn-danger btn-circle"
+                                               title="@lang('app.delete_category')"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               data-method="DELETE"
+                                               data-confirm-title="@lang('app.please_confirm')"
+                                               data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                               data-confirm-delete="@lang('app.yes_delete_it')">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
                                 
                                     @if ($categorySub2['sub'])
                                     <ol>
                                     @foreach ($categorySub2['sub'] as $categorySub3)
                                         <li id="item_{{ $categorySub3->id }}" class="level-4" data-id="{{ $categorySub3->id }}" data-name="{{ $categorySub3->name }}">
-                                            <div>{{ $categorySub3->name }}</div>
+                                            <div class="item">
+                                                <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
+                                                <div class="cat-name left">
+                                                <a>{{ $categorySub3->name }}</a>
+                                                </div>
+                                                <div class="action right">
+                                                    <a href="{{ route('category.edit', $categorySub3->id) }}" class="btn btn-primary btn-circle"
+                                                       title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
+                                                        <i class="glyphicon glyphicon-edit"></i>
+                                                    </a>
+                                                    <a href="{{ route('category.delete', $categorySub3->id) }}" class="btn btn-danger btn-circle"
+                                                       title="@lang('app.delete_category')"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top"
+                                                       data-method="DELETE"
+                                                       data-confirm-title="@lang('app.please_confirm')"
+                                                       data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                                       data-confirm-delete="@lang('app.yes_delete_it')">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
                                         
                                             @if ($categorySub3['sub'])
                                             <ol>
                                             @foreach ($categorySub3['sub'] as $categorySub4)
                                                 <li id="item_{{ $categorySub4->id }}" class="level-5" data-id="{{ $categorySub4->id }}" data-name="{{ $categorySub4->name }}">
-                                                    <div>{{ $categorySub4->name }}</div>
+                                                    <div class="item">
+                                                        <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
+                                                        <div class="cat-name left">
+                                                        <a>{{ $categorySub4->name }}</a>
+                                                        </div>
+                                                        <div class="action right">
+                                                            <a href="{{ route('category.edit', $categorySub4->id) }}" class="btn btn-primary btn-circle"
+                                                               title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
+                                                                <i class="glyphicon glyphicon-edit"></i>
+                                                            </a>
+                                                            <a href="{{ route('category.delete', $categorySub4->id) }}" class="btn btn-danger btn-circle"
+                                                               title="@lang('app.delete_category')"
+                                                               data-toggle="tooltip"
+                                                               data-placement="top"
+                                                               data-method="DELETE"
+                                                               data-confirm-title="@lang('app.please_confirm')"
+                                                               data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                                               data-confirm-delete="@lang('app.yes_delete_it')">
+                                                                <i class="glyphicon glyphicon-trash"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
                                                 </li>
                                              @endforeach
                                              </ol>
@@ -148,7 +258,7 @@
             padding: 0;
         }
 
-        .sortable li div  {
+        .sortable li div.item  {
             border: 1px solid #d4d4d4;
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
@@ -156,7 +266,7 @@
             border-color: #D4D4D4 #D4D4D4 #BCBCBC;
             padding: 6px;
             margin: 0;
-            cursor: move;
+            position: relative;
             background: #f6f6f6;
             background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%);
             background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
@@ -166,20 +276,34 @@
             background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
         }
-
-        .sortable li.mjs-nestedSortable-branch div {
+        .sortable li div.item .drag {
+            cursor: move;
+            display: inline-block;
+            line-height: 25px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 42px;
+            height: 42px;
+            font-size: 25px;
+            padding: 10px;
+        }
+        .sortable li div.item .cat-name {
+            margin-left: 40px;
+        }
+        .sortable li.mjs-nestedSortable-branch div.item {
             background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #f0ece9 100%);
             background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#f0ece9 100%);
 
         }
 
-        .sortable li.mjs-nestedSortable-leaf div {
+        .sortable li.mjs-nestedSortable-leaf div.item {
             background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #bcccbc 100%);
             background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#bcccbc 100%);
 
         }
 
-        li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
+        li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div.item {
             border-color: #999;
             background: #fafafa;
         }
@@ -194,17 +318,41 @@
             display: none;
         }
 
-        .sortable li.mjs-nestedSortable-branch > div > .disclose {
+        .sortable li.mjs-nestedSortable-branch > div.item > .disclose {
             display: inline-block;
         }
 
-        .sortable li.mjs-nestedSortable-collapsed > div > .disclose > span:before {
+        .sortable li.mjs-nestedSortable-collapsed > div.item > .disclose > span:before {
             content: '+ ';
         }
 
-        .sortable li.mjs-nestedSortable-expanded > div > .disclose > span:before {
+        .sortable li.mjs-nestedSortable-expanded > div.item > .disclose > span:before {
             content: '- ';
         }
+
+        .sortable li div.item .cat-name {
+            display: inline-block;
+            line-height: 30px;
+        }
+        .sortable li div.item .cat-name a {
+            cursor: pointer;
+        }
+
+        .item {
+
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+        }
+
     </style>
 @stop
 
@@ -218,7 +366,7 @@
             var ok = true;
             $('ol.sortable').nestedSortable({
                 forcePlaceholderSize: true,
-                handle: 'div',
+                handle: '.drag',
                 helper: 'clone',
                 items: 'li',
                 opacity: .6,
@@ -228,17 +376,16 @@
                 tolerance: 'pointer',
                 toleranceElement: '> div',
                 maxLevels: 5,
-
                 isTree: true,
                 expandOnHover: 700,
                 startCollapsed: true,
 
                 update: function( e, ui ) {
-                    var ok = true;
-                    level = ui.item.parents('ol').length;
-                    var _this = ui.item;
-                    var id = $.trim($(_this).data('id'));
-                    var value = $.trim($(_this).data('name'));
+                    var ok      = true;
+                    level       = ui.item.parents('ol').length;
+                    var _this   = ui.item;
+                    var id      = $.trim($(_this).data('id'));
+                    var value   = $.trim($(_this).data('name'));
                     $(_this).attr('class', 'level-'+ level);
 
                     $(_this).siblings().each(function(){
@@ -268,8 +415,15 @@
                             async: false,
                             success: function (data) {
                                 ok = data.status;
+                                
                             }
                         });
+                    }
+
+                    if (ok) {
+                        toastr.success( "@lang('app.category_updated')" , "@lang('app.category')" );
+                    } else {
+                        toastr.error( "@lang('app.name_exists')" , "@lang('app.category')" );
                     }
                     
                     return ok;

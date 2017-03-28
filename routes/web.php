@@ -482,6 +482,16 @@ Route::delete('topic/{topic}/delete', [
     'uses' => 'TopicsController@delete'
 ]);
 
+Route::get('topic/{topic}/detail', [
+    'as' => 'topic.detail',
+    'uses' => 'TopicsController@detail'
+]);
+
+Route::post('topic/votes', [
+    'as' => 'topic.votes',
+    'uses' => 'TopicsController@votes'
+]);
+
 /* End Topics */
 
 
