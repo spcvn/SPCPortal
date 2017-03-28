@@ -43,15 +43,16 @@ table.align-top tr td {
 	background-image: -o-linear-gradient(left, rgba(204, 204, 204, 0), rgba(204, 204, 204, 0.75), rgba(204, 204, 204, 0));
 }
 .timeline-container .timeline-label {
-	border-bottom: 1px solid #619fd1;
-	font-size: 17px
+	border-bottom: 1px solid #999;
+	font-size: 18px;
+	color:#555
 }
 .timeline-container .timeline-label .topic-status {
-	color: #619fd1;
+	color: #999;
 	font-size: 15px;
 	margin: 10px;
 	padding-right: 15px;
-	border-right: 1px solid #619fd1;
+	border-right: 1px solid #999;
 	cursor: pointer;
 }
 .timeline-container .timeline-label .topic-status.st-private:after{

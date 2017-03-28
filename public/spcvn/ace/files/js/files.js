@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	var __root = 'http://' + window.location.hostname + ':' + window.location.port;
 	$('.files-list .file-item').each(function(index, el) {
 		var __name = $(this).attr('data-name');
 		var __type = $(this).attr('data-type');
@@ -13,7 +14,7 @@ $(document).ready(function() {
 				case 'jpg':
 				case 'png':
 				case 'gif':
-					$(__file_ico).html('<img src="' + __path + '">');
+					$(__file_ico).html('<img src="' + __root + '/' + __path.split('public/')['1'] + '" height="35">');
 					break;
 				case 'psd':
 					$(__file_ico).html('<span class="fa fa-image pink"></span>');
@@ -58,6 +59,17 @@ $(document).ready(function() {
 			if($(this).html().match(key_search)){
 				$(this).parent().show();
 			}
+		});
+	});
+
+	// Sort
+	$('select.files-sort').change(function(event) {
+		var sort_type = $(this).val();
+		var last_sort = $('ul.files-list').find('li').sort(function (a, b) {
+			return $(a).attr(sort_type).toUpperCase().localeCompare($(b).attr(sort_type).toUpperCase());
+		})
+		$.each(last_sort, function(index, item) {
+			$('ul.files-list').append(item);
 		});
 	});
 

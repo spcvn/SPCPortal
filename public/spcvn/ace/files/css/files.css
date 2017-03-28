@@ -1,5 +1,5 @@
 .contain-mana-files{
-	padding:20px 5px
+	padding:25px 5px 0;
 }
 .contain-mana-files ul.files-list{
 	list-style:none;
@@ -12,10 +12,10 @@
 	border:none;
 }
 .contain-mana-files ul.files-list li.file-item .file-icon span{
-	font-size:30px
+	font-size:35px
 }
 .option-dir{margin-top:2px}
-.files-search{margin-top:-1px}
+.files-sort,.files-search{margin-top:-1px}
 .add-new-f{
 	font-size: 20px;
 	vertical-align:middle;

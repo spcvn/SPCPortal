@@ -15,17 +15,20 @@
 							"name" => $f,
 							"type" => "folder",
 							"path" => $dir . $f,
+							"size" => "",
 							"items" => scan($dir . '/' . $f), // Recursively get the contents of the folder
-							"exte" => ""
+							"exte" => "",
+							"mtime" => filemtime($dir . '/' . $f)
 						);
 					}
 					else {
 						$files[] = array(
 							"name" => $f,
 							"type" => "file",
-							"path" => $dir . '/' . $f,
+							"path" => $dir . $f,
 							"size" => filesize($dir . '/' . $f), // Gets the size of this file
-							"exte" => array_key_exists('extension', pathinfo($f)) ? pathinfo($f)['extension'] : ""
+							"exte" => array_key_exists('extension', pathinfo($f)) ? pathinfo($f)['extension'] : "",
+							"mtime" => filemtime($dir . '/' . $f)
 						);
 					}
 				}
@@ -77,20 +80,23 @@
 			
 			<div class="widget-box widget-color-dark ui-sortable-handle" id="widget-box-files">
 				<div class="widget-header widget-header">
-					<div class="col-xs-4">
-						<select class="option-dir form-control">
-							<option value="{{ $file_dir }}">{{ '../files/' }}</option>
-							@foreach (sortFiles($file_dir) as $file)
-								<?php if($file['type'] === 'folder') : ?>
-									<option value="{{ $file['path'] }}">{{ '../' . @explode('/files/', $file['path'])['1'] }}</option>
-								<?php endif; ?>
-							@endforeach
-						</select>
-					</div>
+					<h5 class="widget-title">{{ '../files/' }}</h5>
 
 					<div class="widget-toolbar no-border">
 						<label>
 							<input type="text" class="ace ace-input-2 form-control files-search" placeholder="Search...">
+						</label>
+					</div>
+
+					<div class="widget-toolbar no-border">
+						<label>
+							<select class="form-control files-sort">
+								<option value="data-exte">Default (Extension)</option>
+								<option value="data-type">Type</option>
+								<option value="data-name">Name</option>
+								<option value="data-size">Size</option>
+								<option value="data-time">Last modified</option>
+							</select>
 						</label>
 					</div>
 
@@ -120,7 +126,9 @@
 									data-name="{{ $file['name'] }}"
 									data-type="{{ $file['type'] }}"
 									data-exte="{{ $file['exte'] }}"
-									data-path="{{ $file['path'] }}">
+									data-path="{{ $file['path'] }}"
+									data-size="{{ $file['size'] }}"
+									data-time="{{ $file['mtime'] }}">
 									<div class="file-icon"></div>
 									<div class="file-info">{{ $file['name'] }}</div>
 								</li>

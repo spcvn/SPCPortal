@@ -43,7 +43,7 @@
 						<div class="timeline-container">
 							<div class="timeline-label">
 								<span class="topic-status st-private">
-									Private
+									<span class="fa fa-users fa-fw"></span>
 									<ul class="member-private">
 										<li>
 											{{ HTML::image('spcvn/ace/images/avatars/avatar1.png', "Susan't Avatar") }}Sang Huynh
@@ -333,7 +333,7 @@
 						<div class="timeline-container">
 							<div class="timeline-label">
 								<span class="topic-status">
-									Public
+									<span class="fa fa-globe fa-fw"></span>
 								</span>
 								<span class="topic-title">
 									The day you went away - You are not alone
