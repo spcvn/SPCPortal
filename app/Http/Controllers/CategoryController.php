@@ -93,12 +93,17 @@ class CategoryController extends Controller
     {
         $this->category->update($category->id, $request->all());
 
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.category_updated')
+        );
+
         // back to edit page
         if ($request->input('back')) {
-            return redirect()->route('category.edit', $category->id)->withSuccess(trans('app.category_updated'));
+            return redirect()->route('category.edit', $category->id)->with($notification);
         }
 
-        return redirect()->route('category.list')->withSuccess(trans('app.category_updated'));
+        return redirect()->route('category.list')->with($notification);
     }
 
 
@@ -112,12 +117,17 @@ class CategoryController extends Controller
     {        
         $this->category->create($request->all());
 
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.category_created')
+        );
+
         // back to edit page
         if ($request->input('back')) {
-            return redirect()->route('category.create')->withSuccess(trans('app.category_created'));
+            return redirect()->route('category.create')->with($notification);
         }
 
-        return redirect()->route('category.list')->withSuccess(trans('app.category_created'));
+        return redirect()->route('category.list')->with($notification);
     }
 
     /**
@@ -140,9 +150,25 @@ class CategoryController extends Controller
      */
     public function delete(Category $category)
     {
+        $check = $this->category->checkExistsSub($category->id);
+        if ($check) {
 
-        $this->category->delete($category->id);
-        return redirect()->route('category.list')->withSuccess(trans('app.category_deleted'));
+            $notification = array(
+                'alert-type'    =>  'error',
+                'message'       =>  trans('app.please_delete_sub_category')
+            );
+
+            return redirect()->route('category.list')->with($notification);    
+        } else {
+            $this->category->delete($category->id);
+
+            $notification = array(
+                'alert-type'    =>  'success',
+                'message'       =>  trans('app.category_deleted')
+            );
+            
+            return redirect()->route('category.list')->with($notification);    
+        }
     }
 
     /**

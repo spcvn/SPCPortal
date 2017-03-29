@@ -423,5 +423,7 @@ return [
     'parent_name'       =>  'Parent category',
     'name_exists'       =>  'The name has already been taken.',
     'something_wrong'   =>  'Whoops, looks like something went wrong.',
+    'are_you_sure_delete_category'  =>  'Are you sure that you want to delete this category ?',
+    'please_delete_sub_category'    =>  'Please delete sub-category before delete this category',
     'select_one'        =>  'Select one --',
 ];

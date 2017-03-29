@@ -106,24 +106,25 @@
         });
 
         //2017-03-14 Nguyen Hien add
-        @if(Session::has('notification'))
-        alert("{{ Session::get('notification.alert-type') }}");
-            var type = "{{ Session::get('notification.alert-type', 'info') }}";
+        @if(Session::has('message'))
+            var type = "{{ Session::get('alert-type', 'info') }}";
             switch(type){
                 case 'info':
-                    toastr.info("{{ Session::get('notification.message') }}");
+                    toastr.info("{{ Session::get('message') }}");
+                    break;
+                
+                case 'warning':
+                    toastr.warning("{{ Session::get('message') }}");
                     break;
 
-                case 'warning':
-                    toastr.warning("{{ Session::get('notification.message') }}");
-                    break;
                 case 'success':
-                    toastr.success("{{ Session::get('notification.message') }}");
+                    toastr.success("{{ Session::get('message') }}");
                     break;
+
                 case 'error':
-                    toastr.error("{{ Session::get('notification.message') }}");
+                    toastr.error("{{ Session::get('message') }}");
                     break;
-          }
+            }
         @endif
     </script>
     {!! HTML::script('vendor/jsvalidation/js/jsvalidation.js') !!}

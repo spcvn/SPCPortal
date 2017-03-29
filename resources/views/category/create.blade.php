@@ -30,8 +30,6 @@
         </div>
     </div>
 
-    @include('partials.messages')
-
     @if ($edit)
         {!! Form::open(['route' => ['category.edit', $category->id], 'method' => 'PUT', 'id' => 'category-form', 'onsubmit' => 'return check_validation();']) !!}
     @else
