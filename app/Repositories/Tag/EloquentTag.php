@@ -71,11 +71,13 @@ class EloquentTag implements TagRepository
     /**
      * {@inheritdoc}
      */
-    public function update($id, array $data)
+    public function update($id, $name)
     {
+
         $tag = Tag::find($id);
 
-        $tag->update($data);
+        $tag->name = $name;
+        $tag->update();
 
         event(new Updated($tag));
 
@@ -125,7 +127,7 @@ class EloquentTag implements TagRepository
     {
         $res=false;
 
-        if(Tag::where('name', '=', $name)
+        if(Tag::where('name', strtolower($name))
             ->where('id', '<>', intval($id))
             ->where('del_flg', '=', 0)->count() > 0) {
 

@@ -14,7 +14,7 @@ class CreateQuestionRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|regex:/^[a-zA-Z0-9\-_ \.]+$/|unique:questions,title',
+            'title' => 'required|unique:questions,title',
         ];
     }
 }

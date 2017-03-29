@@ -215,7 +215,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('user/search-user-by-name', [
        'as' => 'user.search-user-by-name',
-        'uses' => 'UsersController@searchUserByName' 
+        'uses' => 'UsersController@searchUserByName'
     ]);
 
     /**
@@ -472,9 +472,9 @@ Route::post('topic', [
     'uses' => 'TopicsController@updatePosition'
 ]);
 
-Route::post('topic/{topic}/memtor', [
-    'as' => 'topic.memtor',
-    'uses' => 'TopicsController@getMemtorsByTopicId'
+Route::post('topic/mentor', [
+    'as' => 'topic.mentor',
+    'uses' => 'TopicsController@getMentorsByTopicId'
 ]);
 
 Route::delete('topic/{topic}/delete', [
@@ -554,10 +554,7 @@ Route::group(['prefix' => 'acelayout'], function () {
     });
 
 
-    Route::get('/files', function () {
-        return View::make('ace.files.index');
-    });
-    Route::post('/files', 'FilesController@index');
+    Route::get('/files','FilesController@index');
     
 
     Route::get('/morepages/profile', function () {
@@ -621,7 +618,7 @@ Route::get('question/{question}/edit', [
     'uses' => 'QuestionsController@edit'
 ]);
 
-Route::put('question/{question}/update', [
+Route::any('question/{question}/update', [
     'as' => 'question.update',
     'uses' => 'QuestionsController@update'
 ]);
@@ -630,6 +627,11 @@ Route::delete('question/{question}/delete', [
     'as' => 'question.delete',
     'uses' => 'QuestionsController@delete'
 ]);
+
+Route::get('question/{question}/detail', [
+        'as' => 'question.detail',
+        'uses' => 'QuestionsController@detail'
+    ]);
 
 
 /**
@@ -655,7 +657,7 @@ Route::get('answer/{answer}/edit', [
     'uses' => 'AnswersController@edit'
 ]);
 
-Route::put('answer/{answer}/update', [
+Route::any('answer/{answer}/update', [
     'as' => 'answer.update',
     'uses' => 'AnswersController@update'
 ]);
@@ -663,6 +665,14 @@ Route::put('answer/{answer}/update', [
 Route::delete('answer/{answer}/delete', [
     'as' => 'answer.delete',
     'uses' => 'AnswersController@delete'
+]);
+
+/**
+ * Likes
+ */
+Route::get('like/vote', [
+    'as' => 'like.vote',
+    'uses' => 'LikesController@vote'
 ]);
 
 /**
@@ -688,7 +698,7 @@ Route::get('tag/{tag}/edit', [
     'uses' => 'TagsController@edit'
 ]);
 
-Route::put('tag/{tag}/update', [
+Route::any('tag/{tag}/update', [
     'as' => 'tag.update',
     'uses' => 'TagsController@update'
 ]);

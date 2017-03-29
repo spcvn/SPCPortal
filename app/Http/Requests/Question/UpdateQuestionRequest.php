@@ -16,7 +16,7 @@ class UpdateQuestionRequest extends Request
         $question = $this->route('question');
 
         return [
-            'title' => 'required|regex:/^[a-zA-Z0-9\-_ \.]+$/|unique:questions,title,' . $question->id
+            'title' => 'required|unique:questions,title' . $question->id
         ];
     }
 }

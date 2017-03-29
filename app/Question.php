@@ -25,8 +25,18 @@ class Question extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function answer()
+    {
+        return $this->hasMany(Answer::class, 'question_id')->orderBy('created_at', 'DESC');
+    }
+
     public function question_tag()
     {
         return $this->belongsToMany(Tag::class, 'questions_tags', 'question_id', 'tag_id');
+    }
+
+    public function question_mentor()
+    {
+        return $this->belongsToMany(User::class, 'questions_mentors', 'question_id', 'user_id');
     }
 }

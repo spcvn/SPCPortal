@@ -91,12 +91,12 @@ class TopicsController extends Controller
 
             $photo      = $request->file('picture');
             $filename   = str_random(6).'.'.$photo->getClientOriginalExtension();
-            
+
             // save picture
             $photo->move($path, $filename);
 
             // add picture name to request to save to DB
-            $request->request->add(['picture' => $dir .'/'. $filename]);   
+            $request->request->add(['picture' => $dir .'/'. $filename]);
         }
 
         // save topic
@@ -104,7 +104,7 @@ class TopicsController extends Controller
 
         // save topics_mentors if existed input request mentors
         if ($request->input('mentors')) {
-            $this->topic->setMentors($topic->id, $request->input('mentors'), false);    
+            $this->topic->setMentors($topic->id, $request->input('mentors'), false);
         }
 
         // save topics_tags if existed input request tags
@@ -151,7 +151,7 @@ class TopicsController extends Controller
         $tags       = Tag::all()->pluck('name', 'id');
         $categories = $categoryRepos->makeCategoryMultiLevel();
         $user_login_id  = Auth::id();
-        
+
         $tagsSelected = $userSelected = [];
         foreach ($topic->topics_mentors as $mentor) {
             $userSelected[] = $mentor->id;
@@ -173,7 +173,7 @@ class TopicsController extends Controller
         foreach ($documents as $key => $document) {
             $documentExtention[$key] = $this->get_file_extension($document);
         }
-        
+
         $listIcon = $this->listIcon();
 
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'userSelected', 'tags', 'tagsSelected', 'documents', 'documentExtention', 'listIcon'));
@@ -197,12 +197,12 @@ class TopicsController extends Controller
 
             $photo      = $request->file('picture');
             $filename   = str_random(6).'.'.$photo->getClientOriginalExtension();
-            
+
             // save picture
             $photo->move($path . $dir, $filename);
 
             // add picture name to request to save to DB
-            $request->request->add(['picture' => $dir .'/'. $filename]);   
+            $request->request->add(['picture' => $dir .'/'. $filename]);
 
             // delete old picture
             if ($topic->picture) {
@@ -222,7 +222,7 @@ class TopicsController extends Controller
         if ($request->hasFile('document')) {
             $this->uploadDocument($topic->id, $request);
         }
-        
+
         // back to edit page
         if ($request->input('back')) {
             return redirect()->route('topic.edit', $topic->id)->withSuccess(trans('app.topic_updated'));
@@ -250,9 +250,11 @@ class TopicsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getMemtorsByTopicId($id)
+    public function getMentorsByTopicId(Request $request, UserRepository $userRepository)
     {
-        $memtors = $this->topic->find($id);
+        $id=$request->topic_id;
+
+        $memtors = $this->topic->getMemtorsByTopicId($id, $userRepository);
 
         return response()->json($memtors);
     }
@@ -324,7 +326,7 @@ class TopicsController extends Controller
             $dir = $this->topic->alphaID($topicID, false, NUMBER_CHARACTER_RANDOM);
             $path = public_path().'/upload/documents/' . $dir;
             $filename   = str_random(6).'.'.$document->getClientOriginalExtension();
-            
+
             // save picture , not save to DB
             $document->move($path, $filename);
         }

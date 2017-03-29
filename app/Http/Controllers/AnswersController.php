@@ -3,74 +3,51 @@
 namespace SPCVN\Http\Controllers;
 
 use Cache;
-use SPCVN\Events\Role\Created;
-use SPCVN\Events\Role\Deleted;
-use SPCVN\Events\Role\Updated;
-use SPCVN\Http\Requests\Role\CreateRoleRequest;
-use SPCVN\Http\Requests\Role\UpdateRoleRequest;
-use SPCVN\Repositories\Role\RoleRepository;
-use SPCVN\Repositories\User\UserRepository;
-use SPCVN\Role;
-use SPCVN\User;
+use SPCVN\Answer;
+use Illuminate\Http\Request;
+use SPCVN\Helpers\Output as Output;
+use SPCVN\Repositories\Answer\AnswerRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class RolesController
+ * Class AnswersController
  * @package SPCVN\Http\Controllers
  */
-class RolesController extends Controller
+class AnswersController extends Controller
 {
     /**
-     * @var RoleRepository
+     * @var AnswerRepository
      */
-    private $roles;
+    private $answers;
 
     /**
-     * RolesController constructor.
-     * @param RoleRepository $roles
+     * AnswersController constructor.
+     * @param AnswerRepository $answers
      */
-    public function __construct(RoleRepository $roles)
+    public function __construct(AnswerRepository $answers)
     {
-        $this->middleware('permission:roles.manage');
-        $this->roles = $roles;
+        $this->middleware('permission:questions.manage');
+        $this->answers = $answers;
     }
 
     /**
-     * Display page with all available roles.
+     * Store newly created answer to database.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
-    {
-        $roles = $this->roles->getAllWithUsersCount();
-
-        return view('role.index', compact('roles'));
-    }
-
-    /**
-     * Display form for creating new role.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        $edit = false;
-
-        return view('role.add-edit', compact('edit'));
-    }
-
-    /**
-     * Store newly created role to database.
-     *
-     * @param CreateRoleRequest $request
+     * @param Request $request
      * @return mixed
      */
-    public function store(CreateRoleRequest $request)
+    public function store(Request $request)
     {
-        $this->roles->create($request->all());
+        $res = [];
+        $answer = $this->answers->create($request->all());
+        $user = ($answer->user)?$answer->user:'';
+        $question = ($answer->question)?$answer->question:'';
 
-        return redirect()->route('role.index')
-            ->withSuccess(trans('app.role_created'));
+        $res["answer"] = $answer;
+        $res["user"] = $user;
+        $res["question"] = $question;
+
+        Output::__outputYes($res);
     }
 
     /**

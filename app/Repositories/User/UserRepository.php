@@ -109,6 +109,14 @@ interface UserRepository
     public function countByStatus($status);
 
     /**
+     * get user by status.
+     *
+     * @param $status
+     * @return mixed
+     */
+    public function getUserByStatus($status);
+
+    /**
      * Count of registered users for every month within the
      * provided date range.
      *

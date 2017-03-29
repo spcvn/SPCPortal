@@ -5,23 +5,28 @@ namespace SPCVN\Http\Controllers;
 use DB;
 use Cache;
 use SPCVN\Tag;
+use SPCVN\User;
 use SPCVN\Question;
 use SPCVN\QuestionMenter;
 use Illuminate\Http\Request;
 use SPCVN\Events\Question\Created;
 use SPCVN\Events\Question\Deleted;
 use SPCVN\Events\Question\Updated;
+use Illuminate\Support\Facades\Auth;
 use SPCVN\Http\Requests\Question\CreateQuestionRequest;
 use SPCVN\Http\Requests\Question\UpdateQuestionRequest;
 use SPCVN\Repositories\Question\QuestionRepository;
 use SPCVN\Repositories\Topic\TopicRepository;
 use SPCVN\Repositories\Tag\TagRepository;
+use SPCVN\Repositories\User\UserRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class QuestionsController
  * @package SPCVN\Http\Controllers
  */
+
+define('ACTIVE', 'Active' );
 class QuestionsController extends Controller
 {
     /**
@@ -35,7 +40,7 @@ class QuestionsController extends Controller
      */
     public function __construct(QuestionRepository $questions)
     {
-        // $this->middleware('permission:questions.manage');
+        $this->middleware('permission:questions.manage');
         $this->questions = $questions;
     }
 
@@ -48,7 +53,7 @@ class QuestionsController extends Controller
     {
         $perPage = 10;
 
-        $questions = $this->questions->paginateQuestions($perPage, $request->get('search'));
+        $questions = $this->questions->paginateQuestions(Auth::user()->id, $perPage, $request->get('search'));
 
         return view('question.index', compact('questions'));
     }
@@ -61,9 +66,10 @@ class QuestionsController extends Controller
     public function create(TopicRepository $topicRepository)
     {
         $edit = false;
-        $topics = $this->parseTopics($topicRepository);
+        $topics = $this->parseTopics(Auth::user()->id, $topicRepository);
+        $topic_id_created='';
 
-        return view('question.add-edit', compact('topics', 'edit'));
+        return view('question.add-edit', compact('topics', 'edit', 'topic_id_created'));
     }
 
     /**
@@ -77,10 +83,13 @@ class QuestionsController extends Controller
             DB::beginTransaction();
 
             try {
+
                     //create new question
                     $question = $this->questions->create($request->all());
 
                     $tag_ids = ($request->tag_ids)?$request->tag_ids:'';
+
+                    $mentor_ids = ($request->mentor_ids)?$request->mentor_ids:'';
 
                     $int_ids = array();
                     if(!empty($tag_ids)) {
@@ -106,6 +115,9 @@ class QuestionsController extends Controller
 
                     }
 
+                    //insert question menters into DB
+                    $this->questions->setQuestionMenter($question->id, $mentor_ids, true);
+
                     DB::commit();
 
                     return redirect()->route('question.index')->withSuccess(trans('app.question_created'));
@@ -123,22 +135,34 @@ class QuestionsController extends Controller
      * @param Question $question
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Question $question, TopicRepository $topicRepository, TagRepository $tagRepository)
+    public function edit(Question $question, TopicRepository $topicRepository, TagRepository $tagRepository, UserRepository $userRepository)
     {
             $edit = true;
             $tags = ($this->getTags($tagRepository))?$this->getTags($tagRepository):'';
+            $mentors = ($this->getMentors($userRepository))?$this->getMentors($userRepository):'';
 
+            //question tags
             $tag_createds=array();
             $questions_tags=($question->question_tag)?$question->question_tag:'';
 
             foreach ($questions_tags as $key => $tag) {
 
-                $tag_createds[] = $tag->id;
+                    $tag_createds[] = $tag->id;
             }
 
-            $topics = $this->parseTopics($topicRepository);
+            //question menters
+            $mentor_createds=array();
+            $questions_mentors=($question->question_mentor)?$question->question_mentor:'';
 
-            return view('question.add-edit', compact('edit', 'question', 'topics', 'tags', 'tag_createds'));
+            foreach ($questions_mentors as $key => $mentor) {
+
+                    $mentor_createds[] = $mentor->id;
+            }
+
+            $topics = $this->parseTopics(Auth::user()->id, $topicRepository);
+            $topic_id_created = ($question->topic_id !== 0)?$question->topic_id:'';
+
+            return view('question.add-edit', compact('edit', 'question', 'topics', 'tags', 'tag_createds', 'mentors', 'mentor_createds', 'topic_id_created'));
     }
 
     /**
@@ -150,13 +174,17 @@ class QuestionsController extends Controller
      */
     public function update(Question $question, UpdateQuestionRequest $request)
     {
+
             DB::beginTransaction();
 
             try {
+
                     //update question
                     $question = $this->questions->update($question->id, $request->all());
 
                     $tag_ids = ($request->tag_ids)?$request->tag_ids:'';
+
+                    $mentor_ids = ($request->mentor_ids)?$request->mentor_ids:'';
 
                     if(!empty($tag_ids)) {
 
@@ -173,14 +201,17 @@ class QuestionsController extends Controller
                             if(!empty($int_ids)) $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
                             if(empty($tag_ids_regist)) $tag_ids_regist = $new_tag_ids;
 
-                            //insert question tag into DB
+                            //insert question tags into DB
                             $this->questions->setQuestionTag($question->id, $tag_ids_regist, true);
 
                     } else {
 
-                            //insert question tag into DB
+                            //insert question tags into DB
                             $this->questions->setQuestionTag($question->id, $tag_ids, true);
                     }
+
+                    //insert question menters into DB
+                    $this->questions->setQuestionMenter($question->id, $mentor_ids, true);
 
                     DB::commit();
                     return redirect()->route('question.index')->withSuccess(trans('app.question_updated'));
@@ -191,6 +222,22 @@ class QuestionsController extends Controller
                     throw $e;
             }
 
+    }
+
+    /**
+     * Displays question information page.
+     *
+     * @param User $user
+     * @param ActivityRepository $activities
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function detail(Question $question)
+    {
+            $question = $this->questions->detail($question->id);
+
+            // dd($question["answers"]);
+
+            return view('question.detail', compact('question'));
     }
 
     /**
@@ -219,9 +266,9 @@ class QuestionsController extends Controller
      * @param TopicRepository $topicRepository
      * @return array
      */
-    private function parseTopics(TopicRepository $topicRepository)
+    private function parseTopics($user_id, TopicRepository $topicRepository)
     {
-            return [0 => 'Select a Topic'] + $topicRepository->lists()->toArray();
+            return [0 => 'Select a Topic'] + $topicRepository->listsTopicByUser($user_id);
     }
 
     /**
@@ -236,14 +283,14 @@ class QuestionsController extends Controller
     }
 
     /**
-     * get tags list
+     * get mentors list
      *
-     * @param TagRepository $tagRepository
+     * @param UserRepository $userRepository
      * @return array;
      */
-    private function getTagsByQuestionId($question_id)
+    private function getMentors(UserRepository $userRepository)
     {
-            return $tags=$tagRepository->lists();
+            return $memtors=$userRepository->getUserByStatus(ACTIVE)->pluck('full_name', 'id')->toArray();
     }
 
     /**

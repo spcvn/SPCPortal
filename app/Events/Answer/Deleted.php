@@ -1,5 +1,5 @@
 <?php
 
-namespace SPCVN\Events\Role;
+namespace SPCVN\Events\Answer;
 
-class Deleted extends RoleEvent {}
+class Deleted extends AnswerEvent {}
