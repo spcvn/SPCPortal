@@ -17,7 +17,7 @@ class UpdateTopicRequest extends Request
 
         return [
              'category_id'   => 'required:topics,category_id,'. $topic->id,
-             'topic_name'    => 'required|min:3|max:250|regex:/^[^!<>%$`~=+;\\\:\/\{\}\[\]#@&\(\)?"\']*$/',
+             'topic_name'    => 'required|min:3|max:250|regex:/^[^!<>%$`~=+;\\\:\/\{\}\[\]#@&\(\)?"\']*$/|unique:topics,topic_name,'. $topic->id,
              //'picture'       => 'mimes:jpeg,jpg,png,gif,bmp',
              'document'      => 'max:10000'
         ];

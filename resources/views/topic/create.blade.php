@@ -287,5 +287,5 @@
 
 @section('styles')
     {!! HTML::style('assets/plugins/bootstrap-switch/bootstrap-switch.css') !!}
-    {!! HTML::style('assets/plugins/select2/select2.min.css') !!}
+    {!! HTML::style('assets/css/select2.min.css') !!}
 @stop

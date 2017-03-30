@@ -32,8 +32,19 @@ class EloquentTopic implements TopicRepository
      */
     public function paginate($perPage = 30, $search = null)
     {
-        $query = Topic::with(['topics_tags', 'user', 'topics_mentors'])
+        $topicResults = [];
+        $user   = User::find(Auth::id());
+        $role   = $user->roles->first()->id;
+        $query  = Topic::with(['topics_tags', 'user', 'topics_mentors'])
                     ->where('topics.del_flag', false);
+
+        // check role of user
+        if ($role != ADMINISTRATOR) {
+            $query->where(function ($q) use ($search) {
+                $q->where('public', true);
+                $q->orWhere('user_id', Auth::id());
+            });
+        }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -45,13 +56,26 @@ class EloquentTopic implements TopicRepository
 
         $query->orderBy('topics.created', 'DESC');
         $query->orderBy('topics.topic_name', 'ASC');
-        $result = $query->paginate($perPage);
 
         if ($search) {
             $result->appends(['search' => $search]);
         }
 
-        return $result;
+        $results = $query->get();
+        foreach($results as $result) {
+            $topicResults[$result->id] = $result;
+        }
+
+        // get topic by mentor
+        
+        foreach ($user->topics as $topic) {
+            $topicResults[$topic->id] = $topic;
+        }
+
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($topicResults, count($topicResults), $perPage);
+        $paginator->setPath(route('topic.list'));
+
+        return $paginator;
     }
 
 
