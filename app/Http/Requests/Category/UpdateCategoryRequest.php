@@ -17,7 +17,7 @@ class UpdateCategoryRequest extends Request
         $category = $this->route('category');
 
         return [
-            'name' => 'required|max:100,' . $category->id
+            'name' => 'required|min:3|max:100|regex:/^[^!<>%$`~=+;\\\:\/\{\}\[\]#@&\(\)?"\']*$/'
         ];
     }
 }
