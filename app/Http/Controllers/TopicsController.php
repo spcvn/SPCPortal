@@ -9,6 +9,7 @@ use SPCVN\Repositories\Category\CategoryRepository;
 use SPCVN\Repositories\Vote\VoteRepository;
 use SPCVN\Http\Requests\Topic\CreateTopicRequest;
 use SPCVN\Http\Requests\Topic\UpdateTopicRequest;
+use SPCVN\Repositories\Question\QuestionRepository;
 use SPCVN\Topic;
 use SPCVN\User;
 use SPCVN\Tag;
@@ -32,15 +33,21 @@ class TopicsController extends Controller
     private $topic;
 
     /**
+     * @var QuestionRepository
+     */
+    private $questions;
+
+    /**
      * Constructor.
      * @param UserRepository $users
      * @param TopicRepository $category
      */
-    public function __construct(UserRepository $users, TopicRepository $topic)
+    public function __construct(UserRepository $users, TopicRepository $topic, QuestionRepository $questions)
     {
         $this->middleware('auth');
         $this->users = $users;
         $this->topic = $topic;
+        $this->questions = $questions;
     }
 
     /**
@@ -109,7 +116,23 @@ class TopicsController extends Controller
 
         // save topics_tags if existed input request tags
         if ($request->input('tags')) {
-            $this->topic->setTags($topic->id, $request->input('tags'), false);
+            $tagIDs = ($request->input('tags')) ? $request->input('tags') : '';
+            if (!empty($tagIDs)) {
+                $int_ids = array_filter($tagIDs, 'is_numeric');
+
+                //check tag
+                $tags = $this->questions->createNewTagIfNotExisis(Auth::id(), $tagIDs);
+
+                //regist tagIDs
+                $new_tag_ids = ($this->questions->setTagId($tags)) ? $this->questions->setTagId($tags) : $int_ids;
+
+                $tag_ids_regist = '';
+                if (!empty($int_ids)) {
+                     $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
+                }
+
+                $this->topic->setTags($topic->id, $tag_ids_regist, false);
+            }
         }
 
         // upload document
@@ -121,6 +144,7 @@ class TopicsController extends Controller
         if ($request->input('back')) {
             return redirect()->route('topic.create')->withSuccess(trans('app.topic_created'));
         }
+
 
         // redirect to list topic
         return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
@@ -216,7 +240,29 @@ class TopicsController extends Controller
         // save topics_mentors if existed input request mentors
         $this->topic->setMentors($topic->id, $request->input('mentors'), true);
         // save topics_tags if existed input request tags
-        $this->topic->setTags($topic->id, $request->input('tags'), true);
+        //$this->topic->setTags($topic->id, $request->input('tags'), true);
+
+        // save topics_tags if existed input request tags
+        $tagIDs = ($request->input('tags')) ? $request->input('tags') : '';
+        if (!empty($tagIDs)) {
+            $int_ids = array_filter($tagIDs, 'is_numeric');
+
+            //check tag
+            $tags = $this->questions->createNewTagIfNotExisis(Auth::id(), $tagIDs);
+
+            //regist tagIDs
+            $new_tag_ids = ($this->questions->setTagId($tags)) ? $this->questions->setTagId($tags) : $int_ids;
+
+            $tag_ids_regist = '';
+            if (!empty($int_ids)) {
+                 $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
+            }
+
+            $this->topic->setTags($topic->id, $tag_ids_regist, true);
+        } else {
+            $this->topic->setTags($topic->id, $tagIDs, true);
+        }
+
 
         // upload document
         if ($request->hasFile('document')) {

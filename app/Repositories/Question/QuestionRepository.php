@@ -131,4 +131,12 @@ interface QuestionRepository
      * @return boolean
      */
     public function detail($id);
+
+    /**
+     * set tag id
+     *
+     * @param $tags
+     * @return array();
+     */
+    public function setTagId($tags);
 }

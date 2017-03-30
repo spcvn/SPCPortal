@@ -277,4 +277,17 @@ class EloquentQuestion implements QuestionRepository
 
         return $res;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTagId($tags)
+    {
+        $res = [];
+        foreach ($tags as $key => $tag) {
+            $res[] =  (string)$tag->id;
+        }
+
+        return $res;
+    }
 }

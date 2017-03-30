@@ -100,19 +100,13 @@ class QuestionsController extends Controller
                             $tags = $this->questions->createNewTagIfNotExisis($request->user_id, $tag_ids);
 
                             //regist tag_ids
-                            $new_tag_ids = ($this->setTagId($tags))?$this->setTagId($tags):$int_ids;
+                            $new_tag_ids = ($this->questions->setTagId($tags))?$this->questions->setTagId($tags):$int_ids;
 
                             $tag_ids_regist = '';
                             if(!empty($int_ids)) $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
 
                             //insert question tag into DB
                             $this->questions->setQuestionTag($question->id, $tag_ids_regist, true);
-
-                    } else {
-
-                            //insert question tag into DB
-                            $this->questions->setQuestionTag($question->id, $tag_ids, true);
-
                     }
 
                     //insert question menters into DB
@@ -195,7 +189,7 @@ class QuestionsController extends Controller
                             $tags = $this->questions->createNewTagIfNotExisis($request->user_id, $tag_ids);
 
                             //regist tag_ids
-                            $new_tag_ids = ($this->setTagId($tags))?$this->setTagId($tags):$int_ids;
+                            $new_tag_ids = ($this->questions->setTagId($tags))?$this->questions->setTagId($tags):$int_ids;
 
                             $tag_ids_regist = '';
                             if(!empty($int_ids)) $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
@@ -293,22 +287,5 @@ class QuestionsController extends Controller
             return $memtors=$userRepository->getUserByStatus(ACTIVE)->pluck('full_name', 'id')->toArray();
     }
 
-    /**
-     * set tag id
-     *
-     * @param $tags
-     * @return array();
-     */
-    private function setTagId($tags)
-    {
-            $res=[];
-
-            foreach ($tags as $key => $tag) {
-
-                    $res[] =  (string)$tag->id;
-            }
-
-            return $res;
-    }
 
 }

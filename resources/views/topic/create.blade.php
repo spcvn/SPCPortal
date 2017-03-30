@@ -104,6 +104,7 @@
                         <div class="form-group">
                             <label for="tags">@lang('app.tag_name')</label>
                             {!! Form::select('tags[]', $tags, $edit ? $tagsSelected : '', ['class' => 'form-control tags select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
+
                         </div>
 
                         <div class="form-group">
@@ -198,12 +199,21 @@
 
         $('.tags.select2').select2({
             placeholder: "@lang('app.tag_name')",
-            minimumInputLength: 0,
+            //minimumInputLength: 0,
+            allowClear: true,
+            tags: true,
+            tokenSeparators: [',', ' '],
             ajax: {
                 url: "{{ route('tag.find') }}",
                 method: "GET",
                 dataType: 'json',
-                cache: false,
+                cache: true,
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf_token"]').attr('content');
+                    if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
                 data: function (params) {
                   return {
                     q: params.term
