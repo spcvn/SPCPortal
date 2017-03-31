@@ -11,6 +11,7 @@ use SPCVN\User;
 use Carbon\Carbon;
 use DB;
 use Auth;
+use Illuminate\Pagination\Paginator;
 
 define('ADMINISTRATOR', 1);
 define('USER_STATUS', 'Active' );
@@ -30,8 +31,9 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage = 30, $search = null)
+    public function paginate($perPage = 30, $page = 1, $search = null)
     {
+        //$page = $
         $topicResults = [];
         $user   = User::find(Auth::id());
         $role   = $user->roles->first()->id;
@@ -57,23 +59,23 @@ class EloquentTopic implements TopicRepository
         $query->orderBy('topics.created', 'DESC');
         $query->orderBy('topics.topic_name', 'ASC');
 
-        if ($search) {
-            $result->appends(['search' => $search]);
-        }
-
         $results = $query->get();
         foreach($results as $result) {
             $topicResults[$result->id] = $result;
         }
 
         // get topic by mentor
-        
         foreach ($user->topics as $topic) {
             $topicResults[$topic->id] = $topic;
         }
 
-        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($topicResults, count($topicResults), $perPage);
+        $offSet = (($page-1) * $perPage);
+        $itemsForCurrentPage = array_slice($topicResults, $offSet, $perPage, true);
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($topicResults), $perPage, Paginator::resolveCurrentPage());
         $paginator->setPath(route('topic.list'));
+        if ($search) {
+            $paginator->appends(['search' => $search]);
+        }
 
         return $paginator;
     }

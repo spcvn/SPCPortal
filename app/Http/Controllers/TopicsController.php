@@ -57,7 +57,8 @@ class TopicsController extends Controller
      */
     public function index(Request $request)
     {
-        $topics = $this->topic->paginate(30, $request->input('search'));
+        $page = (isset($request->page)) ? $request->page : 1;
+        $topics = $this->topic->paginate(30, $page, $request->input('search'));
         return view('topic.list', compact('topics'));
     }
 

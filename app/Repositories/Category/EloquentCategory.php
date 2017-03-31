@@ -10,6 +10,7 @@ use SPCVN\User;
 use Carbon\Carbon;
 use DB;
 use SPCVN\Support\Authorization\CacheFlusherTrait;
+use Illuminate\Pagination\Paginator;
 
 class EloquentCategory implements CategoryRepository
 {
@@ -26,7 +27,7 @@ class EloquentCategory implements CategoryRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage = 30, $search = null)
+    public function paginate($perPage = 30, $page = 1, $search = null)
     {
     	$query = Category::query();
         $query->where('del_flag', false);
@@ -38,12 +39,39 @@ class EloquentCategory implements CategoryRepository
             });
         }
 
-        $result = $query->orderBy('position', 'ASC')
-                        ->orderBy('created', 'DESC')
-            			->paginate($perPage);
+        $query->orderBy('position', 'ASC')
+                        ->orderBy('created', 'DESC');
 
         if ($search) {
-            $result->appends(['search' => $search]);
+            $results = $query->get();
+
+            $datas = [];
+            $prepareData = $this->all();
+            foreach($results as $key => $result) {
+                $datas[$key][] = $result;
+                if ($result->parent_id != 0) {
+                    $datas[$key] += $this->getParentCate($result->parent_id, $prepareData, $datas[$key]);
+                }
+            }
+
+            $offSet = (($page-1) * $perPage);
+            $itemsForCurrentPage = array_slice($datas, $offSet, $perPage, true);
+            $paginator = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($datas), $perPage, Paginator::resolveCurrentPage());
+            $paginator->setPath(route('category.list'));
+            $paginator->appends(['search' => $search]);
+            return $paginator;
+        } else {
+            return $query->paginate($perPage);
+        }
+    }
+
+    private function getParentCate($catParentID, $datas, $result)
+    {
+        foreach ($datas as $data) {
+            if ($data->id == $catParentID) {
+                $result[]   = $data;
+                $result     += $this->getParentCate($data->parent_id, $datas, $result);
+            }
         }
 
         return $result;

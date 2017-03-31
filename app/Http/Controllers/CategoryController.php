@@ -16,6 +16,8 @@ use Authy;
 
 use Illuminate\Http\Request;
 
+define('ITEMS_PER_PAGE', 30);
+
 class CategoryController extends Controller
 {
     /**
@@ -47,8 +49,15 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $pagination     = $this->category->paginate(30, $request->input('search'));
-        $categories     = $this->prepareData($pagination);
+        $page = (isset($request->page)) ? $request->page : 1;
+        $pagination     = $this->category->paginate(ITEMS_PER_PAGE, $page, $request->input('search'));
+
+        if ($request->input('search')) {
+            $categories     = $this->prepareDataSearch($pagination);
+        } else {
+            $categories     = $this->prepareData($pagination);    
+        }
+        
         return view('category.list', compact('pagination', 'categories'));
     }
 
@@ -224,14 +233,58 @@ class CategoryController extends Controller
         return response()->json(['status' => false, 'message' => trans('app.name_exists')]);
     }
 
+    public function prepareDataSearch($categories)
+    {
+        $results = $res = [];
+        foreach ($categories as $key => $category) {
+            $category   = json_decode(json_encode($category), True);
+            $res[]      = array_reverse($category);
+        }
+
+        foreach ($res as $cats) {
+
+            foreach ($cats as $cat) {
+                if ($cat['parent_id'] == 0) {
+
+                    if (!isset($results[$cat['id']])) {
+                       $results[$cat['id']] = $cat;
+                    }
+
+                    $results[$cat['id']]['sub'] = $this->prepareSubDataSearch($cat['id'], $cats, $results[$cat['id']]);
+                }
+            }
+        }
+
+        return $results;
+    }
+
+    public function prepareSubDataSearch($catID, $datas, $results)
+    {
+        $category = [];
+        foreach ($datas as $data) {
+
+            if ($data['parent_id'] == $catID) {
+
+                if (!isset($results[$data['id']])) {
+                   $category[$data['id']] = $data;
+                }
+                
+                $category[$data['id']]['sub'] = $this->prepareSubDataSearch($data['id'], $datas, $category[$data['id']]);
+            }
+        }
+
+        return $category;
+    }
+
     public function prepareData($categories)
     {
         $results = [];
         foreach ($categories as $category) {
 
-            if ($category->parent_id == 0) {
-                $results[$category->id] = $category;
-                $results[$category->id]['sub'] = $this->prepareSubData($category->id, $categories);
+            $category = json_decode(json_encode($category), True);
+            if ($category['parent_id'] == 0) {
+                $results[$category['id']] = $category;
+                $results[$category['id']]['sub'] = $this->prepareSubData($category['id'], $categories);
             }
         }
 
@@ -243,9 +296,10 @@ class CategoryController extends Controller
         $categories = [];
         foreach ($datas as $data) {
 
-            if ($data->parent_id == $catID) {
-                $categories[$data->id] = $data;
-                $categories[$data->id]['sub'] = $this->prepareSubData($data->id, $datas);
+            $data = json_decode(json_encode($data), True);
+            if ($data['parent_id'] == $catID) {
+                $categories[$data['id']] = $data;
+                $categories[$data['id']]['sub'] = $this->prepareSubData($data['id'], $datas);
             }
         }
 

@@ -54,18 +54,18 @@
         @if (count($categories))
             <ol class="sortable">
             @foreach ($categories as $category)
-                <li id="item_{{ $category->id }}" class="level-1" data-id="{{ $category->id }}" data-name="{{ $category->name }}">
+                <li id="item_{{ $category['id'] }}" class="level-1" data-id="{{ $category['id'] }}" data-name="{{ $category['name'] }}">
                     <div class="item">
                         <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
                         <div class="cat-name left">
-                        <a>{{ $category->name }}</a>
+                        <a>{{ $category['name'] }}</a>
                         </div>
                         <div class="action right">
-                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary btn-circle"
+                            <a href="{{ route('category.edit', $category['id']) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            <a href="{{ route('category.delete', $category->id) }}" class="btn btn-danger btn-circle"
+                            <a href="{{ route('category.delete', $category['id']) }}" class="btn btn-danger btn-circle"
                                title="@lang('app.delete_category')"
                                data-toggle="tooltip"
                                data-placement="top"
@@ -79,21 +79,21 @@
                         <div class="clear"></div>
                     </div>
 
-                    @if ($category['sub'])
+                    @if (!empty($category['sub']))
                     <ol>
                     @foreach ($category['sub'] as $categorySub)
-                        <li id="item_{{ $categorySub->id }}" class="level-2" data-id="{{ $categorySub->id }}" data-name="{{ $categorySub->name }}">
+                        <li id="item_{{ $categorySub['id'] }}" class="level-2" data-id="{{ $categorySub['id'] }}" data-name="{{ $categorySub['name'] }}">
                             <div class="item">
                                 <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
                                 <div class="cat-name left">
-                                <a>{{ $categorySub->name }}</a>
+                                <a>{{ $categorySub['name'] }}</a>
                                 </div>
                                 <div class="action right">
-                                    <a href="{{ route('category.edit', $categorySub->id) }}" class="btn btn-primary btn-circle"
+                                    <a href="{{ route('category.edit', $categorySub['id']) }}" class="btn btn-primary btn-circle"
                                        title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
                                         <i class="glyphicon glyphicon-edit"></i>
                                     </a>
-                                    <a href="{{ route('category.delete', $categorySub->id) }}" class="btn btn-danger btn-circle"
+                                    <a href="{{ route('category.delete', $categorySub['id']) }}" class="btn btn-danger btn-circle"
                                        title="@lang('app.delete_category')"
                                        data-toggle="tooltip"
                                        data-placement="top"
@@ -107,21 +107,21 @@
                                 <div class="clear"></div>
                             </div>
                             
-                            @if ($categorySub['sub'])
+                            @if (!empty($categorySub['sub']))
                             <ol>
                             @foreach ($categorySub['sub'] as $categorySub2)
-                                <li id="item_{{ $categorySub2->id }}" class="level-3" data-id="{{ $categorySub2->id }}" data-name="{{ $categorySub2->name }}">
+                                <li id="item_{{ $categorySub2['id'] }}" class="level-3" data-id="{{ $categorySub2['id'] }}" data-name="{{ $categorySub2['name'] }}">
                                     <div class="item">
                                         <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
                                         <div class="cat-name left">
-                                        <a>{{ $categorySub2->name }}</a>
+                                        <a>{{ $categorySub2['name'] }}</a>
                                         </div>
                                         <div class="action right">
-                                            <a href="{{ route('category.edit', $categorySub2->id) }}" class="btn btn-primary btn-circle"
+                                            <a href="{{ route('category.edit', $categorySub2['id']) }}" class="btn btn-primary btn-circle"
                                                title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
                                                 <i class="glyphicon glyphicon-edit"></i>
                                             </a>
-                                            <a href="{{ route('category.delete', $categorySub2->id) }}" class="btn btn-danger btn-circle"
+                                            <a href="{{ route('category.delete', $categorySub2['id']) }}" class="btn btn-danger btn-circle"
                                                title="@lang('app.delete_category')"
                                                data-toggle="tooltip"
                                                data-placement="top"
@@ -135,21 +135,21 @@
                                         <div class="clear"></div>
                                     </div>
                                 
-                                    @if ($categorySub2['sub'])
+                                    @if (!empty($categorySub2['sub']))
                                     <ol>
                                     @foreach ($categorySub2['sub'] as $categorySub3)
-                                        <li id="item_{{ $categorySub3->id }}" class="level-4" data-id="{{ $categorySub3->id }}" data-name="{{ $categorySub3->name }}">
+                                        <li id="item_{{ $categorySub3['id'] }}" class="level-4" data-id="{{ $categorySub3['id'] }}" data-name="{{ $categorySub3['name'] }}">
                                             <div class="item">
                                                 <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
                                                 <div class="cat-name left">
-                                                <a>{{ $categorySub3->name }}</a>
+                                                <a>{{ $categorySub3['name'] }}</a>
                                                 </div>
                                                 <div class="action right">
-                                                    <a href="{{ route('category.edit', $categorySub3->id) }}" class="btn btn-primary btn-circle"
+                                                    <a href="{{ route('category.edit', $categorySub3['id']) }}" class="btn btn-primary btn-circle"
                                                        title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
                                                         <i class="glyphicon glyphicon-edit"></i>
                                                     </a>
-                                                    <a href="{{ route('category.delete', $categorySub3->id) }}" class="btn btn-danger btn-circle"
+                                                    <a href="{{ route('category.delete', $categorySub3['id']) }}" class="btn btn-danger btn-circle"
                                                        title="@lang('app.delete_category')"
                                                        data-toggle="tooltip"
                                                        data-placement="top"
@@ -163,21 +163,21 @@
                                                 <div class="clear"></div>
                                             </div>
                                         
-                                            @if ($categorySub3['sub'])
+                                            @if (!empty($categorySub3['sub']))
                                             <ol>
                                             @foreach ($categorySub3['sub'] as $categorySub4)
-                                                <li id="item_{{ $categorySub4->id }}" class="level-5" data-id="{{ $categorySub4->id }}" data-name="{{ $categorySub4->name }}">
+                                                <li id="item_{{ $categorySub4['id'] }}" class="level-5" data-id="{{ $categorySub4['id'] }}" data-name="{{ $categorySub4['name'] }}">
                                                     <div class="item">
                                                         <div class="drag left"><i class="fa fa-crosshairs" aria-hidden="true"></i></div>
                                                         <div class="cat-name left">
-                                                        <a>{{ $categorySub4->name }}</a>
+                                                        <a>{{ $categorySub4['name'] }}</a>
                                                         </div>
                                                         <div class="action right">
-                                                            <a href="{{ route('category.edit', $categorySub4->id) }}" class="btn btn-primary btn-circle"
+                                                            <a href="{{ route('category.edit', $categorySub4['id']) }}" class="btn btn-primary btn-circle"
                                                                title="@lang('app.edit_category')" data-toggle="tooltip" data-placement="top">
                                                                 <i class="glyphicon glyphicon-edit"></i>
                                                             </a>
-                                                            <a href="{{ route('category.delete', $categorySub4->id) }}" class="btn btn-danger btn-circle"
+                                                            <a href="{{ route('category.delete', $categorySub4['id']) }}" class="btn btn-danger btn-circle"
                                                                title="@lang('app.delete_category')"
                                                                data-toggle="tooltip"
                                                                data-placement="top"
