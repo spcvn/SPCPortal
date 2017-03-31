@@ -8,6 +8,7 @@ use SPCVN\Services\Upload\UserAvatarManager;
 use SPCVN\User;
 use Carbon\Carbon;
 use DB;
+use Auth;
 use Illuminate\Database\SQLiteConnection;
 use Laravel\Socialite\Contracts\User as SocialUser;
 
@@ -289,7 +290,8 @@ class EloquentUser implements UserRepository
     public function searchUserByName($q = null)
     {
         $query = User::query();
-        $query->select('id', 'first_name', 'last_name', 'email');      
+        $query->select('id', 'first_name', 'last_name', 'email');
+        $query->where('id', '<>', Auth::id());
         $query->where(function ($qr) use ($q) {
             $qr->where('first_name', "like", "%{$q}%");
             $qr->orWhere('last_name', "like", "%{$q}%");
