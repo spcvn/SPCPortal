@@ -1,33 +1,45 @@
 $(document).ready(function() {
-	$('.files-list .file-item').each(function(index, el) {
-		var __name = $(this).attr('data-name');
-		var __type = $(this).attr('data-type');
-		var __exte = $(this).attr('data-exte');
-		var __path = $(this).attr('data-path');
-		var __file_ico = $(this).find('.file-icon');
-		if (__type === "folder") {
-			$(__file_ico).html('<span class="fa fa-folder orange"></span>');
-		}
-		else{
-			switch(__exte){
-				case 'psd':
-					$(__file_ico).html('<span class="fa fa-image pink"></span>');
-					break;
-				case 'docx':
-					$(__file_ico).html('<span class="fa fa-file-word-o blue"></span>');
-					break;
-				case 'pdf':
-					$(__file_ico).html('<span class="fa fa-file-pdf-o brown"></span>');
-					break;
-				case 'zip':
-					$(__file_ico).html('<span class="fa fa-file-archive-o red"></span>');
-					break;
-				default:
-					$(__file_ico).html('<span class="fa fa-file-o green"></span>');
-					break;
+	function setIcon(){
+		var root_url = window.location.protocol + "//" + window.location.host + "/";
+		$('.files-list .file-item').each(function(index, el) {
+			var __name = $(this).attr('data-name');
+			var __type = $(this).attr('data-type');
+			var __exte = $(this).attr('data-exte');
+			var __path = $(this).attr('data-path');
+			var __file_ico = $(this).find('.file-icon');
+			if (__type === "folder") {
+				$(__file_ico).html('<span class="fa fa-folder orange"></span>');
 			}
-		}
-	});
+			else{
+				switch(__exte){
+					case 'jpg':
+					case 'png':
+					case 'gif':
+						$(__file_ico).html('<img src="' + root_url + __path.split('public/')[1] + '" height="35">');
+						break;
+					case 'psd':
+						$(__file_ico).html('<span class="fa fa-image pink"></span>');
+						break;
+					case 'docx':
+						$(__file_ico).html('<span class="fa fa-file-word-o blue"></span>');
+						break;
+					case 'pptx':
+						$(__file_ico).html('<span class="fa fa-file-powerpoint-o purple"></span>');
+						break;
+					case 'pdf':
+						$(__file_ico).html('<span class="fa fa-file-pdf-o brown"></span>');
+						break;
+					case 'zip':
+						$(__file_ico).html('<span class="fa fa-file-archive-o red"></span>');
+						break;
+					default:
+						$(__file_ico).html('<span class="fa fa-file-o green"></span>');
+						break;
+				}
+			}
+		});
+	}
+	setIcon();
 
 	// Filter
 	$('.mana-filter').find('input.ace').change(function(event) {
@@ -66,6 +78,62 @@ $(document).ready(function() {
 		$.each(last_sort, function(index, item) {
 			$('ul.files-list').append(item);
 		});
+	});
+
+	function getFilesList(direct){
+		var __li;
+		$.ajax({
+			url: '/acelayout/fileslist',
+			type: 'POST',
+			dataType: 'json',
+			async: false,
+        	cache: false,
+			data: {
+				direct: direct
+			},
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(data){
+				$('ul.files-list').children('li').remove();
+				jQuery.each(data, function(index, item) {
+					__li = '<li class="file-item" data-name="' + item['name'] + '" data-type="' + item['type'] + '" data-exte="' + item['exte'] + '" data-path="' + item['path'] + '" data-size="' + item['size'] + '" data-time="' + item['time'] + '" data-pare="' + item['pare'] + '">\
+							<div class="file-icon"></div>\
+							<div class="file-info">' + item['name'] + '</div>\
+							</li>';
+				    $('ul.files-list').append(__li);
+				});
+				setIcon();
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+	}
+
+	// Open directory
+	$('ul.files-list').on('click', 'li[data-type="folder"]', function(event) {
+		var direct = $(this).attr('data-path');
+		getFilesList(direct);
+		$('.data-undo').addClass('active');
+	});
+
+	// Undo process
+	$('span.data-undo').click(function(event) {
+		var myURL = $('ul.files-list').find('li').first().attr('data-pare');
+		var myDir = myURL.substring( 0, myURL.lastIndexOf( "/" ) + 1);
+		console.log(myDir);
+		
+		if ($(this).hasClass('active')) {
+			getFilesList(myDir);
+			if(myDir == $('.root-path').html()){
+				$('.data-undo').removeClass('active');
+			}
+		}
 	});
 
 });

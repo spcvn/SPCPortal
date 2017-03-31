@@ -10,6 +10,7 @@
 	width:100px;
 	height:80px;
 	border:none;
+	cursor:pointer;
 }
 .contain-mana-files ul.files-list li.file-item .file-icon span{
 	font-size:35px
@@ -21,3 +22,5 @@
 	vertical-align:middle;
 	cursor:pointer;
 }
+.redo-undo-contain{font-size:22px}
+.redo-undo-contain span{padding:0 5px;cursor:pointer;}

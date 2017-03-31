@@ -14,6 +14,10 @@
 		</div>
 	</div>
 
+	{{-- @php
+	echo csrf_token();exit;
+	@endphp --}}
+
 	<div class="row">
 		<div class="col-xs-12">
 			
@@ -44,7 +48,7 @@
 						<span class="fa fa-file fa-fw add-new-f green"></span>
 					</div>
 
-					<div class="widget-toolbar mana-filter">
+					<div class="widget-toolbar mana-filter no-border">
 						<label>
 							<input type="checkbox" class="ace ace-checkbox-2 filter-fol" checked="checked">
 							<span class="lbl middle padding-4"> Folder</span>
@@ -55,37 +59,29 @@
 						</label>
 					</div>
 
+					<div class="widget-toolbar redo-undo-contain">
+						<span class="fa fa-angle-double-left data-undo"></span>
+						<span class="fa fa-angle-double-right data-redo"></span>
+					</div>
+
 				</div>
 
 				<div class="widget-body">
 					<div class="contain-mana-files">
+						<div class="root-path" style="display:none;"></div>
 						<ul class="files-list ace-thumbnails clearfix">
 							@foreach ($files as $file)
-								@if($file['exte'] == "jpg" || $file['exte'] == "png" || $file['exte'] == "gif")
-									<li class="file-item"
-										data-name="{{ $file['name'] }}"
-										data-type="{{ $file['type'] }}"
-										data-exte="{{ $file['exte'] }}"
-										data-path="{{ $file['path'] }}"
-										data-size="{{ $file['size'] }}"
-										data-time="{{ $file['mtime'] }}">
-										<div class="file-image">
-											{{ HTML::image(explode('public', $file['path'])['1'], $file['name'], array('height' => '35')) }}
-										</div>
-										<div class="file-info">{{ $file['name'] }}</div>
-									</li>
-								@else
-									<li class="file-item"
-										data-name="{{ $file['name'] }}"
-										data-type="{{ $file['type'] }}"
-										data-exte="{{ $file['exte'] }}"
-										data-path="{{ $file['path'] }}"
-										data-size="{{ $file['size'] }}"
-										data-time="{{ $file['mtime'] }}">
-										<div class="file-icon"></div>
-										<div class="file-info">{{ $file['name'] }}</div>
-									</li>
-								@endif
+								<li class="file-item"
+									data-name="{{ $file['name'] }}"
+									data-type="{{ $file['type'] }}"
+									data-exte="{{ $file['exte'] }}"
+									data-path="{{ $file['path'] }}"
+									data-pare="{{ $file['pare'] }}"
+									data-size="{{ $file['size'] }}"
+									data-time="{{ $file['time'] }}">
+									<div class="file-icon"></div>
+									<div class="file-info">{{ $file['name'] }}</div>
+								</li>
 							@endforeach
 						</ul>
 					</div>
@@ -97,5 +93,9 @@
 
 	{{ HTML::style('spcvn/ace/files/css/files.css') }}
 	{{ HTML::script('spcvn/ace/files/js/files.js') }}
+	<script type="text/javascript">
+		var root_path = $('ul.files-list').find('li').first().attr('data-pare');
+		$('.root-path').append(root_path);
+	</script>
 
 @stop

@@ -555,6 +555,7 @@ Route::group(['prefix' => 'acelayout'], function () {
 
 
     Route::get('/files','FilesController@index');
+    Route::post('/fileslist','FilesController@list');
     
 
     Route::get('/morepages/profile', function () {
