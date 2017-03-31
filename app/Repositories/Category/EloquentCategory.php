@@ -223,4 +223,24 @@ class EloquentCategory implements CategoryRepository
 
         return false;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkExistsSub($category_id)
+    {
+        if (!$category_id) {
+            return false;
+        }
+
+        $query = Category::query();
+        $query->where('parent_id', $category_id);
+        $query->where('del_flag', false);
+        $res = $query->get()->toArray();
+        if ($res) {
+            return true;
+        }
+
+        return false;
+    }
 }

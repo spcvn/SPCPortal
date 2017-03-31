@@ -178,4 +178,16 @@ interface CategoryRepository
      */
     public function checkExists($data);
 
+    /**
+     * check exists sub category by IDs.
+     *
+     * @param int $category_id
+     * @return boolse
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.03.28
+     * @version 1.0
+     */
+    public function checkExistsSub($category_id);
+
 }

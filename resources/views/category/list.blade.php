@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    @include('partials.messages')
+    
 
     <div class="row tab-search">
         <div class="col-md-2">
@@ -71,7 +71,7 @@
                                data-placement="top"
                                data-method="DELETE"
                                data-confirm-title="@lang('app.please_confirm')"
-                               data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                               data-confirm-text="@lang('app.are_you_sure_delete_category')"
                                data-confirm-delete="@lang('app.yes_delete_it')">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
@@ -99,7 +99,7 @@
                                        data-placement="top"
                                        data-method="DELETE"
                                        data-confirm-title="@lang('app.please_confirm')"
-                                       data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                       data-confirm-text="@lang('app.are_you_sure_delete_category')"
                                        data-confirm-delete="@lang('app.yes_delete_it')">
                                         <i class="glyphicon glyphicon-trash"></i>
                                     </a>
@@ -127,7 +127,7 @@
                                                data-placement="top"
                                                data-method="DELETE"
                                                data-confirm-title="@lang('app.please_confirm')"
-                                               data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                               data-confirm-text="@lang('app.are_you_sure_delete_category')"
                                                data-confirm-delete="@lang('app.yes_delete_it')">
                                                 <i class="glyphicon glyphicon-trash"></i>
                                             </a>
@@ -155,7 +155,7 @@
                                                        data-placement="top"
                                                        data-method="DELETE"
                                                        data-confirm-title="@lang('app.please_confirm')"
-                                                       data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                                       data-confirm-text="@lang('app.are_you_sure_delete_category')"
                                                        data-confirm-delete="@lang('app.yes_delete_it')">
                                                         <i class="glyphicon glyphicon-trash"></i>
                                                     </a>
@@ -183,7 +183,7 @@
                                                                data-placement="top"
                                                                data-method="DELETE"
                                                                data-confirm-title="@lang('app.please_confirm')"
-                                                               data-confirm-text="@lang('app.are_you_sure_delete_role')"
+                                                               data-confirm-text="@lang('app.are_you_sure_delete_category')"
                                                                data-confirm-delete="@lang('app.yes_delete_it')">
                                                                 <i class="glyphicon glyphicon-trash"></i>
                                                             </a>
