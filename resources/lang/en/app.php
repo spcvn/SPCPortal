@@ -220,6 +220,7 @@ return [
     'close'             =>  'Close',
     'voted'             =>  'Sorry, You have already voted',
     'votes_success'     =>  'Vote successfully',
+    'comment_is_required'       =>  'Comment field is required',
 
     // Users
     'add_user' => 'Add User',

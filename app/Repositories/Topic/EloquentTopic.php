@@ -37,7 +37,7 @@ class EloquentTopic implements TopicRepository
         $topicResults = [];
         $user   = User::find(Auth::id());
         $role   = $user->roles->first()->id;
-        $query  = Topic::with(['topics_tags', 'user', 'topics_mentors'])
+        $query  = Topic::with(['topics_tags', 'user', 'topics_mentors', 'topics_votes'])
                     ->where('topics.del_flag', false);
 
         // check role of user
