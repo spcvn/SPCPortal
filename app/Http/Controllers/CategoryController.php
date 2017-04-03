@@ -246,11 +246,12 @@ class CategoryController extends Controller
             foreach ($cats as $cat) {
                 if ($cat['parent_id'] == 0) {
 
-                    if (!isset($results[$cat['id']])) {
-                       $results[$cat['id']] = $cat;
+                    if (! array_key_exists($cat['id'], $results)) {
+                        $results[$cat['id']] = $cat;
+                        $results[$cat['id']]['sub'] = $this->prepareSubDataSearch($cat['id'], $cats, $results[$cat['id']]); 
+                    } else {
+                        $this->prepareSubDataSearch($cat['id'], $cats, $results[$cat['id']]); 
                     }
-
-                    $results[$cat['id']]['sub'] = $this->prepareSubDataSearch($cat['id'], $cats, $results[$cat['id']]);
                 }
             }
         }
@@ -265,11 +266,12 @@ class CategoryController extends Controller
 
             if ($data['parent_id'] == $catID) {
 
-                if (!isset($results[$data['id']])) {
-                   $category[$data['id']] = $data;
+                if (! array_key_exists($data['id'], $results)) {
+                    $category[$data['id']] = $data;
+                    $category[$data['id']]['sub'] = $this->prepareSubDataSearch($data['id'], $datas, $category[$data['id']]);    
+                } else {
+                    $this->prepareSubDataSearch($data['id'], $datas, $category[$data['id']]);
                 }
-                
-                $category[$data['id']]['sub'] = $this->prepareSubDataSearch($data['id'], $datas, $category[$data['id']]);
             }
         }
 

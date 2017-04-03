@@ -68,7 +68,7 @@
                 @foreach ($topics as $topic)
                     <tr id="cat-{{$topic->id}}">
                         <td style="text-align: center; vertical-align: middle;">
-                            @if (Auth::id() != $topic->user_id) <span> @else <a href="{{ route('topic.edit', $topic->id) }}"> @endif
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR) <a href="{{ route('topic.edit', $topic->id) }}"> @else <span> @endif
                                 @php
                                     if ($topic->picture) {
                                         $source = url('/upload/topics/'. $topic->picture);
@@ -78,14 +78,14 @@
                                 @endphp
 
                                 <img style="max-width: 70px; max-height: 70px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
-                            @if (Auth::id() == $topic->user_id) </a> @else </span> @endif
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR) </a> @else </span> @endif
 
                         </td>
                         <td style="vertical-align: middle;">
-                            @if (Auth::id() != $topic->user_id)
-                            <span>{{ $topic->topic_name }}</span>
-                            @else
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR)
                             <a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a>
+                            @else
+                            <span>{{ $topic->topic_name }}</span>
                             @endif
                         </td>
                         <td class="tags" style="vertical-align: middle;">
