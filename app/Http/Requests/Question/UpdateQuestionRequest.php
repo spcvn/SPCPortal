@@ -16,7 +16,7 @@ class UpdateQuestionRequest extends Request
         $question = $this->route('question');
 
         return [
-            'title' => 'required|unique:questions,title' . $question->id
+            'title' => 'required|unique:questions,title,' . $question->id,
         ];
     }
 }

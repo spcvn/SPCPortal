@@ -42,7 +42,7 @@ class EloquentQuestion implements QuestionRepository
      */
     public function paginateQuestions($user_id, $perPage = 10, $search = null)
     {
-        $query = Question::with('topic', 'user', 'question_tag');
+        $query = Question::with('topic', 'user', 'question_tag', 'answerParent');
 
         return $this->paginateAndFilterResults($user_id, $perPage, $search, $query);
     }
@@ -264,6 +264,9 @@ class EloquentQuestion implements QuestionRepository
         $question = Question::with('user', 'answer')->find($id);
         $res["question"] = $question;
 
+        //update count view
+        $this->updateCountView($id);
+
         foreach ($question->answer as $key => $answer) {
 
             if($answer->parent_id === 0) {
@@ -276,5 +279,16 @@ class EloquentQuestion implements QuestionRepository
         }
 
         return $res;
+    }
+
+    private function updateCountView($id)
+    {
+        $question = $this->find($id);
+
+        $question->views = ($question->views + 1);
+
+        event(new Updated($question));
+
+        return $question->save();
     }
 }

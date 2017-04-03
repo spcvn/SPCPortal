@@ -235,8 +235,6 @@ class QuestionsController extends Controller
     {
             $question = $this->questions->detail($question->id);
 
-            // dd($question["answers"]);
-
             return view('question.detail', compact('question'));
     }
 

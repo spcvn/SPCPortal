@@ -97,8 +97,9 @@
     {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
     {!! HTML::script('assets/plugins/toastr/toastr.min.js') !!}
     {!! HTML::script('assets/js/select2.full.js') !!}
-    {{-- <script src="http://120.26.143.106/packages/admin/bootstrap3-editable/js/bootstrap-editable.min.js"></script> --}}
     {!! HTML::script('assets/plugins/bootstrap3-editable/js/bootstrap-editable.min.js') !!}
+    {!! HTML::script('assets/js/jquery.livepreview.js') !!}
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({
@@ -106,22 +107,22 @@
         });
 
         //2017-03-14 Nguyen Hien add
-        @if(Session::has('notification'))
-        alert("{{ Session::get('notification.alert-type') }}");
-            var type = "{{ Session::get('notification.alert-type', 'info') }}";
+        @if(Session::has('message'))
+        alert("{{ Session::get('message.alert-type') }}");
+            var type = "{{ Session::get('message.alert-type', 'info') }}";
             switch(type){
                 case 'info':
-                    toastr.info("{{ Session::get('notification.message') }}");
+                    toastr.info("{{ Session::get('message.message') }}");
                     break;
 
                 case 'warning':
-                    toastr.warning("{{ Session::get('notification.message') }}");
+                    toastr.warning("{{ Session::get('message.message') }}");
                     break;
                 case 'success':
-                    toastr.success("{{ Session::get('notification.message') }}");
+                    toastr.success("{{ Session::get('message.message') }}");
                     break;
                 case 'error':
-                    toastr.error("{{ Session::get('notification.message') }}");
+                    toastr.error("{{ Session::get('message.message') }}");
                     break;
           }
         @endif
