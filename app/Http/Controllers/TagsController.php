@@ -36,7 +36,7 @@ class TagsController extends Controller
      */
     public function __construct(TagRepository $tags)
     {
-        $this->middleware('permission:tags.manage');
+        $this->middleware('permission:tags.manage', ['except' => 'find']);
         $this->tags = $tags;
     }
 

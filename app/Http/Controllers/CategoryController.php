@@ -37,7 +37,7 @@ class CategoryController extends Controller
      */
     public function __construct(UserRepository $users, CategoryRepository $category)
     {
-        $this->middleware('auth');
+        $this->middleware('permission:category.manage');
         $this->users = $users;
         $this->category = $category;
     }

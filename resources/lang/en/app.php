@@ -215,12 +215,13 @@ return [
     'please_create_category_first'  =>  'First, You must create a category',
     'back_to_this_page' =>  'Return to this page after submit ?',
     'votes'             =>  'Votes',
+    'is_voted'             =>  'Voted',
     'comments'          =>  'Comments',
     'save_comment'      =>  'Save comment',
     'close'             =>  'Close',
     'voted'             =>  'Sorry, You have already voted',
     'votes_success'     =>  'Vote successfully',
-    'comment_is_required'       =>  'Comment field is required',
+    'comment_is_required'       =>  'The comment field is required',
 
     // Users
     'add_user' => 'Add User',

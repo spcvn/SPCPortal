@@ -68,7 +68,7 @@
                 @foreach ($topics as $topic)
                     <tr id="cat-{{$topic->id}}">
                         <td style="text-align: center; vertical-align: middle;">
-                            <a href="{{ route('topic.edit', $topic->id) }}">
+                            @if (Auth::id() != $topic->user_id) <span> @else <a href="{{ route('topic.edit', $topic->id) }}"> @endif
                                 @php
                                     if ($topic->picture) {
                                         $source = url('/upload/topics/'. $topic->picture);
@@ -78,12 +78,19 @@
                                 @endphp
 
                                 <img style="max-width: 70px; max-height: 70px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
-                            </a>
+                            @if (Auth::id() == $topic->user_id) </a> @else </span> @endif
+
                         </td>
-                        <td style="vertical-align: middle;"><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
+                        <td style="vertical-align: middle;">
+                            @if (Auth::id() != $topic->user_id)
+                            <span>{{ $topic->topic_name }}</span>
+                            @else
+                            <a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a>
+                            @endif
+                        </td>
                         <td class="tags" style="vertical-align: middle;">
                             @foreach ($topic->topics_tags as $tag)
-                            <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #0080ff; color: #fff;">{{$tag->name}}</span>
+                            <span class="label label-primary">{{$tag->name}}</span>
                             @endforeach
                         </td>
                         <td style="vertical-align: middle;"><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->user->first_name }} {{ $topic->user->last_name }}</a></td>
@@ -103,13 +110,15 @@
                                    data-toggle="modal" data-target="#documentModal">
                                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                                 </button>
+                            @else
+                            <span>-</span>
                             @endif
                         </td>
 
                         <td style="text-align: center; vertical-align: middle;" class="rating-voter">
                             
                         @php                       
-                        $readonly = false;                       
+                        $readonly = false;                    
                         if (isset($topic->topics_votes) and  !empty($topic->topics_votes)) {
                             foreach ($topic->topics_votes as $votes) {
                                 if ($votes->user->id == Auth::id()) {
@@ -122,7 +131,6 @@
                             $readonly = true;
                         }
                         @endphp
-
 
                             <div class="topic-rating">
                                 <input id="rating-{{ $topic->id }}" data-readonly="{{ $readonly }}" data-id="{{ $topic->id }}" data-size="xs" data-show-clear="false" data-show-caption="false" name="input-{{ $topic->id }}" value="{{ $topic->votes }}" class="rating topic-rating-item rating-loading">
@@ -141,7 +149,8 @@
                         </td>
 
                         <td class="text-center" style="vertical-align: middle;">
-                        
+
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR)
                             <a href="{{ route('topic.edit', $topic->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_topic')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -156,6 +165,9 @@
                                data-confirm-delete="@lang('app.yes_delete_it')">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
+                            @else
+                            <span>-</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -349,7 +361,7 @@
                             adjust: { scroll: true }
                         },
                         hide: {
-                            when: { event: 'click' }
+                            event: 'click'
                         },
                         style: {
                             classes: 'qtip-blue qtip-bootstrap'

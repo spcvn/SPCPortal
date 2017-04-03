@@ -44,7 +44,7 @@ class TopicsController extends Controller
      */
     public function __construct(UserRepository $users, TopicRepository $topic, QuestionRepository $questions)
     {
-        $this->middleware('auth');
+        $this->middleware('permission:topic.manage');
         $this->users = $users;
         $this->topic = $topic;
         $this->questions = $questions;
@@ -57,9 +57,11 @@ class TopicsController extends Controller
      */
     public function index(Request $request)
     {
-        $page = (isset($request->page)) ? $request->page : 1;
+        $user   = User::find(Auth::id());
+        $role   = $user->roles->first()->id;
+        $page   = (isset($request->page)) ? $request->page : 1;
         $topics = $this->topic->paginate(30, $page, $request->input('search'));
-        return view('topic.list', compact('topics'));
+        return view('topic.list', compact('topics', 'role'));
     }
 
     /**
@@ -77,7 +79,13 @@ class TopicsController extends Controller
 
         // redirect to category screen if the category does not exist
         if (count($categories) <= 1) { // first item is default
-            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+
+            $notification = array(
+                'alert-type'    =>  'warning',
+                'message'       =>  trans('app.please_create_category_first')
+            );
+
+            return redirect()->route('category.list')->with($notification);
         }
 
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'tags'));
@@ -141,14 +149,19 @@ class TopicsController extends Controller
             $this->uploadDocument($topic->id, $request);
         }
 
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.topic_created')
+        );
+
         // redirect to add new topic
         if ($request->input('back')) {
-            return redirect()->route('topic.create')->withSuccess(trans('app.topic_created'));
+            return redirect()->route('topic.create')->with($notification);
         }
 
 
         // redirect to list topic
-        return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
+        return redirect()->route('topic.list')->with($notification);
     }
 
     /**
@@ -188,7 +201,11 @@ class TopicsController extends Controller
 
         // redirect to category screen if the category does not exist
         if (count($categories) <= 1) { // first item is default
-            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+            $notification = array(
+                'alert-type'    =>  'warning',
+                'message'       =>  trans('app.please_create_category_first')
+            );
+            return redirect()->route('category.list')->with($notification);
         }
 
         // load document
@@ -270,13 +287,18 @@ class TopicsController extends Controller
             $this->uploadDocument($topic->id, $request);
         }
 
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.topic_updated')
+        );
+
         // back to edit page
         if ($request->input('back')) {
-            return redirect()->route('topic.edit', $topic->id)->withSuccess(trans('app.topic_updated'));
+            return redirect()->route('topic.edit', $topic->id)->with($notification);
         }
 
         // redirect to list topic
-        return redirect()->route('topic.list')->withSuccess(trans('app.topic_updated'));
+        return redirect()->route('topic.list')->with($notification);
     }
 
     /**
@@ -288,7 +310,13 @@ class TopicsController extends Controller
     public function delete(Topic $topic)
     {
         $this->topic->delete($topic->id);
-        return redirect()->route('topic.list')->withSuccess(trans('app.topic_deleted'));
+
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.topic_deleted')
+        );
+
+        return redirect()->route('topic.list')->with($notification);
     }
 
     /**
