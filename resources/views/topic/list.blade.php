@@ -59,6 +59,7 @@
                 <th>@lang('app.tag')</th>
                 <th>@lang('app.created_by')</th>
                 <th style="text-align: center;">@lang('app.status')</th>
+                <th style="text-align: center;">@lang('app.documents')</th>
                 <th style="width: 15%; text-align: center;">@lang('app.votes')</th>
                 <th style="width: 15%;" class="text-center">@lang('app.action')</th>
                 </thead>
@@ -92,6 +93,16 @@
                             <i class="fa fa-circle" title="@lang('app.public')" data-toggle="tooltip" data-placement="top" style="color: #328EFE;" aria-hidden="true"></i>
                             @else
                             <i class="fa fa-circle-o" title="@lang('app.private')" data-toggle="tooltip" data-placement="top" style="color: #328EFE;" aria-hidden="true"></i>
+                            @endif
+                        </td>
+
+                        <td style="text-align: center; vertical-align: middle;">
+                            @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
+                                <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
+                                   title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
+                                   data-toggle="modal" data-target="#documentModal">
+                                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                </button>
                             @endif
                         </td>
 
@@ -130,13 +141,7 @@
                         </td>
 
                         <td class="text-center" style="vertical-align: middle;">
-                        @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
-                            <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
-                               title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
-                               data-toggle="modal" data-target="#documentModal">
-                                <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                            </button>
-                        @endif
+                        
                             <a href="{{ route('topic.edit', $topic->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_topic')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>

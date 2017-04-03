@@ -60,7 +60,7 @@
 
                             @if ($edit && $topic->picture)
                                 <br/>
-                                <img class="form-control" style=" height: auto;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
+                                <img class="form-control" style=" height: auto; width: 200px; padding: 0" src="{{ url('/upload/topics/'. $topic->picture) }}">
                                 <br/>
                             @endif
 
