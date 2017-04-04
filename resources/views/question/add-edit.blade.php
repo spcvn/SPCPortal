@@ -117,7 +117,7 @@
                 placeholder: "@lang('app.placeholder_for_mentor')",
                 tags: "false",
                 allowClear: true,
-                tokenSeparators: [',', ' '],
+                tokenSeparators: [',', ';'],
                 ajax: {
                     url: "{{ route('topic.mentor') }}",
                     dataType: "json",

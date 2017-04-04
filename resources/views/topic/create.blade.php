@@ -202,7 +202,7 @@
             //minimumInputLength: 0,
             allowClear: true,
             tags: true,
-            tokenSeparators: [',', ' '],
+            tokenSeparators: [',', ';'],
             ajax: {
                 url: "{{ route('tag.find') }}",
                 method: "GET",
