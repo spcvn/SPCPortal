@@ -117,8 +117,9 @@
 
                         <td style="text-align: center; vertical-align: middle;" class="rating-voter">
                             
-                        @php                       
-                        $readonly = false;                    
+                        @php
+                        $numVote    = 0;                   
+                        $readonly   = false;                    
                         if (isset($topic->topics_votes) and  !empty($topic->topics_votes)) {
                             foreach ($topic->topics_votes as $votes) {
                                 if ($votes->user->id == Auth::id()) {
@@ -130,21 +131,15 @@
                         if (Auth::id() == $topic->user_id) {
                             $readonly = true;
                         }
+
+                        if (isset($topic->topics_votes[0]) and !empty($topic->topics_votes[0])) {
+                            $numVote = count($topic->topics_votes);
+                        }
                         @endphp
 
-                            <div class="topic-rating">
+                            <div class="topic-rating" data-toggle="tooltip" data-placement="top" title="{{$numVote}} @lang('app.votes')">
                                 <input id="rating-{{ $topic->id }}" data-readonly="{{ $readonly }}" data-id="{{ $topic->id }}" data-size="xs" data-show-clear="false" data-show-caption="false" name="input-{{ $topic->id }}" value="{{ $topic->votes }}" class="rating topic-rating-item rating-loading">
                             </div>
-
-                            @if (isset($topic->topics_votes[0]) and !empty($topic->topics_votes[0]))
-                            <div class="tooltipvote">
-                                <ul>
-                                @foreach ($topic->topics_votes as $votes)
-                                    <li>{{ $votes->user->full_name }}</li>
-                                @endforeach
-                                </ul>
-                            </div>
-                            @endif
 
                         </td>
 
