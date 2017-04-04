@@ -6,6 +6,7 @@ use SPCVN\Events\Category\Created;
 use SPCVN\Events\Category\Deleted;
 use SPCVN\Events\Category\Updated;
 use SPCVN\Category;
+use SPCVN\Topic;
 use SPCVN\User;
 use Carbon\Carbon;
 use DB;
@@ -263,6 +264,26 @@ class EloquentCategory implements CategoryRepository
 
         $query = Category::query();
         $query->where('parent_id', $category_id);
+        $query->where('del_flag', false);
+        $res = $query->get()->toArray();
+        if ($res) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkExistsTopic($category_id)
+    {
+        if (!$category_id) {
+            return false;
+        }
+
+        $query = Topic::query();
+        $query->where('category_id', $category_id);
         $query->where('del_flag', false);
         $res = $query->get()->toArray();
         if ($res) {

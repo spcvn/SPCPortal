@@ -159,6 +159,18 @@ class CategoryController extends Controller
      */
     public function delete(Category $category)
     {
+        $checkTopic = $this->category->checkExistsTopic($category->id);
+        if ($checkTopic) {
+
+            $notification = array(
+                'alert-type'    =>  'error',
+                'message'       =>  trans('app.relation_with_topic')
+            );
+
+            return redirect()->route('category.list')->with($notification);
+        }
+
+
         $check = $this->category->checkExistsSub($category->id);
         if ($check) {
 
