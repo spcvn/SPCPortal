@@ -48,7 +48,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="category_id" class="required">@lang('app.category_name')</label>
-                            {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['id' => 'category_id', 'class' => 'form-control', 'required' => true]) !!}
+                            {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['id' => 'category_id', 'class' => 'form-control selectbox select2', 'required' => true]) !!}
                         </div>
                         <div class="form-group" id="name-require">
                             <label for="name" class="required">@lang('app.topic_name')</label>
@@ -172,8 +172,6 @@
     @endif
 
     {!! HTML::script('assets/plugins/bootstrap-switch/bootstrap-switch.min.js') !!}
-    {!! HTML::style('assets/css/select2.min.css') !!}
-    {!! HTML::script('assets/js/select2.full.js') !!}
     <script>
         $(".switch").bootstrapSwitch({size: 'small'});
         $('.mentors.select2').select2({
@@ -227,7 +225,10 @@
             }
         });
 
-        $(document).ready(function(){
+        $(document).ready(function() {
+            //set select 2 to selectbox
+            $('.selectbox.select2').select2({ width: '100%' });
+
             // load document to bootstrap modal
             $('.topic-table .show-document, #topic-form .show-document').on('click', function(e){
                 var link = $(this).data('link');
@@ -297,5 +298,4 @@
 
 @section('styles')
     {!! HTML::style('assets/plugins/bootstrap-switch/bootstrap-switch.css') !!}
-    {!! HTML::style('assets/css/select2.min.css') !!}
 @stop
