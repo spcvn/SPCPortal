@@ -14,7 +14,10 @@ use SPCVN\Events\Question\Updated;
 use Illuminate\Pagination\Paginator;
 use SPCVN\Repositories\Tag\TagRepository;
 use SPCVN\Support\Authorization\CacheFlusherTrait;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
+define('ROLE_ADMIN', 1);
 class EloquentQuestion implements QuestionRepository
 {
     use CacheFlusherTrait;
@@ -223,17 +226,18 @@ class EloquentQuestion implements QuestionRepository
     {
         $question_list=[];
 
-        if ($search) {
-            $query->where('title', 'LIKE', "%$search%");
+        if ($search) $query->where('title', 'LIKE', "%$search%");
+
+        //get all data if user login is Admin
+        if($user_id !== ROLE_ADMIN) {
+
+            $query->where('user_id', $user_id)
+                ->where('public', true);
         }
 
         // get question from questions table
-        $results = $query->where('public', true)
-                ->where('del_flg', false)
-                ->where('user_id', $user_id)
+        $results = $query->where('del_flg', false)
                 ->orderBy('created_at', 'DESC');
-
-        if ($search) $results->appends(['search' => $search]);
 
         foreach ($results->get() as $result) {
 
@@ -249,10 +253,15 @@ class EloquentQuestion implements QuestionRepository
             $question_list[] = $question;
         }
 
-        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($question_list, count($question_list), $perPage);
-        $paginator->setPath(route('question.index'));
+        $col = new Collection($question_list);
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageSearchResults = $col->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $questions = new LengthAwarePaginator($currentPageSearchResults, count($col), $perPage);
+        $questions->setPath(route('question.index'));
 
-        return $paginator;
+        if ($search) $questions->appends(['search' => $search]);
+
+        return $questions;
     }
 
     /**

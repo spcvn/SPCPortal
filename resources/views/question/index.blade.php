@@ -59,7 +59,7 @@
             @if (count($questions))
                 @foreach ($questions as $question)
                     <tr class="question-list">
-                        <td class="text-center" style="min-width: 165px;max-width: 200px;text-align: center;">
+                        <td class="text-center" style="width: 200px;text-align: center;">
                             <div class="votes">
                                 <div class="mini-counts"><span title="10 votes">10</span></div>
                                 <div>votes</div>
