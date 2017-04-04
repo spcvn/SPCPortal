@@ -97,8 +97,9 @@
     {!! HTML::script('assets/plugins/js-cookie/js.cookie.js') !!}
     {!! HTML::script('assets/plugins/toastr/toastr.min.js') !!}
     {!! HTML::script('assets/js/select2.full.js') !!}
-    {{-- <script src="http://120.26.143.106/packages/admin/bootstrap3-editable/js/bootstrap-editable.min.js"></script> --}}
     {!! HTML::script('assets/plugins/bootstrap3-editable/js/bootstrap-editable.min.js') !!}
+    {!! HTML::script('assets/js/jquery.livepreview.js') !!}
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
 
     <script type="text/javascript">
         $.ajaxSetup({

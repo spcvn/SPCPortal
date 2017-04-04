@@ -55,13 +55,6 @@
 
     <div class="table-responsive" id="users-table-wrapper">
         <table class="table">
-            {{-- <thead>
-                <th>@lang('app.name')</th>
-                <th>@lang('app.topic_name')</th>
-                <th>@lang('app.created_by')</th>
-                <th>@lang('app.tag')</th>
-                <th class="text-center">@lang('app.action')</th>
-            </thead> --}}
             <tbody>
             @if (count($questions))
                 @foreach ($questions as $question)
@@ -72,7 +65,7 @@
                                 <div>votes</div>
                             </div>
                             <div class="status unanswered">
-                                <div class="mini-counts"><span title="9 answers">{{count($question->answer)}}</span></div>
+                                <div class="mini-counts"><span title="9 answers">{{count($question->answerParent)}}</span></div>
                                 <div>answers</div>
                             </div>
                             <div class="views">

@@ -1,7 +1,7 @@
 <div id="answer-form-{{$answer["answer"]->id}}" class="collapse">
     <div class="comment-user">
         <a href="{{ route('user.show', $answer["answer"]->user->id) }}">
-            <img alt="image" class="avatar" src="{{ $answer["answer"]->user->present()->avatar }}" width="44px;" style="border-radius: 3px;border-style: none;">
+            <img alt="image" class="avatar" src="{{ Auth::user()->present()->avatar }}" width="44px;" style="border-radius: 3px;border-style: none;">
         </a>
     </div>
     <div class="col-lg-9 col-md-12 col-sm-12" style="padding-left: 60px;max-width: 100%;">
@@ -26,5 +26,6 @@
             </div>
         </div>
     </div>
+    <div class="clearfix"></div>
 </div><!--end answer form-->
-
+<div class="clearfix"></div>
