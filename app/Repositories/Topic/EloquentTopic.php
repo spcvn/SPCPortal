@@ -229,7 +229,7 @@ class EloquentTopic implements TopicRepository
 
         } else {
 
-            $users = $userRepository->getUserByStatus(USER_STATUS)->pluck('full_name', 'id')->toArray();
+            $users = $userRepository->getUserByStatus(USER_STATUS, Auth::id())->pluck('full_name', 'id')->toArray();
 
             foreach ($users as $key => $user) {
 

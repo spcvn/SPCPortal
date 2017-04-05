@@ -173,9 +173,12 @@ class EloquentUser implements UserRepository
     /**
      * {@inheritdoc}
      */
-    public function getUserByStatus($status)
+    public function getUserByStatus($status, $user_id=null)
     {
-        return User::where('status', $status)->get();
+        $query = User::where('status', $status);
+        if($user_id) $query->where('id', '<>', $user_id);
+
+        return $query->get();
     }
 
     /**

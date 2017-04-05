@@ -44,7 +44,7 @@ class TopicsController extends Controller
      */
     public function __construct(UserRepository $users, TopicRepository $topic, QuestionRepository $questions)
     {
-        $this->middleware('permission:topic.manage');
+        // $this->middleware('permission:topic.manage', ['except'=>'getMentorsByTopicId']);
         $this->users = $users;
         $this->topic = $topic;
         $this->questions = $questions;
@@ -432,7 +432,7 @@ class TopicsController extends Controller
 
         // check existed data
         if ($votesRepo->checkExists($request->all())) {
-            return response()->json(['status' => false, 'message' => trans('app.voted')]);   
+            return response()->json(['status' => false, 'message' => trans('app.voted')]);
         }
 
         // insert to DB
@@ -452,8 +452,8 @@ class TopicsController extends Controller
             $topic->update(array('votes' => $average));
 
             return response()->json([
-                'status' => true, 
-                'message' => trans('app.votes_success'), 
+                'status' => true,
+                'message' => trans('app.votes_success'),
                 'item' => [
                     'object_id' =>  $request->object_id,
                     'average' => $average
