@@ -15,6 +15,7 @@ class CreateQuestionRequest extends Request
     {
         return [
             'title' => 'required|unique:questions,title',
+            'description' => 'required|min:3',
         ];
     }
 }

@@ -17,6 +17,7 @@ class UpdateQuestionRequest extends Request
 
         return [
             'title' => 'required|unique:questions,title,' . $question->id,
+            'description' => 'required|min:3',
         ];
     }
 }
