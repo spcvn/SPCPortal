@@ -59,6 +59,7 @@
                 <th>@lang('app.tag')</th>
                 <th>@lang('app.created_by')</th>
                 <th style="text-align: center;">@lang('app.status')</th>
+                <th style="text-align: center;">@lang('app.documents')</th>
                 <th style="width: 15%; text-align: center;">@lang('app.votes')</th>
                 <th style="width: 15%;" class="text-center">@lang('app.action')</th>
                 </thead>
@@ -67,7 +68,7 @@
                 @foreach ($topics as $topic)
                     <tr id="cat-{{$topic->id}}">
                         <td style="text-align: center; vertical-align: middle;">
-                            <a href="{{ route('topic.edit', $topic->id) }}">
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR) <a href="{{ route('topic.edit', $topic->id) }}"> @else <span> @endif
                                 @php
                                     if ($topic->picture) {
                                         $source = url('/upload/topics/'. $topic->picture);
@@ -77,12 +78,19 @@
                                 @endphp
 
                                 <img style="max-width: 70px; max-height: 70px;" class="avatar avatar-preview img-circle" src="{{ $source }}">
-                            </a>
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR) </a> @else </span> @endif
+
                         </td>
-                        <td style="vertical-align: middle;"><a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a></td>
+                        <td style="vertical-align: middle;">
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR)
+                            <a href="{{ route('topic.edit', $topic->id) }}">{{ $topic->topic_name }}</a>
+                            @else
+                            <span>{{ $topic->topic_name }}</span>
+                            @endif
+                        </td>
                         <td class="tags" style="vertical-align: middle;">
                             @foreach ($topic->topics_tags as $tag)
-                            <span style="padding: 2px 5px; font-size: 11px; display: inline-block; background: #0080ff; color: #fff;">{{$tag->name}}</span>
+                            <span class="label label-primary">{{$tag->name}}</span>
                             @endforeach
                         </td>
                         <td style="vertical-align: middle;"><a href="{{ route('user.show', $topic->user_id) }}">{{ $topic->user->first_name }} {{ $topic->user->last_name }}</a></td>
@@ -96,19 +104,48 @@
                         </td>
 
                         <td style="text-align: center; vertical-align: middle;">
-                            <div class="topic-rating">
-                                <input id="rating-{{ $topic->id }}" data-readonly="{{ ($topic->user_id == Auth::id() ? 'true' : 'false') }}" data-id="{{ $topic->id }}" data-size="xs" data-show-clear="false" data-show-caption="false" name="input-{{ $topic->id }}" value="{{ $topic->votes }}" class="rating topic-rating-item rating-loading">
+                            @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
+                                <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
+                                   title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
+                                   data-toggle="modal" data-target="#documentModal">
+                                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                </button>
+                            @else
+                            <span>-</span>
+                            @endif
+                        </td>
+
+                        <td style="text-align: center; vertical-align: middle;" class="rating-voter">
+                            
+                        @php
+                        $numVote    = 0;                   
+                        $readonly   = false;                    
+                        if (isset($topic->topics_votes) and  !empty($topic->topics_votes)) {
+                            foreach ($topic->topics_votes as $votes) {
+                                if ($votes->user->id == Auth::id()) {
+                                    $readonly = true;
+                                }
+                            }
+                        }
+
+                        if (Auth::id() == $topic->user_id) {
+                            $readonly = true;
+                        }
+
+                        if (isset($topic->topics_votes[0]) and !empty($topic->topics_votes[0])) {
+                            $numVote = count($topic->topics_votes);
+                        }
+                        @endphp
+
+                            <div class="topic-rating" data-toggle="tooltip" data-placement="top" title="{{$numVote}} @lang('app.votes')">
+                                <input id="rating-{{ $topic->id }}" data-readonly="{{ $readonly }}" data-id="{{ $topic->id }}" data-size="xs" data-show-clear="false" data-show-caption="false" name="input-{{ $topic->id }}" value="{{ $topic->votes }}" class="rating topic-rating-item rating-loading">
                             </div>
+
                         </td>
 
                         <td class="text-center" style="vertical-align: middle;">
-                        @if (count(Storage::files('/upload/documents/' . $topic->encrypt_id)) > 0)
-                            <button type="button" data-link="{{ route('topic.document', $topic->id) }}" class="btn show-document btn-success btn-circle"
-                               title="@lang('app.documents')" data-toggle="tooltip" data-placement="top"
-                               data-toggle="modal" data-target="#documentModal">
-                                <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                            </button>
-                        @endif
+
+                            @if (Auth::id() == $topic->user_id || $role == ADMINISTRATOR)
                             <a href="{{ route('topic.edit', $topic->id) }}" class="btn btn-primary btn-circle"
                                title="@lang('app.edit_topic')" data-toggle="tooltip" data-placement="top">
                                 <i class="glyphicon glyphicon-edit"></i>
@@ -123,6 +160,9 @@
                                data-confirm-delete="@lang('app.yes_delete_it')">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
+                            @else
+                            <span>-</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -153,13 +193,13 @@
                     <h4 class="modal-title" id="myModalLabel">@lang('app.votes')</h4>
                 </div>
                 <div class="modal-body">
-                <form id="frmTag" name="frmTag" class="form-horizontal" data-toggle="validator">
+                <form id="frmComment" name="frmComment" class="form-horizontal" data-toggle="validator">
                     {!! Form::hidden('user_id', Auth::user()->present()->id) !!}
                     <input type="hidden" id="topic_id" name="topic_id" value="0">
                     <input type="hidden" id="point" name="point" value="0">
                     <label class="control-label required" for="comments">@lang('app.comments')</label>
-                    <textarea name="comments" id="comments" rows="5" class="form-control"></textarea>
-                    <p class="error"></p>
+                    <textarea name="comments" required="true" id="comments" placeholder="@lang('app.comments')" rows="5" class="form-control"></textarea>
+                    <p class="text-danger" style='padding:3px 2px;'></p>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -178,10 +218,23 @@
 
 @section('styles')
     {!! HTML::style('assets/css/star-rating.css') !!}
+    {!! HTML::style('assets/plugins/qtip2/jquery.qtip.min.css') !!}
+    <style type="text/css">
+        .tooltipvote{
+            display: none;
+        }
+        .qtip-content
+        {
+            min-width: 250px;
+            max-height: 200px;
+            overflow: auto;
+        }
+    </style>
 @stop
 
 @section('scripts')
     {!! HTML::script('assets/js/star-rating.js') !!}
+    {!! HTML::script('assets/plugins/qtip2/jquery.qtip.min.js') !!}
     <script>
         $(document).ready(function(){
             // load document to bootstrap modal
@@ -224,54 +277,94 @@
                 $("#rating-"+ topicID).rating('reset').val();
             });
 
+            // event when mouseenter textarea comment.
+            $('#frmComment #comments').blur(function() {
+                var comment = $.trim($(this).val());
+                if (comment == '' || comment == undefined) {
+                    $(this).css("border", "1px solid #a94442");
+                    $('#frmComment p.text-danger').html("@lang('app.comment_is_required')");
+                } else {
+                    $(this).css("border", "1px solid #ccc");
+                    $('#frmComment p.text-danger').html("");
+                }
+            });
+
             // update rating to DB
             $('#btn-save-comment').on('click', function(){
                 var topicID = $.trim($('#topic_id').val());
                 var comment = $.trim($('#comments').val());
                 var point   = parseFloat($.trim($('#point').val()));
-                var myData = {
-                    'type'      : 'topic',
-                    'object_id' : topicID,
-                    'user_id'   : {{Auth::id()}},
-                    'point'     : point,
-                    'comments'  : comment
+                
+                if (comment == '') {
+                    $('#frmComment #comments').css("border", "1px solid #a94442");
+                    $('#frmComment p.text-danger').html("@lang('app.comment_is_required')");
+                } else {
+                    var myData = {
+                        'type'      : 'topic',
+                        'object_id' : topicID,
+                        'user_id'   : {{Auth::id()}},
+                        'point'     : point,
+                        'comments'  : comment
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('topic.votes') }}",
+                        data: myData,
+                        dataType: 'json',
+                        async: true,
+                        success: function (data) {
+
+                            $('#votesModal').trigger("reset");
+                            $('#votesModal').modal('hide');
+
+                            if (data.status == true) {
+                                $(document).find('#rating-'+ topicID).attr('value', data.item.average);
+                                toastr.success( data.message , "@lang('app.votes')" );
+                            } else {
+                                toastr.error( data.message , "@lang('app.votes')" );
+                            }
+                        }
+                    });
+
+                    $( document ).ajaxComplete(function( event, request, settings ) {
+                        var data = JSON.parse(request.responseText);
+                        if (data.status == true) {
+                            console.log('log');
+                            $(document).find('#rating-'+ data.item.object_id).rating('update', data.item.average);
+                            $(document).find('#rating-'+ data.item.object_id).rating('refresh', {disabled: true, showClear: false, showCaption: false});
+                        }
+                    });
                 }
 
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ route('topic.votes') }}",
-                    data: myData,
-                    dataType: 'json',
-                    async: true,
-                    success: function (data) {
-
-                        $('#votesModal').trigger("reset");
-                        $('#votesModal').modal('hide');
-
-                        if (data.status == true) {
-
-                            $(document).find('#rating-'+ topicID).attr('value', data.item.average);
-                            // setTimeout(function(){
-                            //     $(document).find('#rating-'+ topicID).rating('update', data.item.average);
-                            //     $(document).find('#rating-'+ topicID).rating('refresh', {disabled: true, showClear: false, showCaption: false});
-                            // }, 500);
-
-                            toastr.success( data.message , "@lang('app.votes')" );
-                        } else {
-                            toastr.error( data.message , "@lang('app.votes')" );
-                        }
-                    }
-                });
-
-                $( document ).ajaxComplete(function( event, request, settings ) {
-                    var data = JSON.parse(request.responseText);
-                    if (data.status == true) {
-                        console.log('log');
-                        $(document).find('#rating-'+ data.item.object_id).rating('update', data.item.average);
-                        $(document).find('#rating-'+ data.item.object_id).rating('refresh', {disabled: true, showClear: false, showCaption: false});
-                    }
-                });
             });
+
+            // qtip2
+            $('.topic-rating').each(function() {
+                var check = $(this).parent().find('div.tooltipvote');
+                if (check.length > 0) {
+                    $(this).qtip({
+                        content: {
+                            title: 'User Voted',
+                            text: $(this).next('.tooltipvote'),
+                            button: 'Close'
+                        },
+                        position: {
+                            my: 'bottom center',  // Position my top left...
+                            at: 'top center', // at the bottom right of...
+                            target: 'event',
+                            adjust: { scroll: true }
+                        },
+                        hide: {
+                            event: 'click'
+                        },
+                        style: {
+                            classes: 'qtip-blue qtip-bootstrap'
+                        }
+                    });
+                }
+            });
+
 
         });
     </script>

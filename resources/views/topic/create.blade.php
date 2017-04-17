@@ -48,7 +48,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="category_id" class="required">@lang('app.category_name')</label>
-                            {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['id' => 'category_id', 'class' => 'form-control', 'required' => true]) !!}
+                            {!! Form::select('category_id', $categories, $edit ? $topic->category_id : '', ['id' => 'category_id', 'class' => 'form-control selectbox select2', 'required' => true]) !!}
                         </div>
                         <div class="form-group" id="name-require">
                             <label for="name" class="required">@lang('app.topic_name')</label>
@@ -60,7 +60,7 @@
 
                             @if ($edit && $topic->picture)
                                 <br/>
-                                <img class="form-control" style=" height: auto;" class="avatar avatar-preview img-circle" src="{{ url('/upload/topics/'. $topic->picture) }}">
+                                <img class="form-control" style=" height: auto; width: 200px; padding: 0" src="{{ url('/upload/topics/'. $topic->picture) }}">
                                 <br/>
                             @endif
 
@@ -104,6 +104,7 @@
                         <div class="form-group">
                             <label for="tags">@lang('app.tag_name')</label>
                             {!! Form::select('tags[]', $tags, $edit ? $tagsSelected : '', ['class' => 'form-control tags select2', 'multiple' => 'true', 'style' => 'width: 100%;']) !!}
+
                         </div>
 
                         <div class="form-group">
@@ -171,8 +172,6 @@
     @endif
 
     {!! HTML::script('assets/plugins/bootstrap-switch/bootstrap-switch.min.js') !!}
-    {!! HTML::style('assets/css/select2.min.css') !!}
-    {!! HTML::script('assets/js/select2.full.js') !!}
     <script>
         $(".switch").bootstrapSwitch({size: 'small'});
         $('.mentors.select2').select2({
@@ -198,12 +197,21 @@
 
         $('.tags.select2').select2({
             placeholder: "@lang('app.tag_name')",
-            minimumInputLength: 0,
+            //minimumInputLength: 0,
+            allowClear: true,
+            tags: true,
+            tokenSeparators: [',', ';'],
             ajax: {
                 url: "{{ route('tag.find') }}",
                 method: "GET",
                 dataType: 'json',
-                cache: false,
+                cache: true,
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf_token"]').attr('content');
+                    if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
                 data: function (params) {
                   return {
                     q: params.term
@@ -217,7 +225,10 @@
             }
         });
 
-        $(document).ready(function(){
+        $(document).ready(function() {
+            //set select 2 to selectbox
+            $('.selectbox.select2').select2({ width: '100%' });
+
             // load document to bootstrap modal
             $('.topic-table .show-document, #topic-form .show-document').on('click', function(e){
                 var link = $(this).data('link');
@@ -287,5 +298,4 @@
 
 @section('styles')
     {!! HTML::style('assets/plugins/bootstrap-switch/bootstrap-switch.css') !!}
-    {!! HTML::style('assets/plugins/select2/select2.min.css') !!}
 @stop

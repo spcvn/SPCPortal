@@ -9,6 +9,7 @@ use SPCVN\Repositories\Category\CategoryRepository;
 use SPCVN\Repositories\Vote\VoteRepository;
 use SPCVN\Http\Requests\Topic\CreateTopicRequest;
 use SPCVN\Http\Requests\Topic\UpdateTopicRequest;
+use SPCVN\Repositories\Question\QuestionRepository;
 use SPCVN\Topic;
 use SPCVN\User;
 use SPCVN\Tag;
@@ -32,15 +33,21 @@ class TopicsController extends Controller
     private $topic;
 
     /**
+     * @var QuestionRepository
+     */
+    private $questions;
+
+    /**
      * Constructor.
      * @param UserRepository $users
      * @param TopicRepository $category
      */
-    public function __construct(UserRepository $users, TopicRepository $topic)
+    public function __construct(UserRepository $users, TopicRepository $topic, QuestionRepository $questions)
     {
-        $this->middleware('auth');
+        $this->middleware('permission:topic.manage');
         $this->users = $users;
         $this->topic = $topic;
+        $this->questions = $questions;
     }
 
     /**
@@ -50,8 +57,11 @@ class TopicsController extends Controller
      */
     public function index(Request $request)
     {
-        $topics = $this->topic->paginate(30, $request->input('search'));
-        return view('topic.list', compact('topics'));
+        $user   = User::find(Auth::id());
+        $role   = $user->roles->first()->id;
+        $page   = (isset($request->page)) ? $request->page : 1;
+        $topics = $this->topic->paginate(30, $page, $request->input('search'));
+        return view('topic.list', compact('topics', 'role'));
     }
 
     /**
@@ -69,7 +79,13 @@ class TopicsController extends Controller
 
         // redirect to category screen if the category does not exist
         if (count($categories) <= 1) { // first item is default
-            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+
+            $notification = array(
+                'alert-type'    =>  'warning',
+                'message'       =>  trans('app.please_create_category_first')
+            );
+
+            return redirect()->route('category.list')->with($notification);
         }
 
         return view('topic.create', compact('topic', 'categories', 'edit', 'users', 'user_login_id', 'tags'));
@@ -109,7 +125,23 @@ class TopicsController extends Controller
 
         // save topics_tags if existed input request tags
         if ($request->input('tags')) {
-            $this->topic->setTags($topic->id, $request->input('tags'), false);
+            $tagIDs = ($request->input('tags')) ? $request->input('tags') : '';
+            if (!empty($tagIDs)) {
+                $int_ids = array_filter($tagIDs, 'is_numeric');
+
+                //check tag
+                $tags = $this->questions->createNewTagIfNotExisis(Auth::id(), $tagIDs);
+
+                //regist tagIDs
+                $new_tag_ids = ($this->questions->setTagId($tags)) ? $this->questions->setTagId($tags) : $int_ids;
+
+                $tag_ids_regist = '';
+                if (!empty($int_ids)) {
+                     $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
+                }
+
+                $this->topic->setTags($topic->id, $tag_ids_regist, false);
+            }
         }
 
         // upload document
@@ -117,13 +149,19 @@ class TopicsController extends Controller
             $this->uploadDocument($topic->id, $request);
         }
 
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.topic_created')
+        );
+
         // redirect to add new topic
         if ($request->input('back')) {
-            return redirect()->route('topic.create')->withSuccess(trans('app.topic_created'));
+            return redirect()->route('topic.create')->with($notification);
         }
 
+
         // redirect to list topic
-        return redirect()->route('topic.list')->withSuccess(trans('app.topic_created'));
+        return redirect()->route('topic.list')->with($notification);
     }
 
     /**
@@ -163,7 +201,11 @@ class TopicsController extends Controller
 
         // redirect to category screen if the category does not exist
         if (count($categories) <= 1) { // first item is default
-            return redirect()->route('category.list')->withWarning(trans('app.please_create_category_first'));
+            $notification = array(
+                'alert-type'    =>  'warning',
+                'message'       =>  trans('app.please_create_category_first')
+            );
+            return redirect()->route('category.list')->with($notification);
         }
 
         // load document
@@ -216,20 +258,47 @@ class TopicsController extends Controller
         // save topics_mentors if existed input request mentors
         $this->topic->setMentors($topic->id, $request->input('mentors'), true);
         // save topics_tags if existed input request tags
-        $this->topic->setTags($topic->id, $request->input('tags'), true);
+        //$this->topic->setTags($topic->id, $request->input('tags'), true);
+
+        // save topics_tags if existed input request tags
+        $tagIDs = ($request->input('tags')) ? $request->input('tags') : '';
+        if (!empty($tagIDs)) {
+            $int_ids = array_filter($tagIDs, 'is_numeric');
+
+            //check tag
+            $tags = $this->questions->createNewTagIfNotExisis(Auth::id(), $tagIDs);
+
+            //regist tagIDs
+            $new_tag_ids = ($this->questions->setTagId($tags)) ? $this->questions->setTagId($tags) : $int_ids;
+
+            $tag_ids_regist = '';
+            if (!empty($int_ids)) {
+                 $tag_ids_regist = array_merge($int_ids, $new_tag_ids);
+            }
+
+            $this->topic->setTags($topic->id, $tag_ids_regist, true);
+        } else {
+            $this->topic->setTags($topic->id, $tagIDs, true);
+        }
+
 
         // upload document
         if ($request->hasFile('document')) {
             $this->uploadDocument($topic->id, $request);
         }
 
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.topic_updated')
+        );
+
         // back to edit page
         if ($request->input('back')) {
-            return redirect()->route('topic.edit', $topic->id)->withSuccess(trans('app.topic_updated'));
+            return redirect()->route('topic.edit', $topic->id)->with($notification);
         }
 
         // redirect to list topic
-        return redirect()->route('topic.list')->withSuccess(trans('app.topic_updated'));
+        return redirect()->route('topic.list')->with($notification);
     }
 
     /**
@@ -241,7 +310,13 @@ class TopicsController extends Controller
     public function delete(Topic $topic)
     {
         $this->topic->delete($topic->id);
-        return redirect()->route('topic.list')->withSuccess(trans('app.topic_deleted'));
+
+        $notification = array(
+            'alert-type'    =>  'success',
+            'message'       =>  trans('app.topic_deleted')
+        );
+
+        return redirect()->route('topic.list')->with($notification);
     }
 
     /**

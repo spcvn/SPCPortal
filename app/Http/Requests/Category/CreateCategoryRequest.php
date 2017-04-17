@@ -14,7 +14,7 @@ class CreateCategoryRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:100'
+            'name' => 'required|min:3|max:100|regex:/^[^!<>%$`~=+;\\\:\/\{\}\[\]#@&\(\)?"\']*$/'
         ];
     }
 }

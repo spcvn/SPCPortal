@@ -30,6 +30,11 @@ class Question extends Model
         return $this->hasMany(Answer::class, 'question_id')->orderBy('created_at', 'DESC');
     }
 
+    public function answerParent()
+    {
+        return $this->hasMany(Answer::class, 'question_id')->where('parent_id', 0)->orderBy('created_at', 'DESC');
+    }
+
     public function question_tag()
     {
         return $this->belongsToMany(Tag::class, 'questions_tags', 'question_id', 'tag_id');

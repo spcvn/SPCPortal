@@ -26,7 +26,7 @@
                 <p style="font-weight: normal; font-size: 20px;">{{ $question["question"]->title }}</p>
                 <i class="fa fa-user" aria-hidden="true"></i> <a href="">{{$question["question"]->user->present()->nameOrEmail}}</a>
                 asked {{ $question["question"]->created_at->diffForHumans() }}
-                <p class="pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>10  <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>2</p>
+                <p class="pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>10  <i class="fa fa-comments-o" aria-hidden="true"></i> 3</p>
             </div>
             <div class="panel-body">
                 <div class="form-group">
@@ -54,7 +54,7 @@
                 <div class="comment-post-0">
                     <div class="comment-user" style="width: 44px;position: absolute;">
                         <a href="{{ route('user.show', $question["question"]->user->id) }}">
-                            <img alt="image" class="avatar" src="{{ $question["question"]->user->present()->avatar }}" width="44px;" style="border-radius: 3px;border-style: none;">
+                            <img alt="image" class="avatar" src="{{ Auth::user()->present()->avatar }}" width="44px;" style="border-radius: 3px;border-style: none;">
                         </a>
                     </div>
                     <div class="col-lg-9 col-md-8 col-sm-8" style="padding-left: 60px;">
@@ -62,19 +62,17 @@
                             <div class="panel-heading" style="padding-bottom: 0px;">
                                 <ul class="nav nav-tabs" style="margin-bottom: -1px;">
                                     <li class="active"><a data-toggle="tab" href="#write-comment-0" style="padding: 6px 15px;">Write</a></li>
-                                    <li><a data-toggle="tab" href="#pre-comment-0" style="padding: 6px 15px;">Preview</a></li>
+                                    <li><a class="btn-preview-comment" data-toggle="tab" href="#pre-comment-0" style="padding: 6px 15px;">Preview</a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
                                     <div id="write-comment-0" class="tab-pane fade in active" style="padding-top: 0px;">
                                         {!! Form::open(['route' => 'answer.store', 'id' => 'comment-form', 'class' => 'form-comment']) !!}
-                                        <textarea id="0-textarea" class="form-control" rows="5" required></textarea>
+                                        <textarea id="0-textarea" name="0-textarea" class="form-control" rows="5" required></textarea>
                                         <button class="btn btn-success pull-right btn-add-comment" data-parent="0" data-item= "{{$question["question"]->id}}" data-user="{{Auth::user() ? Auth::user()->id : '0'}}" style="margin-top: 15px;">Comment</button>
                                     </div>
-                                    <div id="pre-comment-0" class="tab-pane fade" style="padding-top: 0px;">
-                                        Until now all of the examples were activated by the data attribute data-toggle="tab". The other approach you can use to activate Toggable Tabs/Pills is to use a script. The Bootstrap website gives the markup for this under the heading “Methods”.Below I show you an adapted version where I have used Pills instead of Tabs and where a pane is shown on hover instead of click:
-                                    </div>
+                                    <div id="pre-comment-0" class="tab-pane fade" style="padding-top: 0px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +81,7 @@
                 </div><!---comment-main end-->
                 @if(!empty($question["answers"]))
                     @foreach ($question["answers"] as $key => $answer)
-                        <div class="comment-post-{{$answer["answer"]->id}}">
+                        <div class="comment-post-{{$answer["answer"]->id}}" data-constant="comment-show-{{$key}}">
                             <div class="comment-user">
                                 <a href="{{ route('user.show', $answer["answer"]->user->id) }}">
                                     <img alt="image" class="avatar" src="{{ $answer["answer"]->user->present()->avatar }}" width="44px;" style="border-radius: 3px;border-style: none;">
@@ -93,7 +91,7 @@
                                 <div class="panel panel-default comment">
                                     <div class="panel-heading">
                                         <i class="fa fa-user" aria-hidden="true"></i> <a href="">{{$answer["answer"]->user->present()->nameOrEmail}}</a>  commented {{ $answer["answer"]->created_at->diffForHumans() }}
-                                        <p class="pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 10  <i class="fa fa-comments-o" aria-hidden="true"></i> 3</p>
+                                        <p class="pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 10 <i class="fa fa-comments-o" aria-hidden="true"></i> 3</p>
                                     </div>
                                     <div class="panel-body">
                                         {!! $answer["answer"]->comment !!}
@@ -115,7 +113,7 @@
                                                 <div class="panel panel-default comment">
                                                     <div class="panel-heading">
                                                         <i class="fa fa-user" aria-hidden="true"></i> <a href="">{{$sub->user->present()->nameOrEmail}}</a>  commented {{ $sub->created_at->diffForHumans() }}
-                                                        <p class="pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 10  <i class="fa fa-comments-o" aria-hidden="true"></i> 3</p>
+                                                        <p class="pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 10</p>
                                                     </div>
                                                     <div class="panel-body">
                                                         {!! $sub->comment !!}

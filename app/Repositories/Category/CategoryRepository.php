@@ -190,4 +190,16 @@ interface CategoryRepository
      */
     public function checkExistsSub($category_id);
 
+    /**
+     * check exists topic by category ID.
+     *
+     * @param int $category_id
+     * @return boolse
+     * 
+     * @author Dinh Van Huong
+     * @since 2017.04.04
+     * @version 1.0
+     */
+    public function checkExistsTopic($category_id);
+
 }

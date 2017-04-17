@@ -11,6 +11,7 @@ use SPCVN\User;
 use Carbon\Carbon;
 use DB;
 use Auth;
+use Illuminate\Pagination\Paginator;
 
 define('ADMINISTRATOR', 1);
 define('USER_STATUS', 'Active' );
@@ -30,10 +31,22 @@ class EloquentTopic implements TopicRepository
     /**
      * {@inheritdoc}
      */
-    public function paginate($perPage = 30, $search = null)
+    public function paginate($perPage = 30, $page = 1, $search = null)
     {
-        $query = Topic::with(['topics_tags', 'user', 'topics_mentors'])
+        //$page = $
+        $topicResults = [];
+        $user   = User::find(Auth::id());
+        $role   = $user->roles->first()->id;
+        $query  = Topic::with(['topics_tags', 'user', 'topics_mentors', 'topics_votes'])
                     ->where('topics.del_flag', false);
+
+        // check role of user
+        if ($role != ADMINISTRATOR) {
+            $query->where(function ($q) use ($search) {
+                $q->where('public', true);
+                $q->orWhere('user_id', Auth::id());
+            });
+        }
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -45,13 +58,26 @@ class EloquentTopic implements TopicRepository
 
         $query->orderBy('topics.created', 'DESC');
         $query->orderBy('topics.topic_name', 'ASC');
-        $result = $query->paginate($perPage);
 
-        if ($search) {
-            $result->appends(['search' => $search]);
+        $results = $query->get();
+        foreach($results as $result) {
+            $topicResults[$result->id] = $result;
         }
 
-        return $result;
+        // get topic by mentor
+        foreach ($user->topics as $topic) {
+            $topicResults[$topic->id] = $topic;
+        }
+
+        $offSet = (($page-1) * $perPage);
+        $itemsForCurrentPage = array_slice($topicResults, $offSet, $perPage, true);
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($topicResults), $perPage, Paginator::resolveCurrentPage());
+        $paginator->setPath(route('topic.list'));
+        if ($search) {
+            $paginator->appends(['search' => $search]);
+        }
+
+        return $paginator;
     }
 
 

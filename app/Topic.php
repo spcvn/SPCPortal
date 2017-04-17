@@ -36,4 +36,9 @@ class Topic extends Model
 	{
 		return $this->belongsToMany(Tag::class, 'topics_tags', 'topic_id', 'tag_id');
 	}
+
+    public function topics_votes()
+    {
+        return $this->hasMany(Vote::class, 'object_id')->where('type', 'topic');
+    }
 }

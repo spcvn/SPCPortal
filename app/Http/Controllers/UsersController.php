@@ -44,7 +44,7 @@ class UsersController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('session.database', ['only' => ['sessions', 'invalidateSession']]);
-        $this->middleware('permission:users.manage');
+        $this->middleware('permission:users.manage', ['except' => 'searchUserByName']);
         $this->users = $users;
     }
 
