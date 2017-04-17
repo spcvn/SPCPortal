@@ -80,6 +80,7 @@ $(document).ready(function() {
 		});
 	});
 
+	// Get fileslist
 	function getFilesList(direct){
 		var __li;
 		$.ajax({
@@ -127,6 +128,7 @@ $(document).ready(function() {
 		var myURL = $('ul.files-list').find('li').first().attr('data-pare');
 		var myDir = myURL.substring( 0, myURL.lastIndexOf( "/" ) + 1);
 		console.log(myDir);
+		console.log(myDir);
 		
 		if ($(this).hasClass('active')) {
 			getFilesList(myDir);
@@ -135,5 +137,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	console.log($('.root-path').html());
 
 });

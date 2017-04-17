@@ -21,7 +21,7 @@ class FilesController extends Controller
 						"name" => $f,
 						"type" => "folder",
 						"path" => $dir . '/' . $f,
-						"pare" => dirname($dir . '/' . $f, 1),
+						"pare" => str_replace('//', '/', dirname($dir . '/' . $f, 1)),
 						"size" => "",
 						"items" => $this->scan($dir . '/' . $f), // Recursively get the contents of the folder
 						"exte" => "",
@@ -33,7 +33,7 @@ class FilesController extends Controller
 						"name" => $f,
 						"type" => "file",
 						"path" => $dir . '/' . $f,
-						"pare" => dirname($dir . '/' . $f, 1),
+						"pare" => str_replace('//', '/', dirname($dir . '/' . $f, 1)),
 						"size" => filesize($dir . '/' . $f), // Gets the size of this file
 						"exte" => array_key_exists('extension', pathinfo($f)) ? pathinfo($f)['extension'] : "",
 						"time" => filemtime($dir . '/' . $f)
